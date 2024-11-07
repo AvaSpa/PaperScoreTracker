@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using PaperScoreTracker.Services;
+using PaperScoreTracker.ViewModels;
 
 namespace PaperScoreTracker
 {
@@ -15,8 +17,12 @@ namespace PaperScoreTracker
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<MainViewModel>();
+            builder.Services.AddSingleton<PlayerControler>();
+
 #if DEBUG
-    		builder.Logging.AddDebug();
+            builder.Logging.AddDebug();
 #endif
 
             return builder.Build();

@@ -4,11 +4,11 @@ namespace PaperScoreTracker
 {
     public partial class MainPage : ContentPage
     {
-        public MainPage()
+        public MainPage(MainViewModel vm)
         {
             InitializeComponent();
 
-            BindingContext = new MainViewModel();
+            BindingContext = vm;
         }
     }
 }

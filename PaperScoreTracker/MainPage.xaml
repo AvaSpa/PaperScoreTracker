@@ -2,22 +2,51 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:PaperScoreTracker.ViewModels"
+             xmlns:model="clr-namespace:PaperScoreTracker.Models"
              x:Class="PaperScoreTracker.MainPage"
-             x:DataType="vm:MainViewModel">
+             x:DataType="vm:MainViewModel"
+             Title="Paper Score Tracker">
 
-    <ScrollView>
-        <VerticalStackLayout
-            Padding="30,0"
-            Spacing="25">
+    <Grid RowDefinitions="Auto, *"
+          ColumnDefinitions=".75*, .25*"
+          Padding="10"
+          RowSpacing="10"
+          ColumnSpacing="10">
 
-            <Button
-                x:Name="CounterBtn"
-                Text="{Binding ButtonText}"
-                SemanticProperties.Hint="Counts the number of times you click"
-                Command="{Binding CountCommand}"
-                HorizontalOptions="Fill" />
+        <Entry Grid.Row="0" Grid.Column="0"
+               Placeholder="Enter player alias"
+               Text="{Binding PlayerAlias}"/>
 
-        </VerticalStackLayout>
-    </ScrollView>
+        <Button Grid.Row="0" Grid.Column="1"
+                Text="Add"
+                Command="{Binding AddCommand}"/>
+
+        <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                        x:Name="collectionViewPlayers"
+                        ItemsSource="{Binding Players}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="model:Player">
+                    <SwipeView>
+                        <SwipeView.RightItems>
+                            <SwipeItems>
+                                <SwipeItem Text="Delete"
+                                           BackgroundColor="Red"
+                                           Command="{Binding Source={x:Reference collectionViewPlayers}, Path=BindingContext.DeleteCommand}"
+                                           CommandParameter="{Binding Alias}"/>
+                            </SwipeItems>
+                        </SwipeView.RightItems>
+
+                        <Grid Padding="0.5">
+                            <Frame>
+                                <Label Text="{Binding Alias}"
+                                       FontSize="20"/>
+                            </Frame>
+                        </Grid>
+                    </SwipeView>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+    </Grid>
 
 </ContentPage>
