@@ -55,14 +55,11 @@ public partial class MainViewModel : ObservableObject
         if (!_playerControler.GetAllPlayers().Any())
         {
             var warningToast = Toast.Make("No players!");
-           await warningToast.Show();
+            await warningToast.Show();
 
             return;
         }
 
-        //TODO: navigate to game page
-        var toast = Toast.Make("Starting game");
-
-        await toast.Show();
+        await Shell.Current.GoToAsync("play");
     }
 }

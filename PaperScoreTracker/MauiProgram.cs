@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using PaperScoreTracker.Services;
 using PaperScoreTracker.ViewModels;
+using PaperScoreTracker.Views;
 
 namespace PaperScoreTracker
 {
@@ -19,10 +20,10 @@ namespace PaperScoreTracker
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
-            builder.Services.AddSingleton<MainPage>();
-            builder.Services.AddSingleton<MainViewModel>();
+            builder.Services.AddSingleton<MainPage, MainViewModel>();
+            builder.Services.AddSingletonWithShellRoute<PlayPage, PlayViewModel>("play");
+
             builder.Services.AddSingleton<PlayerControler>();
-            //TODO: add play page and VM
 
 #if DEBUG
             builder.Logging.AddDebug();

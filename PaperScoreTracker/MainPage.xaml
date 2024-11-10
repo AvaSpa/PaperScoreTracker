@@ -21,6 +21,8 @@
                 Text="Add"
                 Command="{Binding AddCommand}"/>
 
+        <!--TODO: Make decorator VM for player model and don't reference models in views-->
+        
         <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                         x:Name="collectionViewPlayers"
                         ItemsSource="{Binding Players}">
