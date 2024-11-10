@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Microsoft.Extensions.Logging;
 using PaperScoreTracker.Services;
 using PaperScoreTracker.ViewModels;
 
@@ -10,6 +11,7 @@ namespace PaperScoreTracker
         {
             var builder = MauiApp.CreateBuilder();
             builder
+                .UseMauiCommunityToolkit()
                 .UseMauiApp<App>()
                 .ConfigureFonts(fonts =>
                 {
@@ -20,6 +22,7 @@ namespace PaperScoreTracker
             builder.Services.AddSingleton<MainPage>();
             builder.Services.AddSingleton<MainViewModel>();
             builder.Services.AddSingleton<PlayerControler>();
+            //TODO: add play page and VM
 
 #if DEBUG
             builder.Logging.AddDebug();

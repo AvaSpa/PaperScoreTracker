@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PaperScoreTracker.Models;
 using PaperScoreTracker.Services;
@@ -26,6 +27,9 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void Add()
     {
+        if (string.IsNullOrWhiteSpace(PlayerAlias))
+            return;
+
         var newPlayer = new Player(PlayerAlias);
 
         _playerControler.AddPlayer(newPlayer);
@@ -43,5 +47,22 @@ public partial class MainViewModel : ObservableObject
         var foundPlayer = Players.FirstOrDefault(p => p.Alias == playerAlias);
         if (foundPlayer != null)
             Players.Remove(foundPlayer);
+    }
+
+    [RelayCommand]
+    private async Task Start()
+    {
+        if (!_playerControler.GetAllPlayers().Any())
+        {
+            var warningToast = Toast.Make("No players!");
+           await warningToast.Show();
+
+            return;
+        }
+
+        //TODO: navigate to game page
+        var toast = Toast.Make("Starting game");
+
+        await toast.Show();
     }
 }
