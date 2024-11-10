@@ -2,10 +2,14 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:PaperScoreTracker.ViewModels"
-             xmlns:model="clr-namespace:PaperScoreTracker.Models"
+             xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="PaperScoreTracker.MainPage"
              x:DataType="vm:MainViewModel"
              Title="Paper Score Tracker">
+
+    <ContentPage.Behaviors>
+        <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing" />
+    </ContentPage.Behaviors>
 
     <Grid RowDefinitions="Auto, *"
           ColumnDefinitions=".75*, .25*"
@@ -21,26 +25,25 @@
                 Text="Add"
                 Command="{Binding AddCommand}"/>
 
-        <!--TODO: Make decorator VM for player model and don't reference models in views-->
-        
+       
         <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
                         x:Name="collectionViewPlayers"
                         ItemsSource="{Binding Players}">
             <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Player">
+                <DataTemplate x:DataType="vm:PlayerDecoratorViewModel">
                     <SwipeView>
                         <SwipeView.RightItems>
                             <SwipeItems>
                                 <SwipeItem Text="Delete"
                                            BackgroundColor="Red"
                                            Command="{Binding Source={x:Reference collectionViewPlayers}, Path=BindingContext.DeleteCommand}"
-                                           CommandParameter="{Binding Alias}"/>
+                                           CommandParameter="{Binding PlayerAlias}"/>
                             </SwipeItems>
                         </SwipeView.RightItems>
 
                         <Grid Padding="0.5">
                             <Frame>
-                                <Label Text="{Binding Alias}"
+                                <Label Text="{Binding PlayerAlias}"
                                        FontSize="20"/>
                             </Frame>
                         </Grid>

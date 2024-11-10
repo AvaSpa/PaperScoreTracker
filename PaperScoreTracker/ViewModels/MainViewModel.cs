@@ -15,13 +15,13 @@ public partial class MainViewModel : ObservableObject
     private string _playerAlias;
 
     [ObservableProperty]
-    private ObservableCollection<Player> _players;
+    private ObservableCollection<PlayerDecoratorViewModel> _players;
 
     public MainViewModel(PlayerControler playerControler)
     {
         _playerControler = playerControler;
 
-        Players = new ObservableCollection<Player>(_playerControler.GetAllPlayers());
+        Players = new ObservableCollection<PlayerDecoratorViewModel>();
     }
 
     [RelayCommand]
@@ -34,7 +34,7 @@ public partial class MainViewModel : ObservableObject
 
         _playerControler.AddPlayer(newPlayer);
 
-        Players.Add(newPlayer);
+        Players.Add(new PlayerDecoratorViewModel(newPlayer));
 
         PlayerAlias = string.Empty;
     }
@@ -44,7 +44,7 @@ public partial class MainViewModel : ObservableObject
     {
         _playerControler.RemovePlayer(playerAlias);
 
-        var foundPlayer = Players.FirstOrDefault(p => p.Alias == playerAlias);
+        var foundPlayer = Players.FirstOrDefault(p => p.PlayerAlias == playerAlias);
         if (foundPlayer != null)
             Players.Remove(foundPlayer);
     }
@@ -52,7 +52,9 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task Start()
     {
-        if (!_playerControler.GetAllPlayers().Any())
+        var players = await _playerControler.GetAllPlayers();
+
+        if (!players.Any())
         {
             var warningToast = Toast.Make("No players!");
             await warningToast.Show();
@@ -61,5 +63,20 @@ public partial class MainViewModel : ObservableObject
         }
 
         await Shell.Current.GoToAsync("play");
+    }
+
+    [RelayCommand]
+    private async Task Appearing()
+    {
+        await LoadPlayers();
+    }
+
+    private async Task LoadPlayers()
+    {
+        var players = await _playerControler.GetAllPlayers();
+        foreach (var player in players)
+        {
+            Players.Add(new PlayerDecoratorViewModel(player));
+        }
     }
 }

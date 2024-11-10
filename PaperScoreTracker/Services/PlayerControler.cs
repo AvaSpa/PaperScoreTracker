@@ -11,7 +11,7 @@ namespace PaperScoreTracker.Services
             _players = []; //TODO: load from storage
         }
 
-        public IEnumerable<Player> GetAllPlayers() => _players;
+        public async Task<IEnumerable<Player>> GetAllPlayers() => await Task.FromResult((IEnumerable<Player>)_players);
 
         public void AddPlayer(Player newPlayer)
         {
