@@ -2,11 +2,13 @@
 
 namespace PaperScoreTracker.Services
 {
-    public class PlayerControler
+    public class GameControler
     {
         private readonly List<Player> _players;
 
-        public PlayerControler()
+        public string GameName { get; private set; }
+
+        public GameControler()
         {
             _players = []; //TODO: load from storage
         }
@@ -32,6 +34,11 @@ namespace PaperScoreTracker.Services
 
             if (foundPlayer != null)
                 foundPlayer.Score = newScore;
+        }
+
+        public void SetGameName(string gameName)
+        {
+            GameName = gameName;
         }
 
         private Player FindPlayer(string playerName) => _players.FirstOrDefault(p => p.Alias.Equals(playerName));

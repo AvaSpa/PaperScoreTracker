@@ -9,7 +9,10 @@ namespace PaperScoreTracker.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-    private readonly PlayerControler _playerControler;
+    private readonly GameControler _gameControler;
+
+    [ObservableProperty]
+    private string _gameName;
 
     [ObservableProperty]
     private string _playerAlias;
@@ -17,9 +20,9 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<PlayerDecoratorViewModel> _players;
 
-    public MainViewModel(PlayerControler playerControler)
+    public MainViewModel(GameControler playerControler)
     {
-        _playerControler = playerControler;
+        _gameControler = playerControler;
 
         Players = new ObservableCollection<PlayerDecoratorViewModel>();
     }
@@ -32,7 +35,7 @@ public partial class MainViewModel : ObservableObject
 
         var newPlayer = new Player(PlayerAlias);
 
-        _playerControler.AddPlayer(newPlayer);
+        _gameControler.AddPlayer(newPlayer);
 
         Players.Add(new PlayerDecoratorViewModel(newPlayer));
 
@@ -42,7 +45,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private void Delete(string playerAlias)
     {
-        _playerControler.RemovePlayer(playerAlias);
+        _gameControler.RemovePlayer(playerAlias);
 
         var foundPlayer = Players.FirstOrDefault(p => p.PlayerAlias == playerAlias);
         if (foundPlayer != null)
@@ -52,7 +55,7 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private async Task Start()
     {
-        var players = await _playerControler.GetAllPlayers();
+        var players = await _gameControler.GetAllPlayers();
 
         if (!players.Any())
         {
@@ -61,6 +64,8 @@ public partial class MainViewModel : ObservableObject
 
             return;
         }
+
+        _gameControler.SetGameName(GameName);
 
         await Shell.Current.GoToAsync("play");
     }
@@ -73,7 +78,7 @@ public partial class MainViewModel : ObservableObject
 
     private async Task LoadPlayers()
     {
-        var players = await _playerControler.GetAllPlayers();
+        var players = await _gameControler.GetAllPlayers();
         foreach (var player in players)
         {
             Players.Add(new PlayerDecoratorViewModel(player));

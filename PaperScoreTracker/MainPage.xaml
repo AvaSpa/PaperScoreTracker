@@ -11,22 +11,26 @@
         <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
 
-    <Grid RowDefinitions="Auto, *"
+    <Grid RowDefinitions="Auto, Auto, *, Auto"
           ColumnDefinitions=".75*, .25*"
           Padding="10"
           RowSpacing="10"
           ColumnSpacing="10">
 
-        <Entry Grid.Row="0" Grid.Column="0"
+        <Entry Grid.Row="0" Grid.Column="0" 
+               Placeholder="Enter game name"
+               Text="{Binding GameName}"/>
+        
+        <Entry Grid.Row="1" Grid.Column="0"
                Placeholder="Enter player alias"
                Text="{Binding PlayerAlias}"/>
 
-        <Button Grid.Row="0" Grid.Column="1"
+        <Button Grid.Row="1" Grid.Column="1"
                 Text="Add"
                 Command="{Binding AddCommand}"/>
 
        
-        <CollectionView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+        <CollectionView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                         x:Name="collectionViewPlayers"
                         ItemsSource="{Binding Players}">
             <CollectionView.ItemTemplate>
@@ -52,7 +56,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+        <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                 VerticalOptions="End"
                 Text="Start"
                 Command="{Binding StartCommand}"/>

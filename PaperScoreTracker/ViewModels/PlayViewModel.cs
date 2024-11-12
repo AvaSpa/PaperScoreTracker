@@ -7,7 +7,7 @@ namespace PaperScoreTracker.ViewModels;
 
 public partial class PlayViewModel : ObservableObject
 {
-    private readonly PlayerControler _playerControler;
+    private readonly GameControler _playerControler;
 
     [ObservableProperty]
     private string _title;
@@ -15,7 +15,7 @@ public partial class PlayViewModel : ObservableObject
     [ObservableProperty]
     private ObservableCollection<PlayerDecoratorViewModel> _players;
 
-    public PlayViewModel(PlayerControler playerControler)
+    public PlayViewModel(GameControler playerControler)
     {
         _playerControler = playerControler;
         _players = new ObservableCollection<PlayerDecoratorViewModel>();

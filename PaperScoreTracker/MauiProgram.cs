@@ -23,7 +23,7 @@ namespace PaperScoreTracker
             builder.Services.AddSingleton<MainPage, MainViewModel>();
             builder.Services.AddSingletonWithShellRoute<PlayPage, PlayViewModel>("play");
 
-            builder.Services.AddSingleton<PlayerControler>();
+            builder.Services.AddSingleton<GameControler>();
 
 #if DEBUG
             builder.Logging.AddDebug();
