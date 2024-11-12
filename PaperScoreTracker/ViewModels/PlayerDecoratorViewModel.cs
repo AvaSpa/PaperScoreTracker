@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using PaperScoreTracker.Models;
 using System.Collections.ObjectModel;
 
@@ -30,7 +31,8 @@ public partial class PlayerDecoratorViewModel : ObservableObject
         _scoreEntries = new ObservableCollection<int>();
     }
 
-    public void AddScoreEntry(int score)
+    [RelayCommand]
+    private void AddScoreEntry(int score)
     {
         ScoreEntries.Add(score);
 

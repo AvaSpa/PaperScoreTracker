@@ -19,19 +19,18 @@
 
         <CollectionView Grid.Row="0" Grid.Column="0"
                         x:Name="collectionViewPlayers"
-                        ItemsSource="{Binding Players}">
+                        ItemsSource="{Binding Players}"
+                        ItemsLayout="HorizontalList">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:PlayerDecoratorViewModel">
                     <Frame>
-                        <HorizontalStackLayout>
-                            <Label Text="{Binding PlayerAlias}" FontSize="20"/>
-                            <Label Text="{Binding PlayerScore}" FontSize="30"/>
-                        </HorizontalStackLayout>
+                        <VerticalStackLayout>
+                            <Label Text="{Binding PlayerAlias}"/>
+                            <Label Text="{Binding PlayerScore}"/>
+                        </VerticalStackLayout>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
-
     </Grid>
 </ContentPage>
