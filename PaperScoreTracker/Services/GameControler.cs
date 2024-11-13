@@ -24,7 +24,7 @@ namespace PaperScoreTracker.Services
             GameName = "Game";
         }
 
-        public async Task<IEnumerable<Player>> GetAllPlayers() => await Task.FromResult((IEnumerable<Player>)_players);
+        public async Task<IEnumerable<Player>> GetAllPlayers() => await Task.FromResult((IEnumerable<Player>)_players.OrderByDescending(p => p.Score));
 
         public void AddPlayer(Player newPlayer)
         {

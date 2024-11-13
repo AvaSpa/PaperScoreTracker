@@ -31,7 +31,7 @@
 
         <Button Grid.Row="1" Grid.Column="1"
                 Text="Add"
-                Command="{Binding AddCommand}"/>
+                Command="{Binding AddPlayerCommand}"/>
 
 
         <CollectionView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
@@ -44,7 +44,7 @@
                             <SwipeItems>
                                 <SwipeItem Text="Delete"
                                            BackgroundColor="Red"
-                                           Command="{Binding Source={x:Reference collectionViewPlayers}, Path=BindingContext.DeleteCommand}"
+                                           Command="{Binding Source={x:Reference collectionViewPlayers}, Path=BindingContext.DeletePlayerCommand}"
                                            CommandParameter="{Binding PlayerAlias}"/>
                             </SwipeItems>
                         </SwipeView.RightItems>

@@ -3,32 +3,20 @@ using CommunityToolkit.Mvvm.Input;
 using PaperScoreTracker.Models;
 using PaperScoreTracker.Platforms.Android;
 using PaperScoreTracker.Services;
-using System.Collections.ObjectModel;
 
 namespace PaperScoreTracker.ViewModels;
 
-public partial class MainViewModel : ObservableObject
+public partial class MainViewModel : PlayerListViewModel
 {
-    private readonly GameControler _gameControler;
-
-    [ObservableProperty]
-    private string _gameName;
-
     [ObservableProperty]
     private string _playerAlias;
 
-    [ObservableProperty]
-    private ObservableCollection<PlayerDecoratorViewModel> _players;
-
-    public MainViewModel(GameControler playerControler)
+    public MainViewModel(GameControler playerControler) : base(playerControler)
     {
-        _gameControler = playerControler;
-
-        Players = new ObservableCollection<PlayerDecoratorViewModel>();
     }
 
     [RelayCommand]
-    private void Add()
+    private void AddPlayer()
     {
         if (string.IsNullOrWhiteSpace(PlayerAlias))
             return;
@@ -43,7 +31,7 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void Delete(string playerAlias)
+    private void DeletePlayer(string playerAlias)
     {
         _gameControler.RemovePlayer(playerAlias);
 
@@ -82,21 +70,5 @@ public partial class MainViewModel : ObservableObject
         _gameControler.ClearPlayers();
 
         Players.Clear();
-    }
-
-
-    [RelayCommand]
-    private async Task Appearing()
-    {
-        await LoadPlayers();
-    }
-
-    private async Task LoadPlayers()
-    {
-        var players = await _gameControler.GetAllPlayers();
-        foreach (var player in players)
-        {
-            Players.Add(new PlayerDecoratorViewModel(_gameControler, player));
-        }
     }
 }
