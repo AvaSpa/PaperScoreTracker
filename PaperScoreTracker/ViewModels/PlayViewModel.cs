@@ -7,17 +7,17 @@ namespace PaperScoreTracker.ViewModels;
 
 public partial class PlayViewModel : ObservableObject
 {
-    private readonly GameControler _playerControler;
+    private readonly GameControler _gameControler;
 
     [ObservableProperty]
-    private string _title;
+    private string _gameName;
 
     [ObservableProperty]
     private ObservableCollection<PlayerDecoratorViewModel> _players;
 
     public PlayViewModel(GameControler playerControler)
     {
-        _playerControler = playerControler;
+        _gameControler = playerControler;
         _players = new ObservableCollection<PlayerDecoratorViewModel>();
     }
 
@@ -29,12 +29,27 @@ public partial class PlayViewModel : ObservableObject
 
     private async Task LoadPlayers()
     {
+        GameName = _gameControler.GameName;
+
         Players.Clear();
 
-        var players = await _playerControler.GetAllPlayers();
+        var players = await _gameControler.GetAllPlayers();
         foreach (var player in players)
         {
-            Players.Add(new PlayerDecoratorViewModel(player));
+            Players.Add(new PlayerDecoratorViewModel(_gameControler, player));
         }
+
+        //TEST
+        var r = new Random();
+
+        foreach (var playerDecorator in Players)
+        {
+            for (var i = 0; i < 10; i++)
+            {
+                var newScoreEntry = r.Next(-20, 20);
+                playerDecorator.AddScoreEntryCommand.Execute(newScoreEntry);
+            }
+        }
+        //
     }
 }

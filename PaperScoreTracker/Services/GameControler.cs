@@ -11,12 +11,14 @@ namespace PaperScoreTracker.Services
         public GameControler()
         {
             _players = [
-                new Player("Player 1") { Score = 43 },
-                new Player("Player 2") { Score = 54 },
-                new Player("Player 3") { Score = 143 },
-                new Player("Player 4") { Score = 23 },
-                new Player("Player 5") { Score = 35 },
-                new Player("Player 6") { Score = 64 }
+            //TEST
+                new Player("Player 1"),
+                new Player("Player 2"),
+                new Player("Player 3"),
+                new Player("Player 4"),
+                new Player("Player 5"),
+                new Player("Player 6")
+            //
             ]; //TODO: load from storage
 
             GameName = "Game";
@@ -37,12 +39,12 @@ namespace PaperScoreTracker.Services
                 _players.Remove(foundPlayer);
         }
 
-        public void UpdateScore(string playerName, int newScore)
+        public void AddScore(string playerName, int newScore)
         {
             var foundPlayer = FindPlayer(playerName);
 
             if (foundPlayer != null)
-                foundPlayer.Score = newScore;
+                foundPlayer.Score += newScore;
         }
 
         public void SetGameName(string gameName)

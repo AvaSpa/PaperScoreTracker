@@ -5,7 +5,7 @@
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="PaperScoreTracker.Views.PlayPage"
              x:DataType="vm:PlayViewModel"
-             Title="Play">
+             Title="{Binding GameName}">
 
     <Shell.BackButtonBehavior>
         <BackButtonBehavior IsVisible="False" IsEnabled="False" />
@@ -18,16 +18,29 @@
     <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
 
         <CollectionView Grid.Row="0" Grid.Column="0"
-                        x:Name="collectionViewPlayers"
                         ItemsSource="{Binding Players}"
                         ItemsLayout="HorizontalList">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:PlayerDecoratorViewModel">
                     <Frame>
-                        <VerticalStackLayout>
-                            <Label Text="{Binding PlayerAlias}"/>
-                            <Label Text="{Binding PlayerScore}"/>
-                        </VerticalStackLayout>
+                        <Grid RowDefinitions="Auto, *, Auto">
+
+                            <Label Grid.Row="0"
+                                   Text="{Binding PlayerAlias}"/>
+
+                            <CollectionView Grid.Row="1"
+                                            ItemsSource="{Binding ScoreEntries}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="x:Int32">
+                                        <Label Text="{Binding}"/>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+
+                            <Label Grid.Row="2" 
+                                   Text="{Binding PlayerScore}"/>
+
+                        </Grid>
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>

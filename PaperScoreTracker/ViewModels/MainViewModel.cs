@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PaperScoreTracker.Models;
+using PaperScoreTracker.Platforms.Android;
 using PaperScoreTracker.Services;
 using System.Collections.ObjectModel;
 
@@ -36,7 +37,7 @@ public partial class MainViewModel : ObservableObject
 
         _gameControler.AddPlayer(newPlayer);
 
-        Players.Add(new PlayerDecoratorViewModel(newPlayer));
+        Players.Add(new PlayerDecoratorViewModel(_gameControler, newPlayer));
 
         PlayerAlias = string.Empty;
     }
@@ -63,12 +64,20 @@ public partial class MainViewModel : ObservableObject
             return;
         }
 
+        if (!string.IsNullOrWhiteSpace(GameName))
+            _gameControler.SetGameName(GameName);
+
+        KeyboardHelper.HideKeyboard();
+
         await Shell.Current.GoToAsync("play");
     }
 
     [RelayCommand]
     private void ResetGame()
     {
+        if (string.IsNullOrWhiteSpace(GameName))
+            return;
+
         _gameControler.SetGameName(GameName);
         _gameControler.ClearPlayers();
 
@@ -87,7 +96,7 @@ public partial class MainViewModel : ObservableObject
         var players = await _gameControler.GetAllPlayers();
         foreach (var player in players)
         {
-            Players.Add(new PlayerDecoratorViewModel(player));
+            Players.Add(new PlayerDecoratorViewModel(_gameControler, player));
         }
     }
 }
