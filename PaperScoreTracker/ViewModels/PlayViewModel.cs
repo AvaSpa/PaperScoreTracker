@@ -29,6 +29,8 @@ public partial class PlayViewModel : ObservableObject
 
     private async Task LoadPlayers()
     {
+        Players.Clear();
+
         var players = await _playerControler.GetAllPlayers();
         foreach (var player in players)
         {

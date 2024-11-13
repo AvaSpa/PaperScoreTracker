@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using PaperScoreTracker.Models;
 using PaperScoreTracker.Services;
@@ -59,16 +58,23 @@ public partial class MainViewModel : ObservableObject
 
         if (!players.Any())
         {
-            var warningToast = Toast.Make("No players!");
-            await warningToast.Show();
+            await NotificationSingleton.Instance.ShowToast("No players!");
 
             return;
         }
 
-        _gameControler.SetGameName(GameName);
-
         await Shell.Current.GoToAsync("play");
     }
+
+    [RelayCommand]
+    private void ResetGame()
+    {
+        _gameControler.SetGameName(GameName);
+        _gameControler.ClearPlayers();
+
+        Players.Clear();
+    }
+
 
     [RelayCommand]
     private async Task Appearing()

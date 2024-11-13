@@ -10,7 +10,7 @@ namespace PaperScoreTracker.Services
 
         public GameControler()
         {
-            _players = [ 
+            _players = [
                 new Player("Player 1") { Score = 43 },
                 new Player("Player 2") { Score = 54 },
                 new Player("Player 3") { Score = 143 },
@@ -18,6 +18,8 @@ namespace PaperScoreTracker.Services
                 new Player("Player 5") { Score = 35 },
                 new Player("Player 6") { Score = 64 }
             ]; //TODO: load from storage
+
+            GameName = "Game";
         }
 
         public async Task<IEnumerable<Player>> GetAllPlayers() => await Task.FromResult((IEnumerable<Player>)_players);
@@ -46,6 +48,11 @@ namespace PaperScoreTracker.Services
         public void SetGameName(string gameName)
         {
             GameName = gameName;
+        }
+
+        public void ClearPlayers()
+        {
+            _players.Clear();
         }
 
         private Player FindPlayer(string playerName) => _players.FirstOrDefault(p => p.Alias.Equals(playerName));

@@ -20,7 +20,11 @@
         <Entry Grid.Row="0" Grid.Column="0" 
                Placeholder="Enter game name"
                Text="{Binding GameName}"/>
-        
+
+        <Button Grid.Row="0" Grid.Column="1"
+                Text="New game"
+                Command="{Binding ResetGameCommand}"/>
+
         <Entry Grid.Row="1" Grid.Column="0"
                Placeholder="Enter player alias"
                Text="{Binding PlayerAlias}"/>
@@ -29,7 +33,7 @@
                 Text="Add"
                 Command="{Binding AddCommand}"/>
 
-       
+
         <CollectionView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
                         x:Name="collectionViewPlayers"
                         ItemsSource="{Binding Players}">
