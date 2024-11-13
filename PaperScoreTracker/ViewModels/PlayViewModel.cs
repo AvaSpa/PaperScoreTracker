@@ -27,6 +27,24 @@ public partial class PlayViewModel : ObservableObject
         await LoadPlayers();
     }
 
+
+    //TODO: move in another view that has a list with alias, total score, new score entry, score add button, entry count
+    //also maybe make that view the play view and the current view a new view and add here a button to navigate to it (and don't reorder at each new entry, just return from controler the ordered list
+    private void AddScoreEntry(string playerAlias, int score)
+    {
+        var decorator = Players.FirstOrDefault(p => p.PlayerAlias == playerAlias);
+        if (decorator == null)
+            return;
+
+        decorator.ScoreEntries.Add(score);
+
+        _gameControler.AddScore(playerAlias, score);
+
+        decorator.PlayerScore = score;
+
+        Players = new ObservableCollection<PlayerDecoratorViewModel>(Players.OrderByDescending(p => p.PlayerScore));
+    }
+
     private async Task LoadPlayers()
     {
         GameName = _gameControler.GameName;
@@ -47,7 +65,7 @@ public partial class PlayViewModel : ObservableObject
             for (var i = 0; i < 10; i++)
             {
                 var newScoreEntry = r.Next(-20, 20);
-                playerDecorator.AddScoreEntryCommand.Execute(newScoreEntry);
+                AddScoreEntry(playerDecorator.PlayerAlias, newScoreEntry);
             }
         }
         //
