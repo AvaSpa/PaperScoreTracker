@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:PaperScoreTracker.ViewModels"
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:converters="clr-namespace:PaperScoreTracker.Converters"
              x:Class="PaperScoreTracker.Views.PlayPage"
              x:DataType="vm:PlayViewModel"
              Title="{Binding GameName}">
@@ -15,11 +16,43 @@
         <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing"/>
     </ContentPage.Behaviors>
 
-    <!--TODO: alias label, total score label, latest score entry, score add button, entry count label-->
-    
-    <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
+    <Grid RowDefinitions="*, Auto" 
+        Padding="10" RowSpacing="10" ColumnSpacing="10">
 
-        <Button Grid.Row="0" Grid.Column="0"         
+        <CollectionView Grid.Row="0"
+                        ItemsSource="{Binding Players}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="vm:PlayerDecoratorViewModel">
+                    <Frame>
+                        <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*, *">
+
+                            <Label Grid.Row="0" Grid.Column="0"
+                                   Text="{Binding PlayerAlias}"/>
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="1">
+                                <Label Text="Entries: "/>
+                                <Label Text="{Binding ScoreEntries, Converter={converters:CollectionToCountStringConverter}}"/>
+                            </HorizontalStackLayout>
+
+                            <Entry Grid.Row="1" Grid.Column="0" 
+                                   Placeholder="Enter new score" 
+                                   Text="{Binding LatestScoreEntry}"/>
+                            <Button Grid.Row="1" Grid.Column="1"          
+                                    Text="Add"          
+                                    Command="{Binding SaveLatestScoreEntryCommand}"/>
+
+                            <Label Grid.Row="2" Grid.Column="0"
+                                   Text="Total: "/>
+                            <Label Grid.Row="2"  Grid.Column="1"
+                                   Text="{Binding PlayerScore}"/>
+
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+
+        <Button Grid.Row="1"       
                 Text="View scores"         
                 Command="{Binding ViewScoresCommand}"/>
 

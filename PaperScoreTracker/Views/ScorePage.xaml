@@ -7,10 +7,6 @@
              x:DataType="vm:ScoreViewModel"
              Title="{Binding GameName}">
 
-    <Shell.BackButtonBehavior>
-        <BackButtonBehavior IsVisible="False" IsEnabled="False"/>
-    </Shell.BackButtonBehavior>
-
     <ContentPage.Behaviors>
         <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing"/>
     </ContentPage.Behaviors>
@@ -45,7 +41,7 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-        
+
     </Grid>
 
 </ContentPage>

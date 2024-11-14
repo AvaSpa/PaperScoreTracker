@@ -47,6 +47,6 @@ public partial class PlayerDecoratorViewModel : ObservableObject
         var updatedPlayer = _gameControler.AddScore(PlayerAlias, LatestScoreEntry);
 
         if (updatedPlayer != null)
-            PlayerScore = updatedPlayer.Score;
+            OnPropertyChanged(nameof(PlayerScore));
     }
 }
