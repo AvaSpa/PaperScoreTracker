@@ -25,6 +25,7 @@ namespace PaperScoreTracker
             builder.Services.AddSingletonWithShellRoute<ScorePage, ScoreViewModel>(Routes.ScorePageRoute);
 
             builder.Services.AddSingleton<GameControler>();
+            //builder.Services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
 #if DEBUG
             builder.Logging.AddDebug();

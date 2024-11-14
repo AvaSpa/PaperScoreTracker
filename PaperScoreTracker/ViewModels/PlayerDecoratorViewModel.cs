@@ -1,4 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using PaperScoreTracker.Models;
 using PaperScoreTracker.Services;
 using System.Collections.ObjectModel;
@@ -24,6 +25,9 @@ public partial class PlayerDecoratorViewModel : ObservableObject
     }
 
     [ObservableProperty]
+    private int _latestScoreEntry;
+
+    [ObservableProperty]
     private ObservableCollection<int> _scoreEntries;
 
     public PlayerDecoratorViewModel(GameControler gameControler, Player model)
@@ -33,5 +37,16 @@ public partial class PlayerDecoratorViewModel : ObservableObject
         Model = model;
 
         _scoreEntries = new ObservableCollection<int>();
+    }
+
+    [RelayCommand]
+    private void SaveLatestScoreEntry()
+    {
+        ScoreEntries.Add(LatestScoreEntry);
+
+        var updatedPlayer = _gameControler.AddScore(PlayerAlias, LatestScoreEntry);
+
+        if (updatedPlayer != null)
+            PlayerScore = updatedPlayer.Score;
     }
 }

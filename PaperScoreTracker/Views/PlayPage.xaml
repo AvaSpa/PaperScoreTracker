@@ -15,6 +15,8 @@
         <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing"/>
     </ContentPage.Behaviors>
 
+    <!--TODO: alias label, total score label, latest score entry, score add button, entry count label-->
+    
     <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
 
         <Button Grid.Row="0" Grid.Column="0"         
