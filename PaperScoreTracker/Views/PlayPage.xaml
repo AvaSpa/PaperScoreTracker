@@ -8,42 +8,18 @@
              Title="{Binding GameName}">
 
     <Shell.BackButtonBehavior>
-        <BackButtonBehavior IsVisible="False" IsEnabled="False" />
+        <BackButtonBehavior IsVisible="False" IsEnabled="False"/>
     </Shell.BackButtonBehavior>
 
     <ContentPage.Behaviors>
-        <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing" />
+        <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing"/>
     </ContentPage.Behaviors>
 
     <Grid Padding="10" RowSpacing="10" ColumnSpacing="10">
 
-        <CollectionView Grid.Row="0" Grid.Column="0"
-                        ItemsSource="{Binding Players}"
-                        ItemsLayout="HorizontalList">
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="vm:PlayerDecoratorViewModel">
-                    <Frame>
-                        <Grid RowDefinitions="Auto, *, Auto">
+        <Button Grid.Row="0" Grid.Column="0"         
+                Text="View scores"         
+                Command="{Binding ViewScoresCommand}"/>
 
-                            <Label Grid.Row="0"
-                                   Text="{Binding PlayerAlias}"/>
-
-                            <CollectionView Grid.Row="1"
-                                            ItemsSource="{Binding ScoreEntries}">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="x:Int32">
-                                        <Label Text="{Binding}"/>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-
-                            <Label Grid.Row="2" 
-                                   Text="{Binding PlayerScore}"/>
-
-                        </Grid>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
     </Grid>
 </ContentPage>

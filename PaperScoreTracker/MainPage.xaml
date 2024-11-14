@@ -8,7 +8,7 @@
              Title="Paper Score Tracker">
 
     <ContentPage.Behaviors>
-        <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing" />
+        <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing"/>
     </ContentPage.Behaviors>
 
     <Grid RowDefinitions="Auto, Auto, *, Auto"

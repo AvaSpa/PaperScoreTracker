@@ -1,12 +1,21 @@
-﻿using PaperScoreTracker.Services;
+﻿using CommunityToolkit.Mvvm.Input;
+using PaperScoreTracker.Platforms.Android;
+using PaperScoreTracker.Services;
 
 namespace PaperScoreTracker.ViewModels;
 
 public partial class PlayViewModel : PlayerListViewModel
 {
-
     public PlayViewModel(GameControler playerControler) : base(playerControler)
     {
+    }
+
+    [RelayCommand]
+    private async Task ViewScores()
+    {
+        KeyboardHelper.HideKeyboard();
+      
+        await Shell.Current.GoToAsync(Routes.ScorePageRoute);
     }
 
     //TODO: replace player-score grid with alias, total score, new score entry, score add button, entry count; navigate to score button
