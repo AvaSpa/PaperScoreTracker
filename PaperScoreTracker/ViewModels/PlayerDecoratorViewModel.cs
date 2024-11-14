@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.Input;
 using PaperScoreTracker.Models;
 using PaperScoreTracker.Services;
-using System.Collections.ObjectModel;
 
 namespace PaperScoreTracker.ViewModels;
 
@@ -15,38 +14,45 @@ public partial class PlayerDecoratorViewModel : ObservableObject
     public string PlayerAlias
     {
         get => Model.Alias;
-        set => SetProperty(Model.Alias, value, Model, (model, alias) => model.Alias = alias);
+        set
+        {
+            var changed = SetProperty(Model.Alias, value, Model, (model, alias) => model.Alias = alias);
+
+            if (changed)
+                OnPropertyChanged(nameof(PlayerAlias));
+        }
     }
 
-    public int PlayerScore
-    {
-        get => Model.Score;
-        set => SetProperty(Model.Score, value, Model, (model, score) => model.Score = score);
-    }
+    public int PlayerScore => Model.TotalScore;
+
+    public IList<int> ScoreEntries => Model.ScoreEntries;
 
     [ObservableProperty]
-    private int _latestScoreEntry;
-
-    [ObservableProperty]
-    private ObservableCollection<int> _scoreEntries;
+    [NotifyCanExecuteChangedFor(nameof(SaveLatestScoreEntryCommand))]
+    private int? _latestScoreEntry;
 
     public PlayerDecoratorViewModel(GameControler gameControler, Player model)
     {
         _gameControler = gameControler;
 
         Model = model;
-
-        _scoreEntries = new ObservableCollection<int>();
     }
 
-    [RelayCommand]
+    private bool CanSaveLatestScoreEntry() => LatestScoreEntry.HasValue;
+
+    [RelayCommand(CanExecute = nameof(CanSaveLatestScoreEntry))]
     private void SaveLatestScoreEntry()
     {
-        ScoreEntries.Add(LatestScoreEntry);
+        if (!LatestScoreEntry.HasValue)
+            return;
 
-        var updatedPlayer = _gameControler.AddScore(PlayerAlias, LatestScoreEntry);
+        var updatedPlayer = _gameControler.AddPlayerScore(PlayerAlias, LatestScoreEntry.Value);
+        LatestScoreEntry = null;
 
         if (updatedPlayer != null)
+        {
             OnPropertyChanged(nameof(PlayerScore));
+            OnPropertyChanged(nameof(ScoreEntries));
+        }
     }
 }

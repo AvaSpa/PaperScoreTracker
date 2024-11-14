@@ -1,13 +1,15 @@
-﻿namespace PaperScoreTracker.Models
-{
-    public class Player
-    {
-        public string Alias { get; set; }
-        public int Score { get; set; }
+﻿namespace PaperScoreTracker.Models;
 
-        public Player(string alias)
-        {
-            Alias = alias;
-        }
+public class Player
+{
+    public string Alias { get; set; }
+    public IList<int> ScoreEntries { get; set; }
+    public int TotalScore { get; set; }
+
+    public Player(string alias)
+    {
+        Alias = alias;
+
+        ScoreEntries = [];
     }
 }

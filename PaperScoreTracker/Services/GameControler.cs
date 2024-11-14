@@ -24,7 +24,7 @@ public class GameControler
         GameName = "Game";
     }
 
-    public async Task<IEnumerable<Player>> GetAllPlayers() => await Task.FromResult((IEnumerable<Player>)_players.OrderByDescending(p => p.Score));
+    public async Task<IEnumerable<Player>> GetAllPlayers() => await Task.FromResult((IEnumerable<Player>)_players.OrderByDescending(p => p.ScoreEntries.Sum()));
 
     public void AddPlayer(Player newPlayer)
     {
@@ -39,13 +39,15 @@ public class GameControler
             _players.Remove(foundPlayer);
     }
 
-    public Player? AddScore(string playerName, int newScore)
+    public Player? AddPlayerScore(string playerName, int newScore)
     {
         var foundPlayer = FindPlayer(playerName);
         if (foundPlayer == null)
             return null;
 
-        foundPlayer.Score += newScore;
+        foundPlayer.ScoreEntries.Add(newScore);
+        foundPlayer.TotalScore = foundPlayer.ScoreEntries.Sum();
+
         return foundPlayer;
     }
 
