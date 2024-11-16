@@ -1,4 +1,4 @@
-﻿using PaperScoreTracker.Services;
+﻿using Application.Services;
 
 namespace PaperScoreTracker.ViewModels;
 

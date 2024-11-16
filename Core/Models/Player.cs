@@ -1,9 +1,9 @@
-﻿namespace PaperScoreTracker.Models;
+﻿namespace Core.Models;
 
 public class Player
 {
     public string Alias { get; set; }
-    public IList<int> ScoreEntries { get; set; }
+    public IList<ScoreEntry> ScoreEntries { get; set; }
     public int TotalScore { get; set; }
 
     public Player(string alias)

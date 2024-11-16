@@ -1,8 +1,9 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Application.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PaperScoreTracker.Models;
+using Core.Models;
 using PaperScoreTracker.Platforms.Android;
-using PaperScoreTracker.Services;
+using PaperScoreTracker.Utils;
 
 namespace PaperScoreTracker.ViewModels;
 

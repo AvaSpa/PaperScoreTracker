@@ -1,6 +1,8 @@
+*.dll
+*.pdb
 
 PaperScoreTracker/.vs/
 
-PaperScoreTracker/obj/
+*/obj/
 
-PaperScoreTracker/bin/
+*/bin/

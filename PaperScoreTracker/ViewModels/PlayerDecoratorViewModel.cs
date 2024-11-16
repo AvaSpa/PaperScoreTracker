@@ -1,7 +1,7 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Application.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PaperScoreTracker.Models;
-using PaperScoreTracker.Services;
+using Core.Models;
 
 namespace PaperScoreTracker.ViewModels;
 
@@ -25,7 +25,7 @@ public partial class PlayerDecoratorViewModel : ObservableObject
 
     public int PlayerScore => Model.TotalScore;
 
-    public IList<int> ScoreEntries => Model.ScoreEntries;
+    public IEnumerable<int> ScoreEntries => Model.ScoreEntries.Select(e => e.Value);
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveLatestScoreEntryCommand))]

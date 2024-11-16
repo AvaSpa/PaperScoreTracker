@@ -1,30 +1,28 @@
-﻿using PaperScoreTracker.Models;
+﻿using Core.Models;
+using DataAccess;
 
-namespace PaperScoreTracker.Services;
+namespace Application.Services;
 
 public class GameControler
 {
     private readonly List<Player> _players;
+    private readonly PlayerRepository _playerRepository;
 
     public string GameName { get; private set; }
 
-    public GameControler()
+    public GameControler(PlayerRepository playerRepository)
     {
-        _players = [
-        //TEST
-            new Player("Player 1"),
-            new Player("Player 2"),
-            new Player("Player 3"),
-            new Player("Player 4"),
-            new Player("Player 5"),
-            new Player("Player 6")
-        //
-        ]; //TODO: load from storage
+        _playerRepository = playerRepository;
 
         GameName = "Game";
     }
 
-    public async Task<IEnumerable<Player>> GetAllPlayers() => await Task.FromResult((IEnumerable<Player>)_players.OrderByDescending(p => p.ScoreEntries.Sum()));
+    public async Task<IEnumerable<Player>> GetAllPlayers()
+    {
+        var dbPlayers = await _playerRepository.GetAllPlayers();
+
+        return MappingHelper.MapDbPlayerList(dbPlayers);
+    }
 
     public void AddPlayer(Player newPlayer)
     {
@@ -45,8 +43,8 @@ public class GameControler
         if (foundPlayer == null)
             return null;
 
-        foundPlayer.ScoreEntries.Add(newScore);
-        foundPlayer.TotalScore = foundPlayer.ScoreEntries.Sum();
+        foundPlayer.ScoreEntries.Add(new ScoreEntry(newScore));
+        foundPlayer.TotalScore = GetTotalScore(foundPlayer);
 
         return foundPlayer;
     }
@@ -61,5 +59,7 @@ public class GameControler
         _players.Clear();
     }
 
-    private Player FindPlayer(string playerName) => _players.FirstOrDefault(p => p.Alias.Equals(playerName));
+    private Player? FindPlayer(string playerName) => _players.FirstOrDefault(p => p.Alias.Equals(playerName));
+
+    private int GetTotalScore(Player p) => p.ScoreEntries.Select(e => e.Value).Sum();
 }

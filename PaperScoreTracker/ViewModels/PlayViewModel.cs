@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using Application.Services;
+using CommunityToolkit.Mvvm.Input;
 using PaperScoreTracker.Platforms.Android;
-using PaperScoreTracker.Services;
 
 namespace PaperScoreTracker.ViewModels;
 

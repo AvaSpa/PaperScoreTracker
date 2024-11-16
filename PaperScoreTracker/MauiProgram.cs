@@ -1,6 +1,7 @@
-﻿using CommunityToolkit.Maui;
+﻿using Application.Services;
+using CommunityToolkit.Maui;
+using DataAccess;
 using Microsoft.Extensions.Logging;
-using PaperScoreTracker.Services;
 using PaperScoreTracker.ViewModels;
 using PaperScoreTracker.Views;
 
@@ -25,6 +26,10 @@ namespace PaperScoreTracker
             builder.Services.AddSingletonWithShellRoute<ScorePage, ScoreViewModel>(Routes.ScorePageRoute);
 
             builder.Services.AddSingleton<GameControler>();
+            builder.Services.AddSingleton<PlayerRepository>();
+
+            //builder.Services.AddDbContext<DataContext>(); //TODO: check if it was actually needed, but I doubt it
+          
             //builder.Services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
 #if DEBUG

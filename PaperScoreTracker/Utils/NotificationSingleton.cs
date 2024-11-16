@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 
-namespace PaperScoreTracker.Services;
+namespace PaperScoreTracker.Utils;
 
 public class NotificationSingleton
 {

@@ -1,6 +1,6 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Application.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using PaperScoreTracker.Services;
 using System.Collections.ObjectModel;
 
 namespace PaperScoreTracker.ViewModels;
