@@ -41,12 +41,12 @@ public partial class PlayerDecoratorViewModel : ObservableObject
     private bool CanSaveLatestScoreEntry() => LatestScoreEntry.HasValue;
 
     [RelayCommand(CanExecute = nameof(CanSaveLatestScoreEntry))]
-    private void SaveLatestScoreEntry()
+    private async Task SaveLatestScoreEntry()
     {
         if (!LatestScoreEntry.HasValue)
             return;
 
-        var updatedPlayer = _gameControler.AddPlayerScore(PlayerAlias, LatestScoreEntry.Value);
+        var updatedPlayer = await _gameControler.AddPlayerScore(PlayerAlias, LatestScoreEntry.Value);
         LatestScoreEntry = null;
 
         if (updatedPlayer != null)

@@ -17,14 +17,14 @@ public partial class MainViewModel : PlayerListViewModel
     }
 
     [RelayCommand]
-    private void AddPlayer()
+    private async Task AddPlayer()
     {
         if (string.IsNullOrWhiteSpace(PlayerAlias))
             return;
 
         var newPlayer = new Player(PlayerAlias);
 
-        _gameControler.AddPlayer(newPlayer);
+        await _gameControler.AddPlayer(newPlayer);
 
         Players.Add(new PlayerDecoratorViewModel(_gameControler, newPlayer));
 
@@ -32,9 +32,9 @@ public partial class MainViewModel : PlayerListViewModel
     }
 
     [RelayCommand]
-    private void DeletePlayer(string playerAlias)
+    private async Task DeletePlayer(string playerAlias)
     {
-        _gameControler.RemovePlayer(playerAlias);
+        await _gameControler.RemovePlayer(playerAlias);
 
         var foundPlayer = Players.FirstOrDefault(p => p.PlayerAlias == playerAlias);
         if (foundPlayer != null)
@@ -44,9 +44,9 @@ public partial class MainViewModel : PlayerListViewModel
     [RelayCommand]
     private async Task Start()
     {
-        var players = await _gameControler.GetAllPlayers();
+        var playerCount = await _gameControler.GetPlayerCount();
 
-        if (!players.Any())
+        if (playerCount == 0)
         {
             await NotificationSingleton.Instance.ShowToast("No players!");
 

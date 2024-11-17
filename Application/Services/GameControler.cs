@@ -1,11 +1,11 @@
 ﻿using Core.Models;
 using DataAccess;
+using DataAccess.DbModels;
 
 namespace Application.Services;
 
 public class GameControler
 {
-    private readonly List<Player> _players;
     private readonly PlayerRepository _playerRepository;
 
     public string GameName { get; private set; }
@@ -24,29 +24,32 @@ public class GameControler
         return MappingHelper.MapDbPlayerList(dbPlayers);
     }
 
-    public void AddPlayer(Player newPlayer)
+    public async Task AddPlayer(Player newPlayer)
     {
-        _players.Add(newPlayer);
+        await _playerRepository.Save(new DbPlayer(newPlayer));
     }
 
-    public void RemovePlayer(string playerName)
+    public async Task RemovePlayer(string playerName)
     {
-        var foundPlayer = FindPlayer(playerName);
+        var foundPlayer = _playerRepository.FindPlayer(playerName);
 
         if (foundPlayer != null)
-            _players.Remove(foundPlayer);
+            await _playerRepository.Remove(foundPlayer.Id);
     }
 
-    public Player? AddPlayerScore(string playerName, int newScore)
+    public async Task<Player?> AddPlayerScore(string playerName, int newScore)
     {
-        var foundPlayer = FindPlayer(playerName);
+        var foundPlayer = await _playerRepository.FindPlayer(playerName);
         if (foundPlayer == null)
             return null;
 
-        foundPlayer.ScoreEntries.Add(new ScoreEntry(newScore));
-        foundPlayer.TotalScore = GetTotalScore(foundPlayer);
+        var player = foundPlayer.ToModel();
+        player.ScoreEntries.Add(new ScoreEntry(newScore));
+        player.TotalScore = GetTotalScore(player);
 
-        return foundPlayer;
+        await _playerRepository.Update(new DbPlayer(player));
+
+        return player;
     }
 
     public void SetGameName(string gameName)
@@ -54,12 +57,15 @@ public class GameControler
         GameName = gameName;
     }
 
-    public void ClearPlayers()
+    public async Task ClearPlayers()
     {
-        _players.Clear();
+        await _playerRepository.Clear();
     }
 
-    private Player? FindPlayer(string playerName) => _players.FirstOrDefault(p => p.Alias.Equals(playerName));
+    public async Task<int> GetPlayerCount()
+    {
+        return await _playerRepository.CountPlayers();
+    }
 
     private int GetTotalScore(Player p) => p.ScoreEntries.Select(e => e.Value).Sum();
 }
