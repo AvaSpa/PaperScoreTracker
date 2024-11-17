@@ -30,24 +30,23 @@ namespace DataAccess.Migrations
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    PlayerId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ScoreValue = table.Column<int>(type: "INTEGER", nullable: false),
-                    DbPlayerId = table.Column<int>(type: "INTEGER", nullable: true)
+                    PlayerId = table.Column<int>(type: "INTEGER", nullable: true),
+                    ScoreValue = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ScoreEntries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ScoreEntries_Players_DbPlayerId",
-                        column: x => x.DbPlayerId,
+                        name: "FK_ScoreEntries_Players_PlayerId",
+                        column: x => x.PlayerId,
                         principalTable: "Players",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ScoreEntries_DbPlayerId",
+                name: "IX_ScoreEntries_PlayerId",
                 table: "ScoreEntries",
-                column: "DbPlayerId");
+                column: "PlayerId");
         }
 
         /// <inheritdoc />

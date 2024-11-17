@@ -26,10 +26,12 @@ namespace PaperScoreTracker
             builder.Services.AddSingletonWithShellRoute<ScorePage, ScoreViewModel>(Routes.ScorePageRoute);
 
             builder.Services.AddSingleton<GameControler>();
-            builder.Services.AddSingleton<PlayerRepository>();
+
+            var playerRepository = new PlayerRepository(FileSystem.AppDataDirectory);
+            builder.Services.AddSingleton(playerRepository);
 
             //builder.Services.AddDbContext<DataContext>(); //TODO: check if it was actually needed, but I doubt it
-          
+
             //builder.Services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
 #if DEBUG

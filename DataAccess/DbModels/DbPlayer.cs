@@ -14,7 +14,7 @@ public class DbPlayer
 
     public int TotalScore { get; set; }
 
-    public IList<DbScoreEntry> ScoreEntries { get; set; }
+    public ICollection<DbScoreEntry> ScoreEntries { get; set; }
 
     public DbPlayer()
     {

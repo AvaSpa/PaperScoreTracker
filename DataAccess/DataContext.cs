@@ -5,15 +5,31 @@ namespace DataAccess;
 
 public class DataContext : DbContext
 {
+    private readonly string _dbFolder;
+
     public DataContext()
     {
-        //TODO: add foreign keys (and support for sqlite) and the necessary properties to the db model classes
-        //see the whole video: https://youtu.be/lTCVZ6x8-Io?t=1643
+        _dbFolder = ".";
+    }
+
+    public DataContext(string dbFolder)
+    {
+        _dbFolder = dbFolder;
     }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlite("Data Source=ScoreTracker.db");
+        var dbPath = Path.Combine(_dbFolder, "ScoreTracker.db");
+        optionsBuilder.UseSqlite($"Filename = {dbPath}");
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<DbPlayer>()
+            .HasMany(p => p.ScoreEntries)
+            .WithOne(s => s.Player)
+            .HasForeignKey("PlayerId")
+            .IsRequired(false);
     }
 
     public DbSet<DbPlayer> Players { get; set; }

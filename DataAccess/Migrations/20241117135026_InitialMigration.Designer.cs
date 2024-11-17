@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DataAccess.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20241116212754_InitialMigration")]
+    [Migration("20241117135026_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -43,10 +43,7 @@ namespace DataAccess.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("DbPlayerId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("PlayerId")
+                    b.Property<int?>("PlayerId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("ScoreValue")
@@ -54,16 +51,18 @@ namespace DataAccess.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DbPlayerId");
+                    b.HasIndex("PlayerId");
 
                     b.ToTable("ScoreEntries");
                 });
 
             modelBuilder.Entity("DataAccess.DbModels.DbScoreEntry", b =>
                 {
-                    b.HasOne("DataAccess.DbModels.DbPlayer", null)
+                    b.HasOne("DataAccess.DbModels.DbPlayer", "Player")
                         .WithMany("ScoreEntries")
-                        .HasForeignKey("DbPlayerId");
+                        .HasForeignKey("PlayerId");
+
+                    b.Navigation("Player");
                 });
 
             modelBuilder.Entity("DataAccess.DbModels.DbPlayer", b =>
