@@ -30,7 +30,8 @@ namespace PaperScoreTracker
             var playerRepository = new PlayerRepository(FileSystem.AppDataDirectory);
             builder.Services.AddSingleton(playerRepository);
 
-            //builder.Services.AddDbContext<DataContext>(); //TODO: check if it was actually needed, but I doubt it
+            var dataContext = new DataContext(FileSystem.AppDataDirectory);
+            builder.Services.AddSingleton(dataContext);
 
             //builder.Services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 

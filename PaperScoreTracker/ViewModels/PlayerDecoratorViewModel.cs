@@ -25,7 +25,7 @@ public partial class PlayerDecoratorViewModel : ObservableObject
 
     public int PlayerScore => Model.TotalScore;
 
-    public IEnumerable<int> ScoreEntries => Model.ScoreEntries.Select(e => e.Value);
+    public IEnumerable<int> ScoreEntries => Model.ScoreEntries.Select(e => e.Value).ToList();
 
     [ObservableProperty]
     [NotifyCanExecuteChangedFor(nameof(SaveLatestScoreEntryCommand))]

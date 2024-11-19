@@ -18,9 +18,10 @@ public class DbPlayer
 
     public DbPlayer()
     {
+        ScoreEntries = [];
     }
 
-    public DbPlayer(Player player)
+    public DbPlayer(Player player) : this()
     {
         Alias = player.Alias;
         TotalScore = player.TotalScore;

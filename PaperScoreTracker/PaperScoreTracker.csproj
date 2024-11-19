@@ -77,4 +77,6 @@
 	  </MauiXaml>
 	</ItemGroup>
 
+	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionPaperScoreTrackerHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>
