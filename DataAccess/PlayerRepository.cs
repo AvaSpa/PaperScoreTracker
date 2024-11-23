@@ -10,6 +10,9 @@ public class PlayerRepository
     public PlayerRepository(string dbFolder)
     {
         _dbFolder = dbFolder;
+
+        using var ctx = new DataContext(_dbFolder);
+        ctx.Initialize();
     }
 
     public async Task<DbPlayer?> FindPlayer(string playerName)
@@ -31,14 +34,14 @@ public class PlayerRepository
     {
         using var ctx = new DataContext(_dbFolder);
 
-        return await ctx.Players.OrderByDescending(p => p.TotalScore).ToListAsync();
+        return await ctx.Players.Include(p => p.DbScoreEntries).OrderByDescending(p => p.TotalScore).ToListAsync();
     }
 
     public async Task Remove(int playerId)
     {
         using var ctx = new DataContext(_dbFolder);
 
-        var foundPlayer = await Find(playerId, ctx);
+        var foundPlayer = await ctx.Players.FindAsync(playerId);
         if (foundPlayer == null)
             return;
 
@@ -62,15 +65,22 @@ public class PlayerRepository
         await ctx.SaveChangesAsync();
     }
 
+    public async Task AddScoreEntry(int playerId, DbScoreEntry scoreEntry)
+    {
+        using var ctx = new DataContext(_dbFolder);
+
+        var foundPlayer = await ctx.Players.FindAsync(playerId);
+        if (foundPlayer == null)
+            return;
+
+        foundPlayer.DbScoreEntries.Add(scoreEntry);
+        await ctx.SaveChangesAsync();
+    }
+
     public async Task<int> CountPlayers()
     {
         using var ctx = new DataContext(_dbFolder);
 
         return await ctx.Players.CountAsync();
-    }
-
-    private async Task<DbPlayer?> Find(int id, DataContext ctx)
-    {
-        return await ctx.Players.FirstOrDefaultAsync(p => p.Id == id);
     }
 }

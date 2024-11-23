@@ -26,12 +26,15 @@ public class DataContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<DbPlayer>()
-            .HasMany(p => p.ScoreEntries)
-            .WithOne(s => s.Player)
-            .HasForeignKey("PlayerId")
-            .IsRequired(false);
+            .Navigation(p => p.DbScoreEntries)
+            .AutoInclude();
     }
 
     public DbSet<DbPlayer> Players { get; set; }
     public DbSet<DbScoreEntry> ScoreEntries { get; set; }
+
+    public void Initialize()
+    {
+        RetryPolicies.DataBaseInitializePolicy.Execute(() => { Database.EnsureCreated(); });
+    }
 }

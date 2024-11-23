@@ -21,7 +21,7 @@
 		<ApplicationTitle>PaperScoreTracker</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.paperscoretracker</ApplicationId>
+		<ApplicationId>com.avaspa.paperscoretracker</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>

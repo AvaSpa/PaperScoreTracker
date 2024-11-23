@@ -47,12 +47,16 @@ public partial class PlayerDecoratorViewModel : ObservableObject
             return;
 
         var updatedPlayer = await _gameControler.AddPlayerScore(PlayerAlias, LatestScoreEntry.Value);
+        if (updatedPlayer == null)
+            return;
+
+        Model.ScoreEntries.Clear();
+        Model.ScoreEntries.AddRange(updatedPlayer.ScoreEntries);
+        Model.TotalScore = updatedPlayer.TotalScore;
+
         LatestScoreEntry = null;
 
-        if (updatedPlayer != null)
-        {
-            OnPropertyChanged(nameof(PlayerScore));
-            OnPropertyChanged(nameof(ScoreEntries));
-        }
+        OnPropertyChanged(nameof(PlayerScore));
+        OnPropertyChanged(nameof(ScoreEntries));
     }
 }

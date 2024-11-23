@@ -44,10 +44,13 @@ public class GameControler
             return null;
 
         var player = foundPlayer.ToModel();
-        player.ScoreEntries.Add(new ScoreEntry(newScore));
+        var scoreEntry = new ScoreEntry(newScore);
+        player.ScoreEntries.Add(scoreEntry);
         player.TotalScore = GetTotalScore(player);
 
-        await _playerRepository.Update(new DbPlayer(player));
+        await _playerRepository.AddScoreEntry(foundPlayer.Id, new DbScoreEntry(scoreEntry));
+        foundPlayer.TotalScore = player.TotalScore;
+        await _playerRepository.Update(foundPlayer);
 
         return player;
     }
