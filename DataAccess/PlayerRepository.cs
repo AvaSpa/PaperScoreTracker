@@ -30,11 +30,13 @@ public class PlayerRepository
         await ctx.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<DbPlayer>> GetAllPlayers()
+    public async Task<IEnumerable<DbPlayer>> GetAllPlayers(bool ordered)
     {
         using var ctx = new DataContext(_dbFolder);
 
-        return await ctx.Players.Include(p => p.DbScoreEntries).OrderByDescending(p => p.TotalScore).ToListAsync();
+        return ordered
+            ? await ctx.Players.Include(p => p.DbScoreEntries).OrderByDescending(p => p.TotalScore).ToListAsync()
+            : await ctx.Players.Include(p => p.DbScoreEntries).ToListAsync();
     }
 
     public async Task Remove(int playerId)

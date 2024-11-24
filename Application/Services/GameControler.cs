@@ -17,9 +17,9 @@ public class GameControler
         GameName = "Game";
     }
 
-    public async Task<IEnumerable<Player>> GetAllPlayers()
+    public async Task<IEnumerable<Player>> GetAllPlayers(bool ordered)
     {
-        var dbPlayers = await _playerRepository.GetAllPlayers();
+        var dbPlayers = await _playerRepository.GetAllPlayers(ordered);
 
         return MappingHelper.MapDbPlayerList(dbPlayers);
     }

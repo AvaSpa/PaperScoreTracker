@@ -7,17 +7,21 @@ namespace PaperScoreTracker.ViewModels;
 
 public partial class PlayerListViewModel : ObservableObject
 {
-    protected readonly GameControler _gameControler;
-
     [ObservableProperty]
     private string _gameName;
 
     [ObservableProperty]
     private ObservableCollection<PlayerDecoratorViewModel> _players;
 
-    public PlayerListViewModel(GameControler gameControler)
+    protected readonly GameControler _gameControler;
+
+    private bool _orderPlayers;
+
+    public PlayerListViewModel(GameControler gameControler, bool orderPlayers = false)
     {
         _gameControler = gameControler;
+        _orderPlayers = orderPlayers;
+
         _players = new ObservableCollection<PlayerDecoratorViewModel>();
     }
 
@@ -32,7 +36,7 @@ public partial class PlayerListViewModel : ObservableObject
         GameName = _gameControler.GameName;
         Players.Clear();
 
-        var players = await _gameControler.GetAllPlayers();
+        var players = await _gameControler.GetAllPlayers(_orderPlayers);
         foreach (var player in players)
         {
             Players.Add(new PlayerDecoratorViewModel(_gameControler, player));
