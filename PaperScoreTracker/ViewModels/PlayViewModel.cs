@@ -15,6 +15,8 @@ public partial class PlayViewModel : PlayerListViewModel
     {
         KeyboardHelper.HideKeyboard();
 
+        await Task.Delay(50);
+
         await Shell.Current.GoToAsync(Routes.ScorePageRoute);
     }
 }
