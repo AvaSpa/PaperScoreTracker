@@ -35,8 +35,8 @@ public class PlayerRepository
         using var ctx = new DataContext(_dbFolder);
 
         return ordered
-            ? await ctx.Players.Include(p => p.DbScoreEntries).OrderByDescending(p => p.TotalScore).ToListAsync()
-            : await ctx.Players.Include(p => p.DbScoreEntries).ToListAsync();
+            ? await ctx.Players.OrderByDescending(p => p.TotalScore).ToListAsync()
+            : await ctx.Players.ToListAsync();
     }
 
     public async Task Remove(int playerId)

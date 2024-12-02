@@ -46,6 +46,7 @@
                                            BackgroundColor="Red"
                                            Command="{Binding Source={x:Reference collectionViewPlayers}, Path=BindingContext.DeletePlayerCommand}"
                                            CommandParameter="{Binding PlayerAlias}"/>
+
                             </SwipeItems>
                         </SwipeView.RightItems>
 
@@ -63,7 +64,7 @@
         <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
                 VerticalOptions="End"
                 Text="Start"
-                Command="{Binding StartCommand}"/>
+                Command="{Binding StartGameCommand}"/>
 
     </Grid>
 

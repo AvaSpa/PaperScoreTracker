@@ -1,6 +1,7 @@
 ﻿using Application.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Core.Exceptions;
 using Core.Models;
 using PaperScoreTracker.Platforms.Android;
 using PaperScoreTracker.Utils;
@@ -24,11 +25,18 @@ public partial class MainViewModel : PlayerListViewModel
 
         var newPlayer = new Player(PlayerAlias);
 
-        await _gameControler.AddPlayer(newPlayer);
+        try
+        {
+            await _gameControler.AddPlayer(newPlayer);
 
-        Players.Add(new PlayerDecoratorViewModel(_gameControler, newPlayer));
+            Players.Add(new PlayerDecoratorViewModel(_gameControler, newPlayer));
 
-        PlayerAlias = string.Empty;
+            PlayerAlias = string.Empty;
+        }
+        catch (AddPlayerException e)
+        {
+            await NotificationSingleton.Instance.ShowToast(e.Message);
+        }
     }
 
     [RelayCommand]
@@ -42,7 +50,7 @@ public partial class MainViewModel : PlayerListViewModel
     }
 
     [RelayCommand]
-    private async Task Start()
+    private async Task StartGame()
     {
         var playerCount = await _gameControler.GetPlayerCount();
 
@@ -62,13 +70,13 @@ public partial class MainViewModel : PlayerListViewModel
     }
 
     [RelayCommand]
-    private void ResetGame()
+    private async Task ResetGame()
     {
         if (string.IsNullOrWhiteSpace(GameName))
             return;
 
         _gameControler.SetGameName(GameName);
-        _gameControler.ClearPlayers();
+        await _gameControler.ClearPlayers();
 
         Players.Clear();
     }

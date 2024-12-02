@@ -1,4 +1,4 @@
-﻿using DataAccess.DbModels;
+using DataAccess.DbModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess;
@@ -19,7 +19,7 @@ public class DataContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var dbPath = Path.Combine(_dbFolder, "ScoreTracker.db");
+        var dbPath = Path.Combine(_dbFolder, "ScoreTracker.db3");
         optionsBuilder.UseSqlite($"Filename = {dbPath}");
     }
 
@@ -27,6 +27,10 @@ public class DataContext : DbContext
     {
         modelBuilder.Entity<DbPlayer>()
             .Navigation(p => p.DbScoreEntries)
+            .AutoInclude();
+
+        modelBuilder.Entity<DbScoreEntry>()
+            .Navigation(se => se.DbPlayer)
             .AutoInclude();
     }
 

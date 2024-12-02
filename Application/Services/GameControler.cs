@@ -1,4 +1,5 @@
-﻿using Core.Models;
+﻿using Core.Exceptions;
+using Core.Models;
 using DataAccess;
 using DataAccess.DbModels;
 
@@ -26,12 +27,16 @@ public class GameControler
 
     public async Task AddPlayer(Player newPlayer)
     {
+        var foundPlayer = await _playerRepository.FindPlayer(newPlayer.Alias);
+        if (foundPlayer != null)
+            throw new AddPlayerException("Player already exists");
+
         await _playerRepository.Save(new DbPlayer(newPlayer));
     }
 
     public async Task RemovePlayer(string playerName)
     {
-        var foundPlayer = _playerRepository.FindPlayer(playerName);
+        var foundPlayer = await _playerRepository.FindPlayer(playerName);
 
         if (foundPlayer != null)
             await _playerRepository.Remove(foundPlayer.Id);
