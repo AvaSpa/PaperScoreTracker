@@ -5,7 +5,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:PaperScoreTracker.Views"
     Shell.FlyoutBehavior="Disabled"
-    Title="PaperScoreTracker">
+    Title="Paper Score Tracker">
+
+    <Shell.TitleView>
+        <Label
+            x:Name="pageTitle"
+            VerticalTextAlignment="Center"
+            VerticalOptions="Center"
+            HorizontalOptions="Start"
+            HeightRequest="40"
+            FontFamily="Inkwell"
+            FontSize="Large"/>
+    </Shell.TitleView>
 
     <ShellContent
         ContentTemplate="{DataTemplate local:MainPage}"
