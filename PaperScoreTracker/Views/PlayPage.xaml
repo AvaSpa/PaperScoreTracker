@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:PaperScoreTracker.ViewModels"
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:converters="clr-namespace:PaperScoreTracker.Converters"
+             xmlns:controls="clr-namespace:PaperScoreTracker.Controls"
              x:Class="PaperScoreTracker.Views.PlayPage"
              x:DataType="vm:PlayViewModel"
              Title="{Binding GameName}">
@@ -22,8 +23,10 @@
                     <Frame>
                         <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*, *">
 
-                            <Label Grid.Row="0" Grid.Column="0"
-                                   Text="{Binding PlayerAlias}"/>
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="0">
+                                <Label Text="Player: "/>
+                                <Label Text="{Binding PlayerAlias}"/>
+                            </HorizontalStackLayout>
                             <HorizontalStackLayout Grid.Row="0" Grid.Column="1">
                                 <Label Text="Entries: "/>
                                 <Label Text="{Binding ScoreEntries, Converter={converters:CollectionToCountStringConverter}}"/>
@@ -33,14 +36,16 @@
                                    Placeholder="Enter new score" 
                                    Text="{Binding LatestScoreEntry}"
                                    Keyboard="Numeric"/>
-                            <Button Grid.Row="1" Grid.Column="1"          
-                                    Text="Add"          
-                                    Command="{Binding SaveLatestScoreEntryCommand}"/>
+                            <controls:EncircledButton Grid.Row="1" Grid.Column="1" 
+                                                      MaximumHeightRequest="40"
+                                                      MaximumWidthRequest="80"
+                                                      ButtonText="Add"
+                                                      ClickCommand="{Binding SaveLatestScoreEntryCommand}"/>
 
-                            <Label Grid.Row="2" Grid.Column="0"
-                                   Text="Total: "/>
-                            <Label Grid.Row="2"  Grid.Column="1"
-                                   Text="{Binding PlayerScore}"/>
+                            <HorizontalStackLayout  Grid.Row="2" Grid.Column="0">
+                                <Label Text="Total: "/>
+                                <Label Text="{Binding PlayerScore}"/>
+                            </HorizontalStackLayout>
 
                         </Grid>
                     </Frame>
@@ -48,10 +53,12 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-
-        <Button Grid.Row="1"       
-                Text="View scores"         
-                Command="{Binding ViewScoresCommand}"/>
+        <controls:EncircledButton Grid.Row="1"
+                                  MaximumHeightRequest="70"
+                                  MaximumWidthRequest="200"
+                                  ButtonText="View scores"
+                                  ButtonTextFontSize="24"
+                                  ClickCommand="{Binding ViewScoresCommand}"/>
 
     </Grid>
 </ContentPage>

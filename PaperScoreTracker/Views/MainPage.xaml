@@ -1,8 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:PaperScoreTracker.ViewModels"
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:PaperScoreTracker.Controls"
              x:Class="PaperScoreTracker.Views.MainPage"
              x:DataType="vm:MainViewModel"
              Title="Paper Score Tracker">
@@ -21,9 +22,12 @@
                Placeholder="Enter game name"
                Text="{Binding GameName}"/>
 
-        <Button Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
-                Text="Reset"
-                Command="{Binding ResetGameCommand}"/>
+
+        <controls:EncircledButton Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                                  MaximumHeightRequest="40"
+                                  MaximumWidthRequest="200"
+                                  ButtonText="Reset"
+                                  ClickCommand="{Binding ResetGameCommand}"/>
 
         <HorizontalStackLayout  Grid.Row="1" Grid.Column="0">
             <CheckBox IsChecked="{Binding ReverseScoring}"/>
@@ -37,10 +41,11 @@
                Placeholder="Enter player alias"
                Text="{Binding PlayerAlias}"/>
 
-        <Button Grid.Row="3" Grid.Column="1"
-                Text="Add"
-                Command="{Binding AddPlayerCommand}"/>
-
+        <controls:EncircledButton Grid.Row="3" Grid.Column="1"
+                                  MaximumHeightRequest="40"
+                                  MaximumWidthRequest="200"
+                                  ButtonText="Add"
+                                  ClickCommand="{Binding AddPlayerCommand}"/>
 
         <CollectionView Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
                         x:Name="collectionViewPlayers"
@@ -80,10 +85,12 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
-                VerticalOptions="End"
-                Text="Start"
-                Command="{Binding StartGameCommand}"/>
+        <controls:EncircledButton Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
+                                  MaximumHeightRequest="70"
+                                  MaximumWidthRequest="200"
+                                  ButtonText="Start"
+                                  ButtonTextFontSize="24"
+                                  ClickCommand="{Binding StartGameCommand}"/>
 
     </Grid>
 
