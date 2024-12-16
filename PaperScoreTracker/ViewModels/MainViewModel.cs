@@ -13,6 +13,9 @@ public partial class MainViewModel : PlayerListViewModel
     [ObservableProperty]
     private string _playerAlias;
 
+    [ObservableProperty]
+    private bool _reverseScoring;
+
     public MainViewModel(GameControler playerControler) : base(playerControler)
     {
     }
@@ -63,6 +66,7 @@ public partial class MainViewModel : PlayerListViewModel
 
         if (!string.IsNullOrWhiteSpace(GameName))
             _gameControler.SetGameName(GameName);
+        _gameControler.SetReverseScoring(ReverseScoring);
 
         KeyboardHelper.HideKeyboard();
 
@@ -72,12 +76,12 @@ public partial class MainViewModel : PlayerListViewModel
     [RelayCommand]
     private async Task ResetGame()
     {
-        if (string.IsNullOrWhiteSpace(GameName))
-            return;
+        GameName = string.Empty;
+        ReverseScoring = false;
+        Players.Clear();
 
         _gameControler.SetGameName(GameName);
+        _gameControler.SetReverseScoring(ReverseScoring);
         await _gameControler.ClearPlayers();
-
-        Players.Clear();
     }
 }

@@ -9,6 +9,8 @@ public class GameControler
 {
     private readonly PlayerRepository _playerRepository;
 
+    private bool _reverseScoring;
+
     public string GameName { get; private set; }
 
     public GameControler(PlayerRepository playerRepository)
@@ -20,7 +22,7 @@ public class GameControler
 
     public async Task<IEnumerable<Player>> GetAllPlayers(bool ordered)
     {
-        var dbPlayers = await _playerRepository.GetAllPlayers(ordered);
+        var dbPlayers = await _playerRepository.GetAllPlayers(ordered, _reverseScoring);
 
         return MappingHelper.MapDbPlayerList(dbPlayers);
     }
@@ -63,6 +65,11 @@ public class GameControler
     public void SetGameName(string gameName)
     {
         GameName = gameName;
+    }
+
+    public void SetReverseScoring(bool reverseScoring)
+    {
+        _reverseScoring=reverseScoring;
     }
 
     public async Task ClearPlayers()

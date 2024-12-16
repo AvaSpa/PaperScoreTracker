@@ -30,12 +30,14 @@ public class PlayerRepository
         await ctx.SaveChangesAsync();
     }
 
-    public async Task<IEnumerable<DbPlayer>> GetAllPlayers(bool ordered)
+    public async Task<IEnumerable<DbPlayer>> GetAllPlayers(bool ordered, bool _reverseScoring)
     {
         using var ctx = new DataContext(_dbFolder);
 
         return ordered
-            ? await ctx.Players.OrderByDescending(p => p.TotalScore).ToListAsync()
+            ? _reverseScoring
+                ? await ctx.Players.OrderBy(p => p.TotalScore).ToListAsync()
+                : await ctx.Players.OrderByDescending(p => p.TotalScore).ToListAsync()
             : await ctx.Players.ToListAsync();
     }
 

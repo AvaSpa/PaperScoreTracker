@@ -11,30 +11,38 @@
         <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing"/>
     </ContentPage.Behaviors>
 
-    <Grid RowDefinitions="Auto, Auto, *, Auto"
+    <Grid RowDefinitions="Auto, Auto, Auto, Auto, *, Auto"
           ColumnDefinitions=".75*, .25*"
           Padding="10"
-          RowSpacing="10"
+          RowSpacing="5"
           ColumnSpacing="10">
 
         <Entry Grid.Row="0" Grid.Column="0" 
                Placeholder="Enter game name"
                Text="{Binding GameName}"/>
 
-        <Button Grid.Row="0" Grid.Column="1"
-                Text="New game"
+        <Button Grid.Row="0" Grid.Column="1" Grid.RowSpan="2"
+                Text="Reset"
                 Command="{Binding ResetGameCommand}"/>
 
-        <Entry Grid.Row="1" Grid.Column="0"
+        <HorizontalStackLayout  Grid.Row="1" Grid.Column="0">
+            <CheckBox IsChecked="{Binding ReverseScoring}"/>
+            <Label VerticalOptions="Center" 
+                Text="Reverse scoring"/>
+        </HorizontalStackLayout>
+
+        <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+
+        <Entry Grid.Row="3" Grid.Column="0"
                Placeholder="Enter player alias"
                Text="{Binding PlayerAlias}"/>
 
-        <Button Grid.Row="1" Grid.Column="1"
+        <Button Grid.Row="3" Grid.Column="1"
                 Text="Add"
                 Command="{Binding AddPlayerCommand}"/>
 
 
-        <CollectionView Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
+        <CollectionView Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2"
                         x:Name="collectionViewPlayers"
                         ItemsSource="{Binding Players}">
             <CollectionView.ItemTemplate>
@@ -72,7 +80,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
 
-        <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2"
+        <Button Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2"
                 VerticalOptions="End"
                 Text="Start"
                 Command="{Binding StartGameCommand}"/>
