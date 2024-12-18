@@ -6,3 +6,5 @@ PaperScoreTracker/.vs/
 */obj/
 
 */bin/
+
+*.user

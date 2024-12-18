@@ -20,31 +20,42 @@
                         ItemsSource="{Binding Players}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:PlayerDecoratorViewModel">
-                    <Frame>
-                        <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*, *">
+                    <Frame Padding="12" Margin="2">
+                        <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*, *"
+                              RowSpacing="6">
 
                             <HorizontalStackLayout Grid.Row="0" Grid.Column="0">
-                                <Label Text="Player: "/>
-                                <Label Text="{Binding PlayerAlias}"/>
+                                <Label VerticalOptions="Center" 
+                                       Text="Player: "/>
+                                <Label VerticalOptions="Center"
+                                       Text="{Binding PlayerAlias}"
+                                       FontSize="Medium"/>
                             </HorizontalStackLayout>
                             <HorizontalStackLayout Grid.Row="0" Grid.Column="1">
-                                <Label Text="Entries: "/>
-                                <Label Text="{Binding ScoreEntries, Converter={converters:CollectionToCountStringConverter}}"/>
+                                <Label VerticalOptions="Center" 
+                                       Text="Entries: "/>
+                                <Label VerticalOptions="Center" 
+                                       Text="{Binding ScoreEntries, Converter={converters:CollectionToCountStringConverter}}"
+                                       FontSize="Medium"/>
                             </HorizontalStackLayout>
 
                             <Entry Grid.Row="1" Grid.Column="0" 
                                    Placeholder="Enter new score" 
                                    Text="{Binding LatestScoreEntry}"
-                                   Keyboard="Numeric"/>
+                                   Keyboard="Numeric"
+                                   FontSize="18"/>
                             <controls:EncircledButton Grid.Row="1" Grid.Column="1" 
                                                       MaximumHeightRequest="40"
                                                       MaximumWidthRequest="80"
                                                       ButtonText="Add"
                                                       ClickCommand="{Binding SaveLatestScoreEntryCommand}"/>
 
-                            <HorizontalStackLayout  Grid.Row="2" Grid.Column="0">
-                                <Label Text="Total: "/>
-                                <Label Text="{Binding PlayerScore}"/>
+                            <HorizontalStackLayout Grid.Row="2" Grid.Column="0"
+                                                   Margin="0, 4, 0, 0">
+                                <Label Text="Total: "
+                                       FontSize="Large"/>
+                                <Label Text="{Binding PlayerScore}"
+                                       FontSize="Large"/>
                             </HorizontalStackLayout>
 
                         </Grid>
