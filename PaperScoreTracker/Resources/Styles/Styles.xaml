@@ -166,6 +166,7 @@
         <Setter Property="BackgroundColor" Value="Transparent"/>
         <Setter Property="FontFamily" Value="Inkwell"/>
         <Setter Property="FontSize" Value="Large"/>
+        <Setter Property="VerticalOptions" Value="Center"/>
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
