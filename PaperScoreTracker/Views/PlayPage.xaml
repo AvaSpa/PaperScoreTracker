@@ -20,30 +20,30 @@
                         ItemsSource="{Binding Players}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:PlayerDecoratorViewModel">
-                    <Frame Padding="10" Margin="2">
-                        <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions="*, *"
+                    <Frame Padding="20, 10, 20, 10" Margin="2">
+                        <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions=".6*, .4*"
                               RowSpacing="6">
 
-                            <HorizontalStackLayout Grid.Row="0" Grid.Column="0">
-                                <Label VerticalOptions="Center" 
-                                       Text="Player: "/>
-                                <Label VerticalOptions="Center"
-                                       Text="{Binding PlayerAlias}"/>
-                            </HorizontalStackLayout>
-                            <HorizontalStackLayout Grid.Row="0" Grid.Column="1">
-                                <Label VerticalOptions="Center" 
-                                       Text="Entries: "/>
-                                <Label VerticalOptions="Center" 
-                                       Text="{Binding ScoreEntries, Converter={converters:CollectionToCountStringConverter}}"/>
+                            <Label Grid.Row="0" Grid.Column="0"
+                                    Text="{Binding PlayerAlias}"/>
+
+                            <HorizontalStackLayout Grid.Row="0" Grid.Column="1"
+                                                   HorizontalOptions="Center">
+                                <Label Text="Entries: "/>
+                                <Label Text="{Binding ScoreEntries, Converter={converters:CollectionToCountStringConverter}}"/>
                             </HorizontalStackLayout>
 
                             <Entry Grid.Row="1" Grid.Column="0" 
+                                   HorizontalOptions="Start"
+                                   MaximumWidthRequest="150"
                                    Placeholder="Enter new score" 
                                    Text="{Binding LatestScoreEntry}"
                                    Keyboard="Numeric"/>
+                            
                             <controls:EncircledButton Grid.Row="1" Grid.Column="1" 
+                                                      HorizontalOptions="Start"
                                                       MaximumHeightRequest="50"
-                                                      MaximumWidthRequest="90"
+                                                      MinimumWidthRequest="90"
                                                       ButtonText="Add"
                                                       ClickCommand="{Binding SaveLatestScoreEntryCommand}"/>
 

@@ -30,10 +30,8 @@
                                   ClickCommand="{Binding ResetGameCommand}"/>
 
         <HorizontalStackLayout  Grid.Row="1" Grid.Column="0">
-            <CheckBox VerticalOptions="Center"
-                      IsChecked="{Binding ReverseScoring}"/>
-            <Label VerticalOptions="Center" 
-                   FontSize="20"
+            <CheckBox IsChecked="{Binding ReverseScoring}"/>
+            <Label FontSize="20"
                    Text="Reverse scoring"/>
         </HorizontalStackLayout>
 
@@ -42,6 +40,7 @@
 
         <Entry Grid.Row="3" Grid.Column="0"
                Placeholder="Enter player alias"
+               MaxLength="13"
                Text="{Binding PlayerAlias}"/>
 
         <controls:EncircledButton Grid.Row="3" Grid.Column="1"

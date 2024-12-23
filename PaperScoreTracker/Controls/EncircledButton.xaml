@@ -17,12 +17,11 @@
         
         <Grid Padding="-10">
             <Image Source="encircle.png"
-               Aspect="Fill"
-               Margin="10"/>
-            <Label VerticalOptions="Center"
-               HorizontalOptions="Center"
-               Text="{Binding ButtonText}"
-               FontSize="{Binding ButtonTextFontSize}"/>
+                   Aspect="Fill"
+                   Margin="10"/>
+            <Label HorizontalOptions="Center"
+                   Text="{Binding ButtonText}"
+                   FontSize="{Binding ButtonTextFontSize}"/>
         </Grid>
         
     </Border>
