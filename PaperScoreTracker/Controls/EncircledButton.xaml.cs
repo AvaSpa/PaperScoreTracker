@@ -6,7 +6,7 @@ public partial class EncircledButton : ContentView
 {
     public static readonly BindableProperty ButtonTextProperty = BindableProperty.Create(nameof(ButtonText), typeof(string), typeof(EncircledButton), string.Empty);
     public static readonly BindableProperty ClickCommandProperty = BindableProperty.Create(nameof(ClickCommand), typeof(ICommand), typeof(EncircledButton), null);
-    public static readonly BindableProperty ButtonTextFontSizeProperty = BindableProperty.Create(nameof(ButtonTextFontSize), typeof(double), typeof(EncircledButton), 16d);
+    public static readonly BindableProperty ButtonTextFontSizeProperty = BindableProperty.Create(nameof(ButtonTextFontSize), typeof(double), typeof(EncircledButton), 20d);
 
     public string ButtonText
     {

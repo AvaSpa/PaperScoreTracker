@@ -13,7 +13,7 @@
     </ContentPage.Behaviors>
 
     <Grid RowDefinitions="Auto, Auto, Auto, Auto, *, Auto"
-          ColumnDefinitions=".75*, .25*"
+          ColumnDefinitions=".70*, .30*"
           Padding="10"
           RowSpacing="5"
           ColumnSpacing="10">
@@ -30,9 +30,11 @@
                                   ClickCommand="{Binding ResetGameCommand}"/>
 
         <HorizontalStackLayout  Grid.Row="1" Grid.Column="0">
-            <CheckBox IsChecked="{Binding ReverseScoring}"/>
+            <CheckBox VerticalOptions="Center"
+                      IsChecked="{Binding ReverseScoring}"/>
             <Label VerticalOptions="Center" 
-                Text="Reverse scoring"/>
+                   FontSize="20"
+                   Text="Reverse scoring"/>
         </HorizontalStackLayout>
 
         <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
@@ -77,8 +79,7 @@
 
                         <Grid Padding="4">
                             <Frame Padding="12">
-                                <Label Text="{Binding PlayerAlias}"
-                                       FontSize="18"/>
+                                <Label Text="{Binding PlayerAlias}"/>
                             </Frame>
                         </Grid>
                     </SwipeView>
