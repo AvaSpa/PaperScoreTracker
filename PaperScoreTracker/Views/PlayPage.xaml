@@ -33,12 +33,10 @@
                                 <Label Text="{Binding ScoreEntries, Converter={converters:CollectionToCountStringConverter}}"/>
                             </HorizontalStackLayout>
 
-                            <Entry Grid.Row="1" Grid.Column="0" 
+                            <controls:NumericInput Grid.Row="1" Grid.Column="0" 
                                    HorizontalOptions="Start"
                                    MaximumWidthRequest="150"
-                                   Placeholder="Enter new score" 
-                                   Text="{Binding LatestScoreEntry}"
-                                   Keyboard="Numeric"/>
+                                   Value="{Binding LatestScoreEntry}"/>
                             
                             <controls:EncircledButton Grid.Row="1" Grid.Column="1" 
                                                       HorizontalOptions="Start"
