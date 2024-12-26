@@ -33,11 +33,37 @@
                                 <Label Text="{Binding ScoreEntries, Converter={converters:CollectionToCountStringConverter}}"/>
                             </HorizontalStackLayout>
 
-                            <controls:NumericInput Grid.Row="1" Grid.Column="0" 
-                                   HorizontalOptions="Start"
-                                   MaximumWidthRequest="150"
-                                   Value="{Binding LatestScoreEntry}"/>
-                            
+                            <Border Grid.Row="1" Grid.Column="0"
+                                    Padding="-4"
+                                    MaximumHeightRequest="40"
+                                    Margin="0, 0, 40, 0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="70"/>
+                                </Border.StrokeShape>
+                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                    <Button Grid.Column="0"
+                                            FontSize="30"
+                                            BackgroundColor="OrangeRed"
+                                            Text="-"
+                                            MaximumWidthRequest="36"
+                                            Padding="-10, -10, -16, -10"
+                                            Command="{Binding ScoreEntryDecoratorViewModel.DecrementCommand}"/>
+                                    <Entry Grid.Column="1"
+                                           HorizontalTextAlignment="Center"
+                                           FontSize="18"
+                                           VerticalOptions="End"
+                                           VerticalTextAlignment="End"
+                                           Text="{Binding ScoreEntryDecoratorViewModel.ScoreValue}"/>
+                                    <Button Grid.Column="2"
+                                            FontSize="30"
+                                            BackgroundColor="DodgerBlue"
+                                            Text="+"
+                                            MaximumWidthRequest="36"
+                                            Padding="-16, -10, -10, -10"
+                                            Command="{Binding ScoreEntryDecoratorViewModel.IncrementCommand}"/>
+                                </Grid>
+                            </Border>
+
                             <controls:EncircledButton Grid.Row="1" Grid.Column="1" 
                                                       HorizontalOptions="Start"
                                                       MaximumHeightRequest="50"
