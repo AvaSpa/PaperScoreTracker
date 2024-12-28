@@ -1,18 +1,12 @@
 ﻿using DataAccess.DbModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess;
+namespace DataAccess.Repositories;
 
-public class PlayerRepository
+public class PlayerRepository : BaseRepository
 {
-    private readonly string _dbFolder;
-
-    public PlayerRepository(string dbFolder)
+    public PlayerRepository(string dbFolder) : base(dbFolder)
     {
-        _dbFolder = dbFolder;
-
-        using var ctx = new DataContext(_dbFolder);
-        ctx.Initialize();
     }
 
     public async Task<DbPlayer?> FindPlayer(string playerName)

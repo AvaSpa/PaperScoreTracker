@@ -3,7 +3,7 @@ using DataAccess.DbModels;
 
 namespace Application;
 
-internal static class MappingHelper
+internal static class DBMappingHelper
 {
     public static IEnumerable<Player> MapDbPlayerList(IEnumerable<DbPlayer> dbPlayers)
     {

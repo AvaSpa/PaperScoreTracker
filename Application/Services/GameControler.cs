@@ -1,30 +1,30 @@
-﻿using Core.Exceptions;
+﻿using Core;
+using Core.Exceptions;
 using Core.Models;
-using DataAccess;
 using DataAccess.DbModels;
+using DataAccess.Repositories;
 
 namespace Application.Services;
 
 public class GameControler
 {
+    private const string DefaultGameName = "Game";
+
     private readonly PlayerRepository _playerRepository;
+    private readonly GameSettingRepository _gameSettingRepository;
 
-    private bool _reverseScoring;
-
-    public string GameName { get; private set; }
-
-    public GameControler(PlayerRepository playerRepository)
+    public GameControler(PlayerRepository playerRepository, GameSettingRepository gameSettingRepository)
     {
         _playerRepository = playerRepository;
-
-        GameName = "Game";
+        _gameSettingRepository = gameSettingRepository;
     }
 
     public async Task<IEnumerable<Player>> GetAllPlayers(bool ordered)
     {
-        var dbPlayers = await _playerRepository.GetAllPlayers(ordered, _reverseScoring);
+        var reverseScoring = await GetReverseScoring();
+        var dbPlayers = await _playerRepository.GetAllPlayers(ordered, reverseScoring);
 
-        return MappingHelper.MapDbPlayerList(dbPlayers);
+        return DBMappingHelper.MapDbPlayerList(dbPlayers);
     }
 
     public async Task AddPlayer(Player newPlayer)
@@ -62,14 +62,34 @@ public class GameControler
         return player;
     }
 
-    public void SetGameName(string gameName)
+    public async Task<string> GetGameName()
     {
-        GameName = gameName;
+        var gameName = await _gameSettingRepository.GetGameSettingValue(SettingName.GameName);
+
+        return string.IsNullOrEmpty(gameName) ? DefaultGameName : gameName;
     }
 
-    public void SetReverseScoring(bool reverseScoring)
+    public async Task SetGameName(string gameName)
     {
-        _reverseScoring = reverseScoring;
+        var gameNameSetting = new GameSetting(SettingName.GameName, gameName);
+
+        await _gameSettingRepository.SaveGameSetting(gameNameSetting);
+    }
+
+    public async Task<bool> GetReverseScoring()
+    {
+        var reverseScoringValue = await _gameSettingRepository.GetGameSettingValue(SettingName.ReverseScoring);
+
+        return string.IsNullOrEmpty(reverseScoringValue)
+            ? false
+            : Convert.ToBoolean(reverseScoringValue);
+    }
+
+    public async Task SetReverseScoring(bool reverseScoring)
+    {
+        var reverseScoringSetting = new GameSetting(SettingName.ReverseScoring, reverseScoring.ToString());
+
+        await _gameSettingRepository.SaveGameSetting(reverseScoringSetting);
     }
 
     public async Task ClearPlayers()

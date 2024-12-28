@@ -1,6 +1,6 @@
 ﻿using Application.Services;
 using CommunityToolkit.Maui;
-using DataAccess;
+using DataAccess.Repositories;
 using Microsoft.Extensions.Logging;
 using PaperScoreTracker.ViewModels;
 using PaperScoreTracker.Views;
@@ -29,6 +29,8 @@ namespace PaperScoreTracker
 
             var playerRepository = new PlayerRepository(FileSystem.AppDataDirectory);
             builder.Services.AddSingleton(playerRepository);
+            var gameSettingRepository = new GameSettingRepository(FileSystem.AppDataDirectory);
+            builder.Services.AddSingleton(gameSettingRepository);
 
             //builder.Services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 

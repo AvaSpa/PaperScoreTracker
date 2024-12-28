@@ -11,6 +11,9 @@ public partial class PlayerListViewModel : ObservableObject
     private string _gameName;
 
     [ObservableProperty]
+    private bool _reverseScoring;
+
+    [ObservableProperty]
     private ObservableCollection<PlayerDecoratorViewModel> _players;
 
     protected readonly GameControler _gameControler;
@@ -33,7 +36,8 @@ public partial class PlayerListViewModel : ObservableObject
 
     protected async Task LoadGameData()
     {
-        GameName = _gameControler.GameName;
+        GameName = await _gameControler.GetGameName();
+        ReverseScoring = await _gameControler.GetReverseScoring();
         Players.Clear();
 
         var players = await _gameControler.GetAllPlayers(_orderPlayers);

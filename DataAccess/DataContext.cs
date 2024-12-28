@@ -36,6 +36,7 @@ public class DataContext : DbContext
 
     public DbSet<DbPlayer> Players { get; set; }
     public DbSet<DbScoreEntry> ScoreEntries { get; set; }
+    public DbSet<DbGameSetting> GameSettings { get; set; }
 
     public void Initialize()
     {
