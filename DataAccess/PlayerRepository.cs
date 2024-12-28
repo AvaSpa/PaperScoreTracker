@@ -61,6 +61,17 @@ public class PlayerRepository
         await ctx.SaveChangesAsync();
     }
 
+    public async Task ClearScores()
+    {
+        using var ctx = new DataContext(_dbFolder);
+
+        foreach (var player in ctx.Players)
+            player.TotalScore = 0;
+
+        ctx.ScoreEntries.RemoveRange(ctx.ScoreEntries);
+        await ctx.SaveChangesAsync();
+    }
+
     public async Task Update(DbPlayer dbPlayer)
     {
         using var ctx = new DataContext(_dbFolder);

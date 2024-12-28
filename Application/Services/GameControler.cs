@@ -69,12 +69,17 @@ public class GameControler
 
     public void SetReverseScoring(bool reverseScoring)
     {
-        _reverseScoring=reverseScoring;
+        _reverseScoring = reverseScoring;
     }
 
     public async Task ClearPlayers()
     {
         await _playerRepository.Clear();
+    }
+
+    public async Task ClearScores()
+    {
+        await _playerRepository.ClearScores();
     }
 
     public async Task<int> GetPlayerCount()

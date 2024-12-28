@@ -84,4 +84,12 @@ public partial class MainViewModel : PlayerListViewModel
         _gameControler.SetReverseScoring(ReverseScoring);
         await _gameControler.ClearPlayers();
     }
+
+    [RelayCommand]
+    private async Task ResetScores()
+    {
+        await _gameControler.ClearScores();
+
+        await NotificationSingleton.Instance.ShowToast("All scores were reset.");
+    }
 }
