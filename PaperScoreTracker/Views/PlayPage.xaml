@@ -25,21 +25,50 @@
                               RowSpacing="6">
 
                             <Label Grid.Row="0" Grid.Column="0"
-                                    Text="{Binding PlayerAlias}"/>
+                                   FontSize="18"
+                                   Text="{Binding PlayerAlias}"/>
 
                             <HorizontalStackLayout Grid.Row="0" Grid.Column="1"
                                                    HorizontalOptions="Center">
-                                <Label Text="Entries: "/>
-                                <Label Text="{Binding ScoreEntries, Converter={converters:CollectionToCountStringConverter}}"/>
+                                <Label FontSize="18"
+                                       Text="Entries: "/>
+                                <Label FontSize="18"
+                                       Text="{Binding ScoreEntries, Converter={converters:CollectionToCountStringConverter}}"/>
                             </HorizontalStackLayout>
 
-                            <Entry Grid.Row="1" Grid.Column="0" 
-                                   HorizontalOptions="Start"
-                                   MaximumWidthRequest="150"
-                                   Placeholder="Enter new score" 
-                                   Text="{Binding LatestScoreEntry}"
-                                   Keyboard="Numeric"/>
-                            
+                            <Border Grid.Row="1" Grid.Column="0"
+                                    Padding="-4"
+                                    MaximumHeightRequest="40"
+                                    Margin="0, 0, 40, 0"
+                                    StrokeThickness="0">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="70"/>
+                                </Border.StrokeShape>
+                                <Grid ColumnDefinitions="Auto, *, Auto">
+                                    <Button Grid.Column="0"
+                                            FontSize="38"
+                                            BackgroundColor="OrangeRed"
+                                            Text="-"
+                                            MaximumWidthRequest="36"
+                                            Padding="-10, -10, -16, -10"
+                                            Command="{Binding ScoreEntryDecoratorViewModel.DecrementCommand}"/>
+                                    <Entry Grid.Column="1"
+                                           HorizontalTextAlignment="Center"
+                                           FontSize="20"
+                                           VerticalOptions="End"
+                                           VerticalTextAlignment="End"
+                                           Keyboard="Numeric"
+                                           Text="{Binding ScoreEntryDecoratorViewModel.ScoreValue}"/>
+                                    <Button Grid.Column="2"
+                                            FontSize="38"
+                                            BackgroundColor="DodgerBlue"
+                                            Text="+"
+                                            MaximumWidthRequest="36"
+                                            Padding="-16, -10, -10, -10"
+                                            Command="{Binding ScoreEntryDecoratorViewModel.IncrementCommand}"/>
+                                </Grid>
+                            </Border>
+
                             <controls:EncircledButton Grid.Row="1" Grid.Column="1" 
                                                       HorizontalOptions="Start"
                                                       MaximumHeightRequest="50"
@@ -49,8 +78,10 @@
 
                             <HorizontalStackLayout Grid.Row="2" Grid.Column="0"
                                                    Margin="0, 4, 0, 0">
-                                <Label Text="Total: "/>
-                                <Label Text="{Binding PlayerScore}"/>
+                                <Label FontSize="16"
+                                       Text="Total: "/>
+                                <Label FontSize="18"
+                                       Text="{Binding PlayerScore}"/>
                             </HorizontalStackLayout>
                         </Grid>
                     </Frame>

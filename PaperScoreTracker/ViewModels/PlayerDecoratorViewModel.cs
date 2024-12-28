@@ -11,6 +11,8 @@ public partial class PlayerDecoratorViewModel : ObservableObject
 
     public Player Model { get; }
 
+    public ScoreEntryDecoratorViewModel ScoreEntryDecoratorViewModel { get; }
+
     public string PlayerAlias
     {
         get => Model.Alias;
@@ -27,26 +29,18 @@ public partial class PlayerDecoratorViewModel : ObservableObject
 
     public IEnumerable<int> ScoreEntries => Model.ScoreEntries.Select(e => e.Value).ToList();
 
-    [ObservableProperty]
-    [NotifyCanExecuteChangedFor(nameof(SaveLatestScoreEntryCommand))]
-    private int? _latestScoreEntry;
-
     public PlayerDecoratorViewModel(GameControler gameControler, Player model)
     {
         _gameControler = gameControler;
 
         Model = model;
+        ScoreEntryDecoratorViewModel = new ScoreEntryDecoratorViewModel(new ScoreEntry(0));
     }
 
-    private bool CanSaveLatestScoreEntry() => LatestScoreEntry.HasValue;
-
-    [RelayCommand(CanExecute = nameof(CanSaveLatestScoreEntry))]
+    [RelayCommand]
     private async Task SaveLatestScoreEntry()
     {
-        if (!LatestScoreEntry.HasValue)
-            return;
-
-        var updatedPlayer = await _gameControler.AddPlayerScore(PlayerAlias, LatestScoreEntry.Value);
+        var updatedPlayer = await _gameControler.AddPlayerScore(PlayerAlias, ScoreEntryDecoratorViewModel.ScoreValue);
         if (updatedPlayer == null)
             return;
 
@@ -54,7 +48,7 @@ public partial class PlayerDecoratorViewModel : ObservableObject
         Model.ScoreEntries.AddRange(updatedPlayer.ScoreEntries);
         Model.TotalScore = updatedPlayer.TotalScore;
 
-        LatestScoreEntry = null;
+        ScoreEntryDecoratorViewModel.ScoreValue = 0;
 
         OnPropertyChanged(nameof(PlayerScore));
         OnPropertyChanged(nameof(ScoreEntries));
