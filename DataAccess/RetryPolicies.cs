@@ -6,5 +6,5 @@ namespace DataAccess;
 
 internal static class RetryPolicies
 {
-    public static RetryPolicy DataBaseInitializePolicy => Policy.Handle<SqliteException>().Retry();
+    public static RetryPolicy DataBaseInitializePolicy => Policy.Handle<SqliteException>().Retry(5);
 }
