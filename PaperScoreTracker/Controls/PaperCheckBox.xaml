@@ -6,10 +6,17 @@
              x:Name="this">
 
     <HorizontalStackLayout BindingContext="{x:Reference this}">
-        <CheckBox x:Name="Part_CheckBox"
-                  IsChecked="{Binding IsChecked}"/>
+        <ImageButton x:Name="CheckBoxButton"
+                     Source="delete.svg"
+                     MaximumHeightRequest="40"
+                     MaximumWidthRequest="40"
+                     Command="{Binding ToggleStateCommand}"/>
         <Label FontSize="20"
-               Text="{Binding Text}"/>
+               Text="{Binding Text}">
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding ToggleStateCommand}"/>
+            </Label.GestureRecognizers>
+        </Label>
     </HorizontalStackLayout>
     
 </ContentView>
