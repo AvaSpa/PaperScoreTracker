@@ -28,11 +28,9 @@
                                   ButtonText="Reset"
                                   ClickCommand="{Binding ResetGameCommand}"/>
 
-        <HorizontalStackLayout  Grid.Row="1" Grid.Column="0">
-            <CheckBox IsChecked="{Binding ReverseScoring}"/>
-            <Label FontSize="20"
-                   Text="Reverse scoring"/>
-        </HorizontalStackLayout>
+        <controls:PaperCheckBox Grid.Row="1" Grid.Column="0"
+                                IsChecked="{Binding ReverseScoring}"
+                                Text="Reverse scoring"/>
 
         <controls:EncircledButton Grid.Row="1" Grid.Column="1"
                            MaximumHeightRequest="40"

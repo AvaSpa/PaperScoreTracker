@@ -68,6 +68,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Update="Controls\PaperCheckBox.xaml.cs">
+	    <DependentUpon>PaperCheckBox.xaml</DependentUpon>
+	  </Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Controls\PaperCheckBox.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Controls\EncircledButton.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
