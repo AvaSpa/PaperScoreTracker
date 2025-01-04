@@ -53,6 +53,6 @@ public partial class PaperCheckBox : ContentView
 
     private void ToggleVisual(bool isChecked)
     {
-        CheckBoxButton.Source = ImageSource.FromFile(isChecked ? "encircle.png" : "delete.svg");
+        CheckBoxButton.Source = ImageSource.FromFile(isChecked ? "square_ticked.png" : "square.png");
     }
 }

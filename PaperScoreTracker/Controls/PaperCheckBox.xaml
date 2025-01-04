@@ -8,11 +8,12 @@
     <HorizontalStackLayout BindingContext="{x:Reference this}">
         <ImageButton x:Name="CheckBoxButton"
                      Source="delete.svg"
-                     MaximumHeightRequest="40"
-                     MaximumWidthRequest="40"
+                     MaximumHeightRequest="32"
+                     MaximumWidthRequest="32"
+                     Margin="4"
                      Command="{Binding ToggleStateCommand}"/>
-        <Label FontSize="20"
-               Text="{Binding Text}">
+        <Label Text="{Binding Text}"
+               FontSize="20">
             <Label.GestureRecognizers>
                 <TapGestureRecognizer Command="{Binding ToggleStateCommand}"/>
             </Label.GestureRecognizers>
