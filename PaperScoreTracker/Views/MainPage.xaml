@@ -20,6 +20,7 @@
 
         <Entry Grid.Row="0" Grid.Column="0" 
                Placeholder="Enter game name"
+               MaxLength="15"
                Text="{Binding GameName}"/>
 
         <controls:EncircledButton Grid.Row="0" Grid.Column="1"
