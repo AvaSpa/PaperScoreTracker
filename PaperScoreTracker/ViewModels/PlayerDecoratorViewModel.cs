@@ -9,7 +9,14 @@ public partial class PlayerDecoratorViewModel : ObservableObject
 {
     private readonly GameControler _gameControler;
 
-    public Player Model { get; }
+    [ObservableProperty]
+    private Player _model;
+
+    [ObservableProperty]
+    private bool _isLabelVisible = true;
+
+    [ObservableProperty]
+    private bool _isEntryVisible;
 
     public ScoreEntryDecoratorViewModel ScoreEntryDecoratorViewModel { get; }
 
@@ -52,5 +59,21 @@ public partial class PlayerDecoratorViewModel : ObservableObject
 
         OnPropertyChanged(nameof(PlayerScore));
         OnPropertyChanged(nameof(ScoreEntries));
+    }
+
+    [RelayCommand]
+    private void BeginAliasEdit()
+    {
+        IsLabelVisible = false;
+        IsEntryVisible = true;
+    }
+
+    [RelayCommand]
+    private async Task EndAliasEdit()
+    {
+        IsLabelVisible = true;
+        IsEntryVisible = false;
+
+        await _gameControler.UpdateAlias(Model);
     }
 }

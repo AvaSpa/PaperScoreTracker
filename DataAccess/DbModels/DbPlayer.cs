@@ -17,16 +17,19 @@ public class DbPlayer
         DbScoreEntries = [];
     }
 
-    public DbPlayer(Player player) : this()
+    public DbPlayer(Player player, bool includeScoreEntries = true) : this()
     {
+        Id = player.DbId;
         Alias = player.Alias;
         TotalScore = player.TotalScore;
 
-        DbScoreEntries = [.. player.ScoreEntries.Select(e => new DbScoreEntry(e))];
+        if (includeScoreEntries)
+            DbScoreEntries = [.. player.ScoreEntries.Select(e => new DbScoreEntry(e))];
     }
 
     public Player ToModel() => new(Alias)
     {
+        DbId = Id,
         TotalScore = TotalScore,
         ScoreEntries = [.. DbScoreEntries.Select(e => e.ToModel())]
     };

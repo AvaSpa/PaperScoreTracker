@@ -21,10 +21,14 @@ public class GameControler
 
     public async Task<IEnumerable<Player>> GetAllPlayers(bool ordered)
     {
-        var reverseScoring = await GetReverseScoring();
-        var dbPlayers = await _playerRepository.GetAllPlayers(ordered, reverseScoring);
+        var players = await GetPlayers(ordered);
 
-        return DBMappingHelper.MapDbPlayerList(dbPlayers);
+        if (players.Any())
+            return players;
+
+        await _playerRepository.SeedPlayers();
+
+        return await GetPlayers(ordered);
     }
 
     public async Task AddPlayer(Player newPlayer)
@@ -107,5 +111,18 @@ public class GameControler
         return await _playerRepository.CountPlayers();
     }
 
+    public async Task UpdateAlias(Player renamedPlayer)
+    {
+        await _playerRepository.Update(new DbPlayer(renamedPlayer, false));
+    }
+
     private int GetTotalScore(Player p) => p.ScoreEntries.Select(e => e.Value).Sum();
+
+    private async Task<IEnumerable<Player>> GetPlayers(bool ordered)
+    {
+        var reverseScoring = await GetReverseScoring();
+        var dbPlayers = await _playerRepository.GetAllPlayers(ordered, reverseScoring);
+
+        return DBMappingHelper.MapDbPlayerList(dbPlayers);
+    }
 }

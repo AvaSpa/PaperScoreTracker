@@ -52,15 +52,6 @@ public partial class MainViewModel : PlayerListViewModel
     [RelayCommand]
     private async Task StartGame()
     {
-        var playerCount = await _gameControler.GetPlayerCount();
-
-        if (playerCount == 0)
-        {
-            await NotificationSingleton.Instance.ShowToast("No players!");
-
-            return;
-        }
-
         if (!string.IsNullOrWhiteSpace(GameName))
             await _gameControler.SetGameName(GameName);
         await _gameControler.SetReverseScoring(ReverseScoring);
