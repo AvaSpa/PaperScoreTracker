@@ -7,7 +7,7 @@
 
     <HorizontalStackLayout BindingContext="{x:Reference this}">
         <ImageButton x:Name="CheckBoxButton"
-                     Source="delete.svg"
+                     Source="square.png"
                      MaximumHeightRequest="32"
                      MaximumWidthRequest="32"
                      Margin="4"
@@ -19,5 +19,5 @@
             </Label.GestureRecognizers>
         </Label>
     </HorizontalStackLayout>
-    
+
 </ContentView>

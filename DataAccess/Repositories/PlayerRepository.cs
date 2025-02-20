@@ -92,4 +92,13 @@ public class PlayerRepository : BaseRepository
 
         return await ctx.Players.CountAsync();
     }
+
+    public async Task SeedPlayers()
+    {
+        var player1 = new DbPlayer() { Alias = "Player 1" };
+        var player2 = new DbPlayer() { Alias = "Player 2" };
+
+        await Save(player1);
+        await Save(player2);
+    }
 }

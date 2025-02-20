@@ -37,9 +37,6 @@ public partial class PaperCheckBox : ContentView
         var newIsChecked = (bool)newValue;
         var oldIsChecked = (bool)oldValue;
 
-        if (newIsChecked == oldIsChecked)
-            return;
-
         if (bindable is not PaperCheckBox paperCheckBox)
             return;
 
