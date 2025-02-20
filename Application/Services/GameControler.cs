@@ -107,5 +107,10 @@ public class GameControler
         return await _playerRepository.CountPlayers();
     }
 
+    public async Task UpdateAlias(Player renamedPlayer)
+    {
+        await _playerRepository.Update(new DbPlayer(renamedPlayer, false));
+    }
+
     private int GetTotalScore(Player p) => p.ScoreEntries.Select(e => e.Value).Sum();
 }
