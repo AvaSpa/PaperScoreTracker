@@ -74,6 +74,14 @@ public class PlayerRepository : BaseRepository
         await ctx.SaveChangesAsync();
     }
 
+    public async Task UpdateScoreEntry(DbScoreEntry dbScoreEntry)
+    {
+        using var ctx = new DataContext(_dbFolder);
+
+        ctx.ScoreEntries.Update(dbScoreEntry);
+        await ctx.SaveChangesAsync();
+    }
+
     public async Task AddScoreEntry(int playerId, DbScoreEntry scoreEntry)
     {
         using var ctx = new DataContext(_dbFolder);

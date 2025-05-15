@@ -1,4 +1,5 @@
-﻿using Application.Services;
+﻿using Android.Content.Res;
+using Application.Services;
 using CommunityToolkit.Maui;
 using DataAccess.Repositories;
 using Microsoft.Extensions.Logging;
@@ -37,6 +38,13 @@ namespace PaperScoreTracker
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+
+            Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(Entry), (handler, view) =>
+            {
+#if ANDROID
+                handler.PlatformView.BackgroundTintList = ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#endif
+            });
 
             return builder.Build();
         }

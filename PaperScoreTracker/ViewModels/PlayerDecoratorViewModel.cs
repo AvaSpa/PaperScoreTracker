@@ -12,14 +12,6 @@ public partial class PlayerDecoratorViewModel : ObservableObject
     [ObservableProperty]
     private Player _model;
 
-    [ObservableProperty]
-    private bool _isLabelVisible = true;
-
-    [ObservableProperty]
-    private bool _isEntryVisible;
-
-    public ScoreEntryDecoratorViewModel ScoreEntryDecoratorViewModel { get; }
-
     public string PlayerAlias
     {
         get => Model.Alias;
@@ -34,20 +26,26 @@ public partial class PlayerDecoratorViewModel : ObservableObject
 
     public int PlayerScore => Model.TotalScore;
 
-    public IEnumerable<int> ScoreEntries => Model.ScoreEntries.Select(e => e.Value).ToList();
+    [ObservableProperty]
+    private ScoreEntryDecoratorViewModel _latestScoreEntry;
+
+    [ObservableProperty]
+    private IEnumerable<ScoreEntryDecoratorViewModel> _scoreEntries;
 
     public PlayerDecoratorViewModel(GameControler gameControler, Player model)
     {
         _gameControler = gameControler;
 
         Model = model;
-        ScoreEntryDecoratorViewModel = new ScoreEntryDecoratorViewModel(new ScoreEntry(0));
+        UpdateScoreEntries();
+
+        LatestScoreEntry = new ScoreEntryDecoratorViewModel(_gameControler, new ScoreEntry(model, 0));
     }
 
     [RelayCommand]
     private async Task SaveLatestScoreEntry()
     {
-        var updatedPlayer = await _gameControler.AddPlayerScore(PlayerAlias, ScoreEntryDecoratorViewModel.ScoreValue);
+        var updatedPlayer = await _gameControler.AddPlayerScore(PlayerAlias, LatestScoreEntry.ScoreValue);
         if (updatedPlayer == null)
             return;
 
@@ -55,25 +53,20 @@ public partial class PlayerDecoratorViewModel : ObservableObject
         Model.ScoreEntries.AddRange(updatedPlayer.ScoreEntries);
         Model.TotalScore = updatedPlayer.TotalScore;
 
-        ScoreEntryDecoratorViewModel.ScoreValue = 0;
+        LatestScoreEntry.ScoreValue = 0;
+        UpdateScoreEntries();
 
         OnPropertyChanged(nameof(PlayerScore));
-        OnPropertyChanged(nameof(ScoreEntries));
     }
 
     [RelayCommand]
-    private void BeginAliasEdit()
+    private async Task UpdatePlayerAlias()
     {
-        IsLabelVisible = false;
-        IsEntryVisible = true;
-    }
-
-    [RelayCommand]
-    private async Task EndAliasEdit()
-    {
-        IsLabelVisible = true;
-        IsEntryVisible = false;
-
         await _gameControler.UpdateAlias(Model);
+    }
+
+    private void UpdateScoreEntries()
+    {
+        ScoreEntries = Model.ScoreEntries.Select(e => new ScoreEntryDecoratorViewModel(_gameControler, e)).ToList();
     }
 }

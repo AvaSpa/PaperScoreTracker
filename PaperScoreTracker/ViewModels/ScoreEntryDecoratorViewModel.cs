@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Application.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Models;
 
@@ -6,10 +7,10 @@ namespace PaperScoreTracker.ViewModels;
 
 public partial class ScoreEntryDecoratorViewModel : ObservableObject
 {
-    private ScoreEntry _model;
+    private const int IncrementValue = 1;
 
-    [ObservableProperty]
-    private int _incrementValue = 1;
+    private readonly GameControler _gameControler;
+    private readonly ScoreEntry _model;
 
     public int ScoreValue
     {
@@ -23,8 +24,9 @@ public partial class ScoreEntryDecoratorViewModel : ObservableObject
         }
     }
 
-    public ScoreEntryDecoratorViewModel(ScoreEntry model)
+    public ScoreEntryDecoratorViewModel(GameControler gameControler, ScoreEntry model)
     {
+        _gameControler = gameControler;
         _model = model;
     }
 
@@ -38,5 +40,12 @@ public partial class ScoreEntryDecoratorViewModel : ObservableObject
     private void Increment()
     {
         ScoreValue += IncrementValue;
+    }
+
+    [RelayCommand]
+    private async Task UpdateScoreEntry()
+    {
+        await _gameControler.UpdateScoreEntry(_model);
+        //TODO: notify parent VM about the score total change (update total in score page and reorder)
     }
 }

@@ -50,14 +50,14 @@
                                             MaximumWidthRequest="36"
                                             MaximumHeightRequest="34"
                                             Padding="-10, -10, -18, -10"
-                                            Command="{Binding ScoreEntryDecoratorViewModel.DecrementCommand}"/>
+                                            Command="{Binding LatestScoreEntry.DecrementCommand}"/>
                                     <Entry Grid.Column="1"
                                            HorizontalTextAlignment="Center"
                                            FontSize="20"
                                            VerticalOptions="End"
                                            VerticalTextAlignment="End"
                                            Keyboard="Numeric"
-                                           Text="{Binding ScoreEntryDecoratorViewModel.ScoreValue}"/>
+                                           Text="{Binding LatestScoreEntry.ScoreValue}"/>
                                     <Button Grid.Column="2"
                                             FontSize="38"
                                             BackgroundColor="DodgerBlue"
@@ -65,7 +65,7 @@
                                             MaximumWidthRequest="36"
                                             MaximumHeightRequest="34"
                                             Padding="-18, -10, -10, -10"
-                                            Command="{Binding ScoreEntryDecoratorViewModel.IncrementCommand}"/>
+                                            Command="{Binding LatestScoreEntry.IncrementCommand}"/>
                                 </Grid>
                             </Border>
 
