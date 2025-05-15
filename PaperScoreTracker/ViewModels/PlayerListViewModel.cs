@@ -38,12 +38,22 @@ public partial class PlayerListViewModel : ObservableObject
     {
         GameName = await _gameControler.GetGameName();
         ReverseScoring = await _gameControler.GetReverseScoring();
+        await UpdatePlayers();
+    }
+
+    internal async Task ReloadPlayers()
+    {
+        await UpdatePlayers();
+    }
+
+    private async Task UpdatePlayers()
+    {
         Players.Clear();
 
         var players = await _gameControler.GetAllPlayers(_orderPlayers);
         foreach (var player in players)
         {
-            Players.Add(new PlayerDecoratorViewModel(_gameControler, player));
+            Players.Add(new PlayerDecoratorViewModel(_gameControler, player, this));
         }
     }
 }

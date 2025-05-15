@@ -29,7 +29,7 @@ public partial class MainViewModel : PlayerListViewModel
         {
             await _gameControler.AddPlayer(newPlayer);
 
-            Players.Add(new PlayerDecoratorViewModel(_gameControler, newPlayer));
+            Players.Add(new PlayerDecoratorViewModel(_gameControler, newPlayer, this));
 
             PlayerAlias = string.Empty;
         }

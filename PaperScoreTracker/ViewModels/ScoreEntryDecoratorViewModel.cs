@@ -10,6 +10,7 @@ public partial class ScoreEntryDecoratorViewModel : ObservableObject
     private const int IncrementValue = 1;
 
     private readonly GameControler _gameControler;
+    private readonly PlayerDecoratorViewModel _playerVM;
     private readonly ScoreEntry _model;
 
     public int ScoreValue
@@ -24,9 +25,10 @@ public partial class ScoreEntryDecoratorViewModel : ObservableObject
         }
     }
 
-    public ScoreEntryDecoratorViewModel(GameControler gameControler, ScoreEntry model)
+    public ScoreEntryDecoratorViewModel(GameControler gameControler, PlayerDecoratorViewModel playerVM, ScoreEntry model)
     {
         _gameControler = gameControler;
+        _playerVM = playerVM;
         _model = model;
     }
 
@@ -46,6 +48,6 @@ public partial class ScoreEntryDecoratorViewModel : ObservableObject
     private async Task UpdateScoreEntry()
     {
         await _gameControler.UpdateScoreEntry(_model);
-        //TODO: notify parent VM about the score total change (update total in score page and reorder)
+        await _playerVM.UpdateScoreInfo(_model);
     }
 }
