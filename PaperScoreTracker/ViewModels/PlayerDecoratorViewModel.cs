@@ -2,7 +2,6 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Models;
-using System.Threading.Tasks;
 
 namespace PaperScoreTracker.ViewModels;
 
@@ -68,16 +67,21 @@ public partial class PlayerDecoratorViewModel : ObservableObject
         await _gameControler.UpdateAlias(Model);
     }
 
-    internal async Task UpdateScoreInfo(ScoreEntry updatedScoreEntry)
+    internal async Task UpdateScoreInfo(ScoreEntry updatedScoreEntry, bool isDeleted = false)
     {
-        var currentScoreEntry = Model.ScoreEntries.FirstOrDefault(se => se.DbId == updatedScoreEntry.DbId);
-        if (currentScoreEntry != null)
-            currentScoreEntry.Value = updatedScoreEntry.Value;
+        if (isDeleted)
+            Model.ScoreEntries.RemoveAll(se => se.DbId == updatedScoreEntry.DbId);
+        else
+        {
+            var currentScoreEntry = Model.ScoreEntries.FirstOrDefault(se => se.DbId == updatedScoreEntry.DbId);
+            if (currentScoreEntry != null)
+                currentScoreEntry.Value = updatedScoreEntry.Value;
+        }
 
         Model.TotalScore = Model.ScoreEntries.Sum(se => se.Value);
         OnPropertyChanged(nameof(PlayerScore));
 
-      await  _parent.ReloadPlayers();
+        await _parent.ReloadPlayers();
     }
 
     private void UpdateScoreEntries()

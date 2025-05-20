@@ -76,7 +76,6 @@
                                                Scale="3"/>
                                     </Frame>
                                 </SwipeItemView>
-
                             </SwipeItems>
                         </SwipeView.RightItems>
 

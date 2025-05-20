@@ -13,6 +13,8 @@ public partial class ScoreEntryDecoratorViewModel : ObservableObject
     private readonly PlayerDecoratorViewModel _playerVM;
     private readonly ScoreEntry _model;
 
+    public int ScoreEntryId => _model.DbId;
+
     public int ScoreValue
     {
         get => _model.Value;
@@ -49,5 +51,12 @@ public partial class ScoreEntryDecoratorViewModel : ObservableObject
     {
         await _gameControler.UpdateScoreEntry(_model);
         await _playerVM.UpdateScoreInfo(_model);
+    }
+
+    [RelayCommand]
+    private async Task DeleteScoreEntry(int scoreEntryId)
+    {
+        await _gameControler.DeleteScoreEntry(scoreEntryId);
+        await _playerVM.UpdateScoreInfo(_model, true);
     }
 }

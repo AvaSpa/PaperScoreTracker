@@ -37,10 +37,33 @@
                                             WidthRequest="60">
                                 <CollectionView.ItemTemplate>
                                     <DataTemplate x:DataType="vm:ScoreEntryDecoratorViewModel">
-                                        <Entry MaxLength="4" 
-                                               Text="{Binding ScoreValue}" 
-                                               Keyboard="Numeric"
-                                               ReturnCommand="{Binding UpdateScoreEntryCommand}"/>
+                                        <SwipeView>
+                                            <SwipeView.RightItems>
+                                                <SwipeItems>
+                                                    <SwipeItemView 
+                                                        Command="{Binding DeleteScoreEntryCommand}"
+                                                        CommandParameter="{Binding ScoreEntryId}">
+                                                        <Frame BackgroundColor="#D11A2A"
+                                                               WidthRequest="30"
+                                                               HeightRequest="30"
+                                                               VerticalOptions="Center"
+                                                               CornerRadius="10"
+                                                               BorderColor="Transparent">
+                                                            <Image Source="delete.svg"
+                                                                   VerticalOptions="Center"
+                                                                   HorizontalOptions="Center"
+                                                                   WidthRequest="18"
+                                                                   HeightRequest="18"/>
+                                                        </Frame>
+                                                    </SwipeItemView>
+                                                </SwipeItems>
+                                            </SwipeView.RightItems>
+
+                                            <Entry MaxLength="4" 
+                                                   Text="{Binding ScoreValue}" 
+                                                   Keyboard="Numeric"
+                                                   ReturnCommand="{Binding UpdateScoreEntryCommand}"/>
+                                        </SwipeView>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>
                             </CollectionView>

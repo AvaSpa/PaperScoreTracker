@@ -60,8 +60,8 @@ public class GameControler
         player.TotalScore = GetTotalScore(player);
 
         await _playerRepository.AddScoreEntry(foundPlayer.Id, new DbScoreEntry(scoreEntry));
-        foundPlayer.TotalScore = player.TotalScore;
-        await _playerRepository.Update(foundPlayer);
+
+        await UpdateTotalScore(foundPlayer, player.TotalScore);
 
         return player;
     }
@@ -124,7 +124,27 @@ public class GameControler
         if (foundPlayer == null)
             return;
 
-        foundPlayer.TotalScore = GetTotalScore(foundPlayer.ToModel());
+        await UpdateTotalScore(foundPlayer, GetTotalScore(foundPlayer.ToModel()));
+    }
+
+    public async Task DeleteScoreEntry(int scoreEntryId)
+    {
+        var foundPlayer = await _playerRepository.FindPlayerByScoreEntryId(scoreEntryId);
+        if (foundPlayer == null)
+            return;
+
+        await _playerRepository.DeleteScoreEntry(scoreEntryId);
+
+        var updatedPlayer = await _playerRepository.FindPlayer(foundPlayer.Id);
+        if (updatedPlayer == null)
+            return;
+
+        await UpdateTotalScore(updatedPlayer, GetTotalScore(updatedPlayer.ToModel()));
+    }
+
+    private async Task UpdateTotalScore(DbPlayer foundPlayer, int newTotalScore)
+    {
+        foundPlayer.TotalScore = newTotalScore;
         await _playerRepository.Update(foundPlayer);
     }
 
