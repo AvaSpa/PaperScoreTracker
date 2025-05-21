@@ -20,7 +20,8 @@
                         ItemsLayout="HorizontalList">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:PlayerDecoratorViewModel">
-                    <Frame Padding="14">
+                    <Border Padding="14"
+                            StrokeShape="RoundRectangle 8">
                         <Grid RowDefinitions="Auto, Auto, *, Auto, Auto">
 
                             <Entry Grid.Row="0" 
@@ -43,18 +44,18 @@
                                                     <SwipeItemView 
                                                         Command="{Binding DeleteScoreEntryCommand}"
                                                         CommandParameter="{Binding ScoreEntryId}">
-                                                        <Frame BackgroundColor="#D11A2A"
-                                                               WidthRequest="30"
-                                                               HeightRequest="30"
-                                                               VerticalOptions="Center"
-                                                               CornerRadius="10"
-                                                               BorderColor="Transparent">
+                                                        <Border BackgroundColor="#D11A2A"
+                                                                WidthRequest="30"
+                                                                HeightRequest="30"
+                                                                VerticalOptions="Center"
+                                                                StrokeShape="RoundRectangle 8"
+                                                                Stroke="Transparent">
                                                             <Image Source="delete.svg"
                                                                    VerticalOptions="Center"
                                                                    HorizontalOptions="Center"
                                                                    WidthRequest="18"
                                                                    HeightRequest="18"/>
-                                                        </Frame>
+                                                        </Border>
                                                     </SwipeItemView>
                                                 </SwipeItems>
                                             </SwipeView.RightItems>
@@ -77,7 +78,7 @@
                                    Text="{Binding PlayerScore}"/>
 
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
