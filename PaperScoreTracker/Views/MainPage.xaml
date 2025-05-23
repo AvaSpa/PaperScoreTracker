@@ -45,7 +45,8 @@
         <Entry Grid.Row="3" Grid.Column="0"
                Placeholder="Enter player alias"
                MaxLength="13"
-               Text="{Binding PlayerAlias}"/>
+               Text="{Binding PlayerAlias}"
+               ReturnCommand="{Binding AddPlayerCommand}"/>
 
         <controls:EncircledButton Grid.Row="3" Grid.Column="1"
                                   MaximumHeightRequest="40"
