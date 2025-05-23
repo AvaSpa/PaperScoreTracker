@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<toolkit:Popup  
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"  
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"  
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"  
+    xmlns:vm="clr-namespace:PaperScoreTracker.ViewModels"
+    xmlns:controls="clr-namespace:PaperScoreTracker.Controls"
+    x:Class="PaperScoreTracker.Views.AddScoreEntryPopup"  
+    x:DataType="vm:AddScoreEntryPopupViewModel">
+
+    <Grid RowDefinitions="Auto, *, Auto"
+          BackgroundColor="{StaticResource Background}"
+          HeightRequest="120"
+          WidthRequest="150"
+          Padding="10">
+        
+        <Entry Grid.Row="0"
+               Keyboard="Numeric"
+               HorizontalOptions="Center"
+               VerticalOptions="Start"
+               Text="{Binding Score}"/>
+
+        <controls:EncircledButton Grid.Row="2"
+                                  MaximumHeightRequest="60"
+                                  WidthRequest="130"
+                                  HorizontalOptions="Center"
+                                  VerticalOptions="Center"
+                                  ButtonText="Submit"
+                                  ClickCommand="{Binding SubmitCommand}"/>
+        
+    </Grid>
+</toolkit:Popup>

@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Models;
@@ -8,6 +9,7 @@ namespace PaperScoreTracker.ViewModels;
 public partial class PlayerDecoratorViewModel : ObservableObject
 {
     private readonly GameControler _gameControler;
+    private readonly IPopupService _popupService;
     private readonly PlayerListViewModel _parent;
 
     [ObservableProperty]
@@ -33,9 +35,10 @@ public partial class PlayerDecoratorViewModel : ObservableObject
     [ObservableProperty]
     private IEnumerable<ScoreEntryDecoratorViewModel> _scoreEntries;
 
-    public PlayerDecoratorViewModel(GameControler gameControler, Player model, PlayerListViewModel parent)
+    public PlayerDecoratorViewModel(GameControler gameControler, IPopupService popupService, Player model, PlayerListViewModel parent)
     {
         _gameControler = gameControler;
+        _popupService = popupService;
         _parent = parent;
 
         Model = model;
@@ -65,6 +68,21 @@ public partial class PlayerDecoratorViewModel : ObservableObject
     private async Task UpdatePlayerAlias()
     {
         await _gameControler.UpdateAlias(Model);
+    }
+
+    [RelayCommand]
+    private async Task AddScoreEntry()
+    {
+        var popupResult = await _popupService.ShowPopupAsync<AddScoreEntryPopupViewModel>();
+
+        if (popupResult == null)
+            return;
+
+        if (popupResult is not int scoreValue)
+            return;
+
+        LatestScoreEntry.ScoreValue = scoreValue;//TODO: maybe remove this property and the decorator because I won't implement the +- buttons
+        await SaveLatestScoreEntry();
     }
 
     internal async Task UpdateScoreInfo(ScoreEntry updatedScoreEntry, bool isDeleted = false)
