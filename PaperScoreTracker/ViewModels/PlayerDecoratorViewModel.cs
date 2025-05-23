@@ -47,6 +47,11 @@ public partial class PlayerDecoratorViewModel : ObservableObject
         LatestScoreEntry = new ScoreEntryDecoratorViewModel(_gameControler, this, new ScoreEntry(model, 0));
     }
 
+    /// <summary>
+    /// NOTE: This is used in the PlayPage. Keeping it here in case the PlayPage comes back.
+    /// Will also keep LatestScoreEntry and use it for the ScorePage add as well.
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task SaveLatestScoreEntry()
     {
@@ -81,7 +86,7 @@ public partial class PlayerDecoratorViewModel : ObservableObject
         if (popupResult is not int scoreValue)
             return;
 
-        LatestScoreEntry.ScoreValue = scoreValue;//TODO: maybe remove this property and the decorator because I won't implement the +- buttons
+        LatestScoreEntry.ScoreValue = scoreValue;
         await SaveLatestScoreEntry();
     }
 

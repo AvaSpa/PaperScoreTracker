@@ -62,7 +62,7 @@ public partial class MainViewModel : PlayerListViewModel
 
         KeyboardHelper.HideKeyboard();
 
-        await Shell.Current.GoToAsync(Routes.PlayPageRoute);
+        await Shell.Current.GoToAsync(Routes.ScorePageRoute);
     }
 
     [RelayCommand]
