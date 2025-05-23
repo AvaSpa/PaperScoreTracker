@@ -64,26 +64,27 @@
                                 <SwipeItemView 
                                            Command="{Binding Source={x:Reference collectionViewPlayers}, Path=BindingContext.DeletePlayerCommand}"
                                            CommandParameter="{Binding PlayerAlias}">
-                                    <Frame BackgroundColor="#D11A2A"
-                                           WidthRequest="50"
-                                           HeightRequest="50"
-                                           VerticalOptions="Center"
-                                           CornerRadius="10"
-                                           BorderColor="Transparent">
+                                    <Border BackgroundColor="#D11A2A"
+                                            WidthRequest="50"
+                                            HeightRequest="50"
+                                            VerticalOptions="Center"
+                                            StrokeShape="RoundRectangle 8"
+                                            Stroke="Transparent">
                                         <Image Source="delete.svg"
                                                VerticalOptions="Center"
                                                HorizontalOptions="Center"
-                                               Scale="3"/>
-                                    </Frame>
+                                               HeightRequest="30"
+                                               WidthRequest="30"/>
+                                    </Border>
                                 </SwipeItemView>
-
                             </SwipeItems>
                         </SwipeView.RightItems>
 
                         <Grid Padding="4">
-                            <Frame Padding="12">
+                            <Border Padding="12"
+                                    StrokeShape="RoundRectangle 8">
                                 <Label Text="{Binding PlayerAlias}"/>
-                            </Frame>
+                            </Border>
                         </Grid>
                     </SwipeView>
                 </DataTemplate>

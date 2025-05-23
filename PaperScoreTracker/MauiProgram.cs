@@ -1,5 +1,7 @@
-﻿using Application.Services;
+﻿using Android.Content.Res;
+using Application.Services;
 using CommunityToolkit.Maui;
+using CommunityToolkit.Maui.Core;
 using DataAccess.Repositories;
 using Microsoft.Extensions.Logging;
 using PaperScoreTracker.ViewModels;
@@ -21,9 +23,12 @@ namespace PaperScoreTracker
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
 
+            builder.Services.AddSingleton<IPopupService, PopupService>();
+
             builder.Services.AddSingleton<MainPage, MainViewModel>();
             builder.Services.AddSingletonWithShellRoute<PlayPage, PlayViewModel>(Routes.PlayPageRoute);
             builder.Services.AddSingletonWithShellRoute<ScorePage, ScoreViewModel>(Routes.ScorePageRoute);
+            builder.Services.AddTransientPopup<AddScoreEntryPopup, AddScoreEntryPopupViewModel>();
 
             builder.Services.AddSingleton<GameControler>();
 
@@ -37,6 +42,13 @@ namespace PaperScoreTracker
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
+
+            Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(Entry), (handler, view) =>
+            {
+#if ANDROID
+                handler.PlatformView.BackgroundTintList = ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+#endif
+            });
 
             return builder.Build();
         }

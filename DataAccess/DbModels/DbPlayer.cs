@@ -33,4 +33,11 @@ public class DbPlayer
         TotalScore = TotalScore,
         ScoreEntries = [.. DbScoreEntries.Select(e => e.ToModel())]
     };
+
+    public Player ToShallowModel() => new(Alias)
+    {
+        DbId = Id,
+        TotalScore = TotalScore,
+        ScoreEntries = []
+    };
 }

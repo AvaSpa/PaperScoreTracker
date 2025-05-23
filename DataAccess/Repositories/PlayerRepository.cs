@@ -9,11 +9,29 @@ public class PlayerRepository : BaseRepository
     {
     }
 
+    public async Task<DbPlayer?> FindPlayer(int playerId)
+    {
+        using var ctx = new DataContext(_dbFolder);
+
+        return await ctx.Players.FindAsync(playerId);
+    }
+
     public async Task<DbPlayer?> FindPlayer(string playerName)
     {
         using var ctx = new DataContext(_dbFolder);
 
         return await ctx.Players.FirstOrDefaultAsync(p => p.Alias == playerName);
+    }
+
+    public async Task<DbPlayer?> FindPlayerByScoreEntryId(int scoreEntryId)
+    {
+        using var ctx = new DataContext(_dbFolder);
+
+        var foundScoreEntry = await ctx.ScoreEntries.FindAsync(scoreEntryId);
+        if (foundScoreEntry == null)
+            return null;
+
+        return foundScoreEntry.DbPlayer;
     }
 
     public async Task Save(DbPlayer newPlayer)
@@ -74,6 +92,14 @@ public class PlayerRepository : BaseRepository
         await ctx.SaveChangesAsync();
     }
 
+    public async Task UpdateScoreEntry(DbScoreEntry dbScoreEntry)
+    {
+        using var ctx = new DataContext(_dbFolder);
+
+        ctx.ScoreEntries.Update(dbScoreEntry);
+        await ctx.SaveChangesAsync();
+    }
+
     public async Task AddScoreEntry(int playerId, DbScoreEntry scoreEntry)
     {
         using var ctx = new DataContext(_dbFolder);
@@ -83,6 +109,18 @@ public class PlayerRepository : BaseRepository
             return;
 
         foundPlayer.DbScoreEntries.Add(scoreEntry);
+        await ctx.SaveChangesAsync();
+    }
+
+    public async Task DeleteScoreEntry(int scoreEntryId)
+    {
+        using var ctx = new DataContext(_dbFolder);
+
+        var foundScoreEntry = await ctx.ScoreEntries.FindAsync(scoreEntryId);
+        if (foundScoreEntry == null)
+            return;
+
+        ctx.ScoreEntries.Remove(foundScoreEntry);
         await ctx.SaveChangesAsync();
     }
 

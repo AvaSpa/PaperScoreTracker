@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Exceptions;
@@ -10,11 +11,14 @@ namespace PaperScoreTracker.ViewModels;
 
 public partial class MainViewModel : PlayerListViewModel
 {
+    private readonly IPopupService _popupService;
+
     [ObservableProperty]
     private string _playerAlias;
 
-    public MainViewModel(GameControler playerControler) : base(playerControler)
+    public MainViewModel(GameControler playerControler, IPopupService popupService) : base(playerControler, popupService)
     {
+        _popupService = popupService;
     }
 
     [RelayCommand]
@@ -29,7 +33,7 @@ public partial class MainViewModel : PlayerListViewModel
         {
             await _gameControler.AddPlayer(newPlayer);
 
-            Players.Add(new PlayerDecoratorViewModel(_gameControler, newPlayer));
+            Players.Add(new PlayerDecoratorViewModel(_gameControler, _popupService, newPlayer, this));
 
             PlayerAlias = string.Empty;
         }
@@ -58,7 +62,9 @@ public partial class MainViewModel : PlayerListViewModel
 
         KeyboardHelper.HideKeyboard();
 
-        await Shell.Current.GoToAsync(Routes.PlayPageRoute);
+        await Task.Delay(50);
+
+        await Shell.Current.GoToAsync(Routes.ScorePageRoute);
     }
 
     [RelayCommand]

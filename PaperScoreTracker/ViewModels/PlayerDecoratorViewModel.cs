@@ -1,24 +1,20 @@
 ﻿using Application.Services;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Models;
+using PaperScoreTracker.Platforms.Android;
 
 namespace PaperScoreTracker.ViewModels;
 
 public partial class PlayerDecoratorViewModel : ObservableObject
 {
     private readonly GameControler _gameControler;
+    private readonly IPopupService _popupService;
+    private readonly PlayerListViewModel _parent;
 
     [ObservableProperty]
     private Player _model;
-
-    [ObservableProperty]
-    private bool _isLabelVisible = true;
-
-    [ObservableProperty]
-    private bool _isEntryVisible;
-
-    public ScoreEntryDecoratorViewModel ScoreEntryDecoratorViewModel { get; }
 
     public string PlayerAlias
     {
@@ -34,20 +30,33 @@ public partial class PlayerDecoratorViewModel : ObservableObject
 
     public int PlayerScore => Model.TotalScore;
 
-    public IEnumerable<int> ScoreEntries => Model.ScoreEntries.Select(e => e.Value).ToList();
+    [ObservableProperty]
+    private ScoreEntryDecoratorViewModel _latestScoreEntry;
 
-    public PlayerDecoratorViewModel(GameControler gameControler, Player model)
+    [ObservableProperty]
+    private IEnumerable<ScoreEntryDecoratorViewModel> _scoreEntries;
+
+    public PlayerDecoratorViewModel(GameControler gameControler, IPopupService popupService, Player model, PlayerListViewModel parent)
     {
         _gameControler = gameControler;
+        _popupService = popupService;
+        _parent = parent;
 
         Model = model;
-        ScoreEntryDecoratorViewModel = new ScoreEntryDecoratorViewModel(new ScoreEntry(0));
+        UpdateScoreEntries();
+
+        LatestScoreEntry = new ScoreEntryDecoratorViewModel(_gameControler, this, new ScoreEntry(model, 0));
     }
 
+    /// <summary>
+    /// NOTE: This is used in the PlayPage. Keeping it here in case the PlayPage comes back.
+    /// Will also keep LatestScoreEntry and use it for the ScorePage add as well.
+    /// </summary>
+    /// <returns></returns>
     [RelayCommand]
     private async Task SaveLatestScoreEntry()
     {
-        var updatedPlayer = await _gameControler.AddPlayerScore(PlayerAlias, ScoreEntryDecoratorViewModel.ScoreValue);
+        var updatedPlayer = await _gameControler.AddPlayerScore(PlayerAlias, LatestScoreEntry.ScoreValue);
         if (updatedPlayer == null)
             return;
 
@@ -55,25 +64,54 @@ public partial class PlayerDecoratorViewModel : ObservableObject
         Model.ScoreEntries.AddRange(updatedPlayer.ScoreEntries);
         Model.TotalScore = updatedPlayer.TotalScore;
 
-        ScoreEntryDecoratorViewModel.ScoreValue = 0;
+        LatestScoreEntry.ScoreValue = 0;
+        UpdateScoreEntries();
 
         OnPropertyChanged(nameof(PlayerScore));
-        OnPropertyChanged(nameof(ScoreEntries));
     }
 
     [RelayCommand]
-    private void BeginAliasEdit()
+    private async Task UpdatePlayerAlias()
     {
-        IsLabelVisible = false;
-        IsEntryVisible = true;
-    }
-
-    [RelayCommand]
-    private async Task EndAliasEdit()
-    {
-        IsLabelVisible = true;
-        IsEntryVisible = false;
-
         await _gameControler.UpdateAlias(Model);
+    }
+
+    [RelayCommand]
+    private async Task AddScoreEntry()
+    {
+        var popupResult = await _popupService.ShowPopupAsync<AddScoreEntryPopupViewModel>();
+
+        KeyboardHelper.HideKeyboard();
+
+        if (popupResult == null)
+            return;
+
+        if (popupResult is not int scoreValue)
+            return;
+
+        LatestScoreEntry.ScoreValue = scoreValue;
+        await SaveLatestScoreEntry();
+    }
+
+    internal async Task UpdateScoreInfo(ScoreEntry updatedScoreEntry, bool isDeleted = false)
+    {
+        if (isDeleted)
+            Model.ScoreEntries.RemoveAll(se => se.DbId == updatedScoreEntry.DbId);
+        else
+        {
+            var currentScoreEntry = Model.ScoreEntries.FirstOrDefault(se => se.DbId == updatedScoreEntry.DbId);
+            if (currentScoreEntry != null)
+                currentScoreEntry.Value = updatedScoreEntry.Value;
+        }
+
+        Model.TotalScore = Model.ScoreEntries.Sum(se => se.Value);
+        OnPropertyChanged(nameof(PlayerScore));
+
+        await _parent.ReloadPlayers();
+    }
+
+    private void UpdateScoreEntries()
+    {
+        ScoreEntries = [.. Model.ScoreEntries.Select(e => new ScoreEntryDecoratorViewModel(_gameControler, this, e))];
     }
 }

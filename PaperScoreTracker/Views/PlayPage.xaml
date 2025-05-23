@@ -20,7 +20,8 @@
                         ItemsSource="{Binding Players}">
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:PlayerDecoratorViewModel">
-                    <Frame Padding="20, 10, 20, 10" Margin="2">
+                    <Border Padding="20, 10, 20, 10" Margin="2"
+                            StrokeShape="RoundRectangle 8">
                         <Grid RowDefinitions="Auto, *, Auto" ColumnDefinitions=".6*, .4*"
                               RowSpacing="6">
 
@@ -38,10 +39,8 @@
                             <Border Grid.Row="1" Grid.Column="0"
                                     Padding="-8"
                                     Margin="0, 0, 40, 0"
+                                    StrokeShape="RoundRectangle 30"
                                     StrokeThickness="0">
-                                <Border.StrokeShape>
-                                    <RoundRectangle CornerRadius="70"/>
-                                </Border.StrokeShape>
                                 <Grid ColumnDefinitions="Auto, *, Auto">
                                     <Button Grid.Column="0"
                                             FontSize="38"
@@ -50,14 +49,14 @@
                                             MaximumWidthRequest="36"
                                             MaximumHeightRequest="34"
                                             Padding="-10, -10, -18, -10"
-                                            Command="{Binding ScoreEntryDecoratorViewModel.DecrementCommand}"/>
+                                            Command="{Binding LatestScoreEntry.DecrementCommand}"/>
                                     <Entry Grid.Column="1"
                                            HorizontalTextAlignment="Center"
                                            FontSize="20"
                                            VerticalOptions="End"
                                            VerticalTextAlignment="End"
                                            Keyboard="Numeric"
-                                           Text="{Binding ScoreEntryDecoratorViewModel.ScoreValue}"/>
+                                           Text="{Binding LatestScoreEntry.ScoreValue}"/>
                                     <Button Grid.Column="2"
                                             FontSize="38"
                                             BackgroundColor="DodgerBlue"
@@ -65,7 +64,7 @@
                                             MaximumWidthRequest="36"
                                             MaximumHeightRequest="34"
                                             Padding="-18, -10, -10, -10"
-                                            Command="{Binding ScoreEntryDecoratorViewModel.IncrementCommand}"/>
+                                            Command="{Binding LatestScoreEntry.IncrementCommand}"/>
                                 </Grid>
                             </Border>
 
@@ -84,7 +83,7 @@
                                        Text="{Binding PlayerScore}"/>
                             </HorizontalStackLayout>
                         </Grid>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

@@ -1,4 +1,4 @@
-﻿using Core;
+using Core;
 using Core.Exceptions;
 using Core.Models;
 using DataAccess.DbModels;
@@ -55,13 +55,13 @@ public class GameControler
             return null;
 
         var player = foundPlayer.ToModel();
-        var scoreEntry = new ScoreEntry(newScore);
+        var scoreEntry = new ScoreEntry(player, newScore);
         player.ScoreEntries.Add(scoreEntry);
         player.TotalScore = GetTotalScore(player);
 
         await _playerRepository.AddScoreEntry(foundPlayer.Id, new DbScoreEntry(scoreEntry));
-        foundPlayer.TotalScore = player.TotalScore;
-        await _playerRepository.Update(foundPlayer);
+
+        await UpdateTotalScore(foundPlayer, player.TotalScore);
 
         return player;
     }
@@ -114,6 +114,38 @@ public class GameControler
     public async Task UpdateAlias(Player renamedPlayer)
     {
         await _playerRepository.Update(new DbPlayer(renamedPlayer, false));
+    }
+
+    public async Task UpdateScoreEntry(ScoreEntry updatedScoreEntry)
+    {
+        await _playerRepository.UpdateScoreEntry(new DbScoreEntry(updatedScoreEntry));
+
+        var foundPlayer = await _playerRepository.FindPlayer(updatedScoreEntry.Player.Alias);
+        if (foundPlayer == null)
+            return;
+
+        await UpdateTotalScore(foundPlayer, GetTotalScore(foundPlayer.ToModel()));
+    }
+
+    public async Task DeleteScoreEntry(int scoreEntryId)
+    {
+        var foundPlayer = await _playerRepository.FindPlayerByScoreEntryId(scoreEntryId);
+        if (foundPlayer == null)
+            return;
+
+        await _playerRepository.DeleteScoreEntry(scoreEntryId);
+
+        var updatedPlayer = await _playerRepository.FindPlayer(foundPlayer.Id);
+        if (updatedPlayer == null)
+            return;
+
+        await UpdateTotalScore(updatedPlayer, GetTotalScore(updatedPlayer.ToModel()));
+    }
+
+    private async Task UpdateTotalScore(DbPlayer foundPlayer, int newTotalScore)
+    {
+        foundPlayer.TotalScore = newTotalScore;
+        await _playerRepository.Update(foundPlayer);
     }
 
     private int GetTotalScore(Player p) => p.ScoreEntries.Select(e => e.Value).Sum();

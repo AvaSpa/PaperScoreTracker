@@ -1,4 +1,5 @@
 ﻿using Application.Services;
+using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.Input;
 using PaperScoreTracker.Platforms.Android;
 
@@ -6,7 +7,7 @@ namespace PaperScoreTracker.ViewModels;
 
 public partial class PlayViewModel : PlayerListViewModel
 {
-    public PlayViewModel(GameControler playerControler) : base(playerControler)
+    public PlayViewModel(GameControler playerControler, IPopupService popupService) : base(playerControler, popupService)
     {
     }
 
