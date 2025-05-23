@@ -18,7 +18,8 @@
                Keyboard="Numeric"
                HorizontalOptions="Center"
                VerticalOptions="Start"
-               Text="{Binding Score}"/>
+               Text="{Binding Score}"
+               ReturnCommand="{Binding SubmitCommand}"/>
 
         <controls:EncircledButton Grid.Row="2"
                                   MaximumHeightRequest="60"
