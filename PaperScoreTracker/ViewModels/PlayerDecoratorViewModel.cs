@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Models;
+using PaperScoreTracker.Platforms.Android;
 
 namespace PaperScoreTracker.ViewModels;
 
@@ -79,6 +80,8 @@ public partial class PlayerDecoratorViewModel : ObservableObject
     private async Task AddScoreEntry()
     {
         var popupResult = await _popupService.ShowPopupAsync<AddScoreEntryPopupViewModel>();
+
+        KeyboardHelper.HideKeyboard();
 
         if (popupResult == null)
             return;
