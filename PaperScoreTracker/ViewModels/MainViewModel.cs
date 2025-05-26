@@ -86,4 +86,16 @@ public partial class MainViewModel : PlayerListViewModel
 
         await NotificationSingleton.Instance.ShowToast("All scores were reset.");
     }
+
+    [RelayCommand]
+    private async Task LaunchPrivacy()
+    {
+        await Browser.Default.OpenAsync(
+           new Uri("https://avaspa.azurewebsites.net/appprivacypolicy.html"),
+           new BrowserLaunchOptions
+           {
+               LaunchMode = BrowserLaunchMode.SystemPreferred,
+               TitleMode = BrowserTitleMode.Show
+           });
+    }
 }

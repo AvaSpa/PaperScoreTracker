@@ -99,6 +99,13 @@
                                   ButtonTextFontSize="24"
                                   ClickCommand="{Binding StartGameCommand}"/>
 
+        <ImageButton Grid.Row="5" Grid.Column="1"
+                     HorizontalOptions="End"
+                     MaximumHeightRequest="50"
+                     MaximumWidthRequest="50"
+                     Source="privacy.png"
+                     Command="{Binding LaunchPrivacyCommand}"/>
+
     </Grid>
 
 </ContentPage>
