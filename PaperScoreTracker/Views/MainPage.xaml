@@ -82,9 +82,12 @@
                         </SwipeView.RightItems>
 
                         <Grid Padding="4">
-                            <Border Padding="12"
+                            <Border Padding="8, 0, 0, 0"
                                     StrokeShape="RoundRectangle 8">
-                                <Label Text="{Binding PlayerAlias}"/>
+                                <Entry 
+                                    MaxLength="13"
+                                    Text="{Binding PlayerAlias}"
+                                    ReturnCommand="{Binding UpdatePlayerAliasCommand}"/>
                             </Border>
                         </Grid>
                     </SwipeView>
