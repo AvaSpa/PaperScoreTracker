@@ -50,13 +50,13 @@ public partial class ScoreEntryDecoratorViewModel : ObservableObject
     private async Task UpdateScoreEntry()
     {
         await _gameControler.UpdateScoreEntry(_model);
-        await _playerVM.UpdateScoreInfo(_model);
+        _playerVM.UpdateScoreInfo(_model);
     }
 
     [RelayCommand]
     private async Task DeleteScoreEntry(int scoreEntryId)
     {
         await _gameControler.DeleteScoreEntry(scoreEntryId);
-        await _playerVM.UpdateScoreInfo(_model, true);
+        _playerVM.UpdateScoreInfo(_model, true);
     }
 }
