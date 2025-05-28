@@ -93,6 +93,12 @@ public partial class PlayerDecoratorViewModel : ObservableObject
         await SaveLatestScoreEntry();
     }
 
+    [RelayCommand]
+    private async Task DeletePlayer()
+    {
+        await _parent.DeletePlayer(PlayerAlias);
+    }
+
     internal void UpdateScoreInfo(ScoreEntry updatedScoreEntry, bool isDeleted = false)
     {
         if (isDeleted)

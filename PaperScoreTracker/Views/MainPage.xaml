@@ -46,7 +46,13 @@
                Placeholder="Enter player alias"
                MaxLength="13"
                Text="{Binding PlayerAlias}"
-               ReturnCommand="{Binding AddPlayerCommand}"/>
+               ReturnCommand="{Binding AddPlayerCommand}">
+            <Entry.Behaviors>
+                <mct:EventToCommandBehavior 
+                    EventName="Unfocused"
+                    Command="{Binding AddPlayerCommand}" />
+            </Entry.Behaviors>
+        </Entry>
 
         <controls:EncircledButton Grid.Row="3" Grid.Column="1"
                                   MaximumHeightRequest="40"
@@ -63,8 +69,8 @@
                         <SwipeView.RightItems>
                             <SwipeItems>
                                 <SwipeItemView 
-                                           Command="{Binding Source={x:Reference collectionViewPlayers}, Path=BindingContext.DeletePlayerCommand}"
-                                           CommandParameter="{Binding PlayerAlias}">
+                                    Command="{Binding DeletePlayerCommand}" 
+                                    CommandParameter="{Binding PlayerAlias}">
                                     <Border BackgroundColor="#D11A2A"
                                             WidthRequest="50"
                                             HeightRequest="50"
@@ -87,7 +93,13 @@
                                 <Entry 
                                     MaxLength="13"
                                     Text="{Binding PlayerAlias}"
-                                    ReturnCommand="{Binding UpdatePlayerAliasCommand}"/>
+                                    ReturnCommand="{Binding UpdatePlayerAliasCommand}">
+                                    <Entry.Behaviors>
+                                        <mct:EventToCommandBehavior 
+                                            EventName="Unfocused"
+                                            Command="{Binding UpdatePlayerAliasCommand}" />
+                                    </Entry.Behaviors>
+                                </Entry>
                             </Border>
                         </Grid>
                     </SwipeView>

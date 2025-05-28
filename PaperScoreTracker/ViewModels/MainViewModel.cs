@@ -44,16 +44,6 @@ public partial class MainViewModel : PlayerListViewModel
     }
 
     [RelayCommand]
-    private async Task DeletePlayer(string playerAlias)
-    {
-        await _gameControler.RemovePlayer(playerAlias);
-
-        var foundPlayer = Players.FirstOrDefault(p => p.PlayerAlias == playerAlias);
-        if (foundPlayer != null)
-            Players.Remove(foundPlayer);
-    }
-
-    [RelayCommand]
     private async Task StartGame()
     {
         if (!string.IsNullOrWhiteSpace(GameName))

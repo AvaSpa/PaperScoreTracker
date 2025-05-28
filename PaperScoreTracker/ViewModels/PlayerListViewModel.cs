@@ -37,6 +37,15 @@ public partial class PlayerListViewModel : ObservableObject
         await LoadGameData();
     }
 
+    public async Task DeletePlayer(string playerAlias)
+    {
+        await _gameControler.RemovePlayer(playerAlias);
+
+        var foundPlayer = Players.FirstOrDefault(p => p.PlayerAlias == playerAlias);
+        if (foundPlayer != null)
+            Players.Remove(foundPlayer);
+    }
+
     protected async Task ReloadPlayers()
     {
         await UpdatePlayers();
