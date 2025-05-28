@@ -50,7 +50,7 @@
             <Entry.Behaviors>
                 <mct:EventToCommandBehavior 
                     EventName="Unfocused"
-                    Command="{Binding AddPlayerCommand}" />
+                    Command="{Binding AddPlayerCommand}"/>
             </Entry.Behaviors>
         </Entry>
 
@@ -97,7 +97,7 @@
                                     <Entry.Behaviors>
                                         <mct:EventToCommandBehavior 
                                             EventName="Unfocused"
-                                            Command="{Binding UpdatePlayerAliasCommand}" />
+                                            Command="{Binding UpdatePlayerAliasCommand}"/>
                                     </Entry.Behaviors>
                                 </Entry>
                             </Border>

@@ -28,7 +28,13 @@
                             <Entry Grid.Row="0" 
                                    MaxLength="13"
                                    Text="{Binding PlayerAlias}"
-                                   ReturnCommand="{Binding UpdatePlayerAliasCommand}"/>
+                                   ReturnCommand="{Binding UpdatePlayerAliasCommand}">
+                                <Entry.Behaviors>
+                                    <mct:EventToCommandBehavior 
+                                        EventName="Unfocused"
+                                        Command="{Binding UpdatePlayerAliasCommand}"/>
+                                </Entry.Behaviors>
+                            </Entry>
 
                             <Border Grid.Row="1"
                                     Margin="0, 3, 0, 10"/>
@@ -64,7 +70,13 @@
                                             <Entry MaxLength="4" 
                                                    Text="{Binding ScoreValue}" 
                                                    Keyboard="Numeric"
-                                                   ReturnCommand="{Binding UpdateScoreEntryCommand}"/>
+                                                   ReturnCommand="{Binding UpdateScoreEntryCommand}">
+                                                <Entry.Behaviors>
+                                                    <mct:EventToCommandBehavior 
+                                                        EventName="Unfocused"
+                                                        Command="{Binding UpdateScoreEntryCommand}"/>
+                                                </Entry.Behaviors>
+                                            </Entry>
                                         </SwipeView>
                                     </DataTemplate>
                                 </CollectionView.ItemTemplate>

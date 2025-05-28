@@ -49,6 +49,8 @@ public partial class ScoreEntryDecoratorViewModel : ObservableObject
     [RelayCommand]
     private async Task UpdateScoreEntry()
     {
+        await Task.Delay(50);
+
         await _gameControler.UpdateScoreEntry(_model);
         _playerVM.UpdateScoreInfo(_model);
     }
