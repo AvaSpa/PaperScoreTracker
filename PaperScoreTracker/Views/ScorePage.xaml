@@ -13,8 +13,8 @@
         <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing"/>
     </ContentPage.Behaviors>
 
-    <Grid RowDefinitions="*, 20"
-          Padding="10" RowSpacing="10" ColumnSpacing="10">
+    <Grid RowDefinitions="*, 10, 44"
+          Padding="4">
 
         <CollectionView Grid.Row="0" Grid.Column="0"
                         ItemsSource="{Binding Players}"
@@ -75,7 +75,7 @@
                                                       ButtonText="+"
                                                       ButtonTextFontSize="30"
                                                       ClickCommand="{Binding AddScoreEntryCommand}" />
-                            
+
                             <Border Grid.Row="4"
                                     Margin="0, 10, 0, 5"
                                     Stroke="Black"/>
@@ -89,6 +89,12 @@
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <controls:EncircledButton Grid.Row="2"
+                                  MaximumWidthRequest="120"
+                                  ButtonText="Rank"
+                                  ButtonTextFontSize="24"
+                                  ClickCommand="{Binding RankPlayersCommand}" />
 
     </Grid>
 

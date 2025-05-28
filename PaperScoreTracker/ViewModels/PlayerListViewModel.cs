@@ -1,4 +1,4 @@
-﻿using Application.Services;
+using Application.Services;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -37,15 +37,15 @@ public partial class PlayerListViewModel : ObservableObject
         await LoadGameData();
     }
 
-    protected async Task LoadGameData()
+    protected async Task ReloadPlayers()
     {
-        GameName = await _gameControler.GetGameName();
-        ReverseScoring = await _gameControler.GetReverseScoring();
         await UpdatePlayers();
     }
 
-    internal async Task ReloadPlayers()
+    private async Task LoadGameData()
     {
+        GameName = await _gameControler.GetGameName();
+        ReverseScoring = await _gameControler.GetReverseScoring();
         await UpdatePlayers();
     }
 

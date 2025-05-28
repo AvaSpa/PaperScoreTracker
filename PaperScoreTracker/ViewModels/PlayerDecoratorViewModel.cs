@@ -93,7 +93,7 @@ public partial class PlayerDecoratorViewModel : ObservableObject
         await SaveLatestScoreEntry();
     }
 
-    internal async Task UpdateScoreInfo(ScoreEntry updatedScoreEntry, bool isDeleted = false)
+    internal void UpdateScoreInfo(ScoreEntry updatedScoreEntry, bool isDeleted = false)
     {
         if (isDeleted)
             Model.ScoreEntries.RemoveAll(se => se.DbId == updatedScoreEntry.DbId);
@@ -106,8 +106,6 @@ public partial class PlayerDecoratorViewModel : ObservableObject
 
         Model.TotalScore = Model.ScoreEntries.Sum(se => se.Value);
         OnPropertyChanged(nameof(PlayerScore));
-
-        await _parent.ReloadPlayers();
     }
 
     private void UpdateScoreEntries()
