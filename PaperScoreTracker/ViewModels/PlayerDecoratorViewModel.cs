@@ -104,6 +104,8 @@ public partial class PlayerDecoratorViewModel : ObservableObject
                 currentScoreEntry.Value = updatedScoreEntry.Value;
         }
 
+        UpdateScoreEntries();
+
         Model.TotalScore = Model.ScoreEntries.Sum(se => se.Value);
         OnPropertyChanged(nameof(PlayerScore));
     }
