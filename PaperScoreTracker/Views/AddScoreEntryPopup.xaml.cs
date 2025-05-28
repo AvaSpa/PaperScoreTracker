@@ -11,4 +11,15 @@ public partial class AddScoreEntryPopup : Popup
 
         BindingContext = vm;
     }
+
+    private async void Popup_Opened(object sender, CommunityToolkit.Maui.Core.PopupOpenedEventArgs e)
+    {
+        NewScoreEntry.Focus();
+
+        await Task.Delay(100);
+
+        SetCaretToEnd(NewScoreEntry);
+    }
+
+    private partial void SetCaretToEnd(Entry entry);
 }

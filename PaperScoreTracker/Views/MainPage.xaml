@@ -101,8 +101,8 @@
 
         <ImageButton Grid.Row="5" Grid.Column="1"
                      HorizontalOptions="End"
-                     MaximumHeightRequest="50"
-                     MaximumWidthRequest="50"
+                     MaximumHeightRequest="40"
+                     MaximumWidthRequest="40"
                      Source="privacy.png"
                      Command="{Binding LaunchPrivacyCommand}"/>
 

@@ -6,15 +6,17 @@
     xmlns:vm="clr-namespace:PaperScoreTracker.ViewModels"
     xmlns:controls="clr-namespace:PaperScoreTracker.Controls"
     x:Class="PaperScoreTracker.Views.AddScoreEntryPopup"  
-    x:DataType="vm:AddScoreEntryPopupViewModel">
+    x:DataType="vm:AddScoreEntryPopupViewModel"
+    Opened="Popup_Opened">
 
     <Grid RowDefinitions="Auto, *, Auto"
           BackgroundColor="{StaticResource Background}"
           HeightRequest="120"
           WidthRequest="150"
           Padding="10">
-        
+
         <Entry Grid.Row="0"
+               x:Name="NewScoreEntry"
                Keyboard="Numeric"
                HorizontalOptions="Center"
                VerticalOptions="Start"
@@ -28,6 +30,6 @@
                                   VerticalOptions="Center"
                                   ButtonText="Submit"
                                   ClickCommand="{Binding SubmitCommand}"/>
-        
+
     </Grid>
 </toolkit:Popup>
