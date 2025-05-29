@@ -5,6 +5,7 @@
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:controls="clr-namespace:PaperScoreTracker.Controls"
+             xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
              x:Class="PaperScoreTracker.Views.ScorePage"
              x:DataType="vm:ScoreViewModel"
              Title="{Binding GameName}">
@@ -13,7 +14,7 @@
         <mct:EventToCommandBehavior Command="{Binding AppearingCommand}" EventName="Appearing"/>
     </ContentPage.Behaviors>
 
-    <Grid RowDefinitions="*, 10, 44"
+    <Grid RowDefinitions="*, 10, 44, 8, Auto"
           Padding="4">
 
         <CollectionView Grid.Row="0" Grid.Column="0"
@@ -108,6 +109,9 @@
                                   ButtonTextFontSize="24"
                                   ClickCommand="{Binding RankPlayersCommand}" />
 
+        <admob:BannerAd Grid.Row="4" 
+                        AdSize="SmartBanner"
+                        AdUnitId="ca-app-pub-7541881875162043/3634512692"/>
     </Grid>
 
 </ContentPage>
