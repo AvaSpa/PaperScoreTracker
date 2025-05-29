@@ -6,6 +6,7 @@ using DataAccess.Repositories;
 using Microsoft.Extensions.Logging;
 using PaperScoreTracker.ViewModels;
 using PaperScoreTracker.Views;
+using Plugin.AdMob;
 
 namespace PaperScoreTracker
 {
@@ -17,6 +18,7 @@ namespace PaperScoreTracker
             builder
                 .UseMauiCommunityToolkit()
                 .UseMauiApp<App>()
+                .UseAdMob()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
