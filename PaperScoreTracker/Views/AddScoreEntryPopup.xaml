@@ -18,6 +18,7 @@
 
         <Entry Grid.Row="0"
                x:Name="NewScoreEntry"
+               MaxLength="4"
                Keyboard="Numeric"
                HorizontalOptions="Center"
                VerticalOptions="Start"
