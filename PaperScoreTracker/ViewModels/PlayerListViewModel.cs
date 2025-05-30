@@ -20,13 +20,10 @@ public partial class PlayerListViewModel : ObservableObject
     protected readonly GameControler _gameControler;
     private readonly IPopupService _popupService;
 
-    private bool _orderPlayers;
-
-    public PlayerListViewModel(GameControler gameControler, IPopupService popupService, bool orderPlayers = false)
+    public PlayerListViewModel(GameControler gameControler, IPopupService popupService)
     {
         _gameControler = gameControler;
         _popupService = popupService;
-        _orderPlayers = orderPlayers;
 
         _players = new ObservableCollection<PlayerDecoratorViewModel>();
     }
@@ -48,21 +45,21 @@ public partial class PlayerListViewModel : ObservableObject
 
     protected async Task ReloadPlayers()
     {
-        await UpdatePlayers();
+        await UpdatePlayers(true);
     }
 
     private async Task LoadGameData()
     {
         GameName = await _gameControler.GetGameName();
         ReverseScoring = await _gameControler.GetReverseScoring();
-        await UpdatePlayers();
+        await UpdatePlayers(false);
     }
 
-    private async Task UpdatePlayers()
+    private async Task UpdatePlayers(bool ordered)
     {
         Players.Clear();
 
-        var players = await _gameControler.GetAllPlayers(_orderPlayers);
+        var players = await _gameControler.GetAllPlayers(ordered);
         foreach (var player in players)
         {
             Players.Add(new PlayerDecoratorViewModel(_gameControler, _popupService, player, this));
