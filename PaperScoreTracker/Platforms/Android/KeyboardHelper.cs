@@ -1,4 +1,4 @@
-﻿using Android.Content;
+using Android.Content;
 using Android.Views.InputMethods;
 
 namespace PaperScoreTracker.Platforms.Android;
@@ -8,8 +8,7 @@ public static class KeyboardHelper
     public static void HideKeyboard()
     {
         var context = Platform.AppContext;
-        var inputMethodManager = context.GetSystemService(Context.InputMethodService) as InputMethodManager;
-        if (inputMethodManager != null)
+        if (context.GetSystemService(Context.InputMethodService) is InputMethodManager inputMethodManager)
         {
             var activity = Platform.CurrentActivity;
 

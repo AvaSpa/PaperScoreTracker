@@ -14,6 +14,8 @@ public partial class AddScoreEntryPopup : Popup
 
     private async void Popup_Opened(object sender, CommunityToolkit.Maui.Core.PopupOpenedEventArgs e)
     {
+        await Task.Delay(100);
+
         NewScoreEntry.Focus();
 
         await Task.Delay(100);
