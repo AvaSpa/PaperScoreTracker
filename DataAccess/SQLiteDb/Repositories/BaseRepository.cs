@@ -1,4 +1,4 @@
-﻿namespace DataAccess.Repositories;
+﻿namespace DataAccess.SQLiteDb.Repositories;
 
 public class BaseRepository
 {

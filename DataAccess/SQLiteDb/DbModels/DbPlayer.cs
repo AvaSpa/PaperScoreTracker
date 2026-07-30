@@ -1,6 +1,6 @@
 ﻿using Core.Models;
 
-namespace DataAccess.DbModels;
+namespace DataAccess.SQLiteDb.DbModels;
 
 public class DbPlayer
 {

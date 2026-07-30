@@ -1,8 +1,8 @@
 using Core;
 using Core.Exceptions;
 using Core.Models;
-using DataAccess.DbModels;
-using DataAccess.Repositories;
+using DataAccess.SQLiteDb.DbModels;
+using DataAccess.SQLiteDb.Repositories;
 
 namespace Application.Services;
 

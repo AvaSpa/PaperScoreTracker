@@ -1,5 +1,5 @@
 ﻿using Core.Models;
-using DataAccess.DbModels;
+using DataAccess.SQLiteDb.DbModels;
 
 namespace Application;
 

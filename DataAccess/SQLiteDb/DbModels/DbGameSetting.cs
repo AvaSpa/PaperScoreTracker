@@ -1,7 +1,7 @@
 ﻿using Core;
 using Core.Models;
 
-namespace DataAccess.DbModels;
+namespace DataAccess.SQLiteDb.DbModels;
 
 public class DbGameSetting
 {

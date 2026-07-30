@@ -2,7 +2,7 @@
 using Application.Services;
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Core;
-using DataAccess.Repositories;
+using DataAccess.SQLiteDb.Repositories;
 using Microsoft.Extensions.Logging;
 using PaperScoreTracker.ViewModels;
 using PaperScoreTracker.Views;

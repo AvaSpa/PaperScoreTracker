@@ -1,7 +1,7 @@
-using DataAccess.DbModels;
+using DataAccess.SQLiteDb.DbModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess;
+namespace DataAccess.SQLiteDb;
 
 public class DataContext : DbContext
 {

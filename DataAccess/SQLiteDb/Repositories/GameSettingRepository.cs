@@ -1,9 +1,9 @@
 ﻿using Core;
 using Core.Models;
-using DataAccess.DbModels;
+using DataAccess.SQLiteDb.DbModels;
 using Microsoft.EntityFrameworkCore;
 
-namespace DataAccess.Repositories;
+namespace DataAccess.SQLiteDb.Repositories;
 
 public class GameSettingRepository : BaseRepository
 {
