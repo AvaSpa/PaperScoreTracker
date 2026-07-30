@@ -28,6 +28,8 @@
 		<ApplicationDisplayVersion>1.5</ApplicationDisplayVersion>
 		<ApplicationVersion>6</ApplicationVersion>
 
+		<TargetFrameworks>net9.0-android36.0</TargetFrameworks>
+		
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
