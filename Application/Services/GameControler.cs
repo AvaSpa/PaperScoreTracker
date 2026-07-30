@@ -10,10 +10,10 @@ public class GameControler
 {
     private const string DefaultGameName = "Game";
 
-    private readonly PlayerRepository _playerRepository;
-    private readonly GameSettingRepository _gameSettingRepository;
+    private readonly SQLitePlayerRepository _playerRepository;
+    private readonly SQLiteGameSettingRepository _gameSettingRepository;
 
-    public GameControler(PlayerRepository playerRepository, GameSettingRepository gameSettingRepository)
+    public GameControler(SQLitePlayerRepository playerRepository, SQLiteGameSettingRepository gameSettingRepository)
     {
         _playerRepository = playerRepository;
         _gameSettingRepository = gameSettingRepository;

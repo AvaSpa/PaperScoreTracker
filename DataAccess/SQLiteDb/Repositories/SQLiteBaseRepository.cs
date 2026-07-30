@@ -1,10 +1,10 @@
 ﻿namespace DataAccess.SQLiteDb.Repositories;
 
-public class BaseRepository
+public class SQLiteBaseRepository
 {
     protected readonly string _dbFolder;
 
-    public BaseRepository(string dbFolder)
+    public SQLiteBaseRepository(string dbFolder)
     {
         _dbFolder = dbFolder;
 

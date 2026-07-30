@@ -34,9 +34,9 @@ namespace PaperScoreTracker
 
             builder.Services.AddSingleton<GameControler>();
 
-            var playerRepository = new PlayerRepository(FileSystem.CacheDirectory);
+            var playerRepository = new SQLitePlayerRepository(FileSystem.CacheDirectory);
             builder.Services.AddSingleton(playerRepository);
-            var gameSettingRepository = new GameSettingRepository(FileSystem.CacheDirectory);
+            var gameSettingRepository = new SQLiteGameSettingRepository(FileSystem.CacheDirectory);
             builder.Services.AddSingleton(gameSettingRepository);
 
             //builder.Services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);

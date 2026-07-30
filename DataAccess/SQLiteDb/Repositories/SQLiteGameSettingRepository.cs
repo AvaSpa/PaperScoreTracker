@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.SQLiteDb.Repositories;
 
-public class GameSettingRepository : BaseRepository
+public class SQLiteGameSettingRepository : SQLiteBaseRepository
 {
-    public GameSettingRepository(string dbFolder) : base(dbFolder)
+    public SQLiteGameSettingRepository(string dbFolder) : base(dbFolder)
     {
     }
 
