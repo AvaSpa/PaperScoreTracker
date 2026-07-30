@@ -91,7 +91,13 @@ public class SQLitePlayerRepository : SQLiteBaseRepository, IPlayerRepository
     {
         using var ctx = new DataContext(_dbFolder);
 
-        ctx.Players.Update(dbPlayer);
+        var existing = await ctx.Players.FindAsync(dbPlayer.Id);
+        if (existing == null)
+            return;
+
+        existing.Alias = dbPlayer.Alias;
+        existing.TotalScore = dbPlayer.TotalScore;
+
         await ctx.SaveChangesAsync();
     }
 
@@ -110,6 +116,9 @@ public class SQLitePlayerRepository : SQLiteBaseRepository, IPlayerRepository
         var foundPlayer = await ctx.Players.FindAsync(playerId);
         if (foundPlayer == null)
             return;
+
+        scoreEntry.DbPlayer = foundPlayer;
+        scoreEntry.DbPlayerId = foundPlayer.Id;
 
         foundPlayer.DbScoreEntries.Add(scoreEntry);
         await ctx.SaveChangesAsync();

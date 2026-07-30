@@ -8,7 +8,7 @@ public class DbScoreEntry
 
     public int DbPlayerId { get; set; }
 
-    public DbPlayer DbPlayer { get; set; }
+    public DbPlayer? DbPlayer { get; set; }
 
     public int ScoreValue { get; set; }
 
@@ -20,12 +20,19 @@ public class DbScoreEntry
     {
         Id = scoreEntry.StorageId;
         ScoreValue = scoreEntry.Value;
-        DbPlayer = new DbPlayer(scoreEntry.Player, false);
-        DbPlayerId = DbPlayer.Id;
+        DbPlayerId = scoreEntry.Player?.StorageId ?? 0;
+        DbPlayer = null;
     }
 
-    public ScoreEntry ToModel() => new ScoreEntry(DbPlayer.ToShallowModel(), ScoreValue)
+    public ScoreEntry ToModel()
     {
-        StorageId = Id
-    };
+        var playerModel = DbPlayer != null
+            ? DbPlayer.ToShallowModel()
+            : new Player(string.Empty) { StorageId = DbPlayerId };
+
+        return new ScoreEntry(playerModel, ScoreValue)
+        {
+            StorageId = Id
+        };
+    }
 }

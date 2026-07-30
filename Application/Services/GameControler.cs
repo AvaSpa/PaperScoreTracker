@@ -151,8 +151,8 @@ public class GameControler
     private async Task<IEnumerable<Player>> GetPlayers(bool ordered)
     {
         var reverseScoring = await GetReverseScoring();
-        var dbPlayers = await _playerRepository.GetAllPlayerModels(ordered, reverseScoring);
+        var players = await _playerRepository.GetAllPlayerModels(ordered, reverseScoring);
 
-        return dbPlayers;
+        return players;
     }
 }
