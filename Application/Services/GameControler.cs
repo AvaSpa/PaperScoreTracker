@@ -1,8 +1,7 @@
 using Core;
 using Core.Exceptions;
+using Core.Interfaces;
 using Core.Models;
-using DataAccess.SQLiteDb.DbModels;
-using DataAccess.SQLiteDb.Repositories;
 
 namespace Application.Services;
 
@@ -10,10 +9,10 @@ public class GameControler
 {
     private const string DefaultGameName = "Game";
 
-    private readonly SQLitePlayerRepository _playerRepository;
-    private readonly SQLiteGameSettingRepository _gameSettingRepository;
+    private readonly IPlayerRepository _playerRepository;
+    private readonly IGameSettingRepository _gameSettingRepository;
 
-    public GameControler(SQLitePlayerRepository playerRepository, SQLiteGameSettingRepository gameSettingRepository)
+    public GameControler(IPlayerRepository playerRepository, IGameSettingRepository gameSettingRepository)
     {
         _playerRepository = playerRepository;
         _gameSettingRepository = gameSettingRepository;
@@ -33,37 +32,36 @@ public class GameControler
 
     public async Task AddPlayer(Player newPlayer)
     {
-        var foundPlayer = await _playerRepository.FindPlayer(newPlayer.Alias);
+        var foundPlayer = await _playerRepository.GetPlayerByName(newPlayer.Alias);
         if (foundPlayer != null)
             throw new AddPlayerException("Player already exists");
 
-        await _playerRepository.Save(new DbPlayer(newPlayer));
+        await _playerRepository.SavePlayer(newPlayer);
     }
 
     public async Task RemovePlayer(string playerName)
     {
-        var foundPlayer = await _playerRepository.FindPlayer(playerName);
+        var foundPlayer = await _playerRepository.GetPlayerByName(playerName);
 
         if (foundPlayer != null)
-            await _playerRepository.Remove(foundPlayer.Id);
+            await _playerRepository.RemovePlayer(foundPlayer.StorageId);
     }
 
     public async Task<Player?> AddPlayerScore(string playerName, int newScore)
     {
-        var foundPlayer = await _playerRepository.FindPlayer(playerName);
+        var foundPlayer = await _playerRepository.GetPlayerByName(playerName);
         if (foundPlayer == null)
             return null;
 
-        var player = foundPlayer.ToModel();
-        var scoreEntry = new ScoreEntry(player, newScore);
-        player.ScoreEntries.Add(scoreEntry);
-        player.TotalScore = GetTotalScore(player);
+        var scoreEntry = new ScoreEntry(foundPlayer, newScore);
+        foundPlayer.ScoreEntries.Add(scoreEntry);
+        foundPlayer.TotalScore = GetTotalScore(foundPlayer);
 
-        await _playerRepository.AddScoreEntry(foundPlayer.Id, new DbScoreEntry(scoreEntry));
+        await _playerRepository.AddScoreEntry(foundPlayer.StorageId, scoreEntry);
 
-        await UpdateTotalScore(foundPlayer, player.TotalScore);
+        await UpdateTotalScore(foundPlayer, foundPlayer.TotalScore);
 
-        return player;
+        return foundPlayer;
     }
 
     public async Task<string> GetGameName()
@@ -113,39 +111,39 @@ public class GameControler
 
     public async Task UpdateAlias(Player renamedPlayer)
     {
-        await _playerRepository.Update(new DbPlayer(renamedPlayer, false));
+        await _playerRepository.UpdatePlayer(renamedPlayer);
     }
 
     public async Task UpdateScoreEntry(ScoreEntry updatedScoreEntry)
     {
-        await _playerRepository.UpdateScoreEntry(new DbScoreEntry(updatedScoreEntry));
+        await _playerRepository.UpdateScoreEntry(updatedScoreEntry);
 
-        var foundPlayer = await _playerRepository.FindPlayer(updatedScoreEntry.Player.Alias);
+        var foundPlayer = await _playerRepository.GetPlayerByName(updatedScoreEntry.Player.Alias);
         if (foundPlayer == null)
             return;
 
-        await UpdateTotalScore(foundPlayer, GetTotalScore(foundPlayer.ToModel()));
+        await UpdateTotalScore(foundPlayer, GetTotalScore(foundPlayer));
     }
 
     public async Task DeleteScoreEntry(int scoreEntryId)
     {
-        var foundPlayer = await _playerRepository.FindPlayerByScoreEntryId(scoreEntryId);
+        var foundPlayer = await _playerRepository.GetPlayerByScoreEntryId(scoreEntryId);
         if (foundPlayer == null)
             return;
 
         await _playerRepository.DeleteScoreEntry(scoreEntryId);
 
-        var updatedPlayer = await _playerRepository.FindPlayer(foundPlayer.Id);
+        var updatedPlayer = await _playerRepository.GetPlayerById(foundPlayer.StorageId);
         if (updatedPlayer == null)
             return;
 
-        await UpdateTotalScore(updatedPlayer, GetTotalScore(updatedPlayer.ToModel()));
+        await UpdateTotalScore(updatedPlayer, GetTotalScore(updatedPlayer));
     }
 
-    private async Task UpdateTotalScore(DbPlayer foundPlayer, int newTotalScore)
+    private async Task UpdateTotalScore(Player foundPlayer, int newTotalScore)
     {
         foundPlayer.TotalScore = newTotalScore;
-        await _playerRepository.Update(foundPlayer);
+        await _playerRepository.UpdatePlayer(foundPlayer);
     }
 
     private int GetTotalScore(Player p) => p.ScoreEntries.Select(e => e.Value).Sum();
@@ -153,8 +151,8 @@ public class GameControler
     private async Task<IEnumerable<Player>> GetPlayers(bool ordered)
     {
         var reverseScoring = await GetReverseScoring();
-        var dbPlayers = await _playerRepository.GetAllPlayers(ordered, reverseScoring);
+        var dbPlayers = await _playerRepository.GetAllPlayerModels(ordered, reverseScoring);
 
-        return DBMappingHelper.MapDbPlayerList(dbPlayers);
+        return dbPlayers;
     }
 }

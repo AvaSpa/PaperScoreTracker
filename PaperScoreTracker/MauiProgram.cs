@@ -1,7 +1,7 @@
-﻿using Android.Content.Res;
-using Application.Services;
+﻿using Application.Services;
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Core;
+using Core.Interfaces;
 using DataAccess.SQLiteDb.Repositories;
 using Microsoft.Extensions.Logging;
 using PaperScoreTracker.ViewModels;
@@ -34,10 +34,13 @@ namespace PaperScoreTracker
 
             builder.Services.AddSingleton<GameControler>();
 
-            var playerRepository = new SQLitePlayerRepository(FileSystem.CacheDirectory);
-            builder.Services.AddSingleton(playerRepository);
-            var gameSettingRepository = new SQLiteGameSettingRepository(FileSystem.CacheDirectory);
-            builder.Services.AddSingleton(gameSettingRepository);
+            var sqlitePlayerRepo = new SQLitePlayerRepository(FileSystem.CacheDirectory);
+            builder.Services.AddSingleton(sqlitePlayerRepo);
+            builder.Services.AddSingleton<IPlayerRepository>(sp => sp.GetRequiredService<SQLitePlayerRepository>());
+
+            var sqliteGameSettingRepo = new SQLiteGameSettingRepository(FileSystem.CacheDirectory);
+            builder.Services.AddSingleton(sqliteGameSettingRepo);
+            builder.Services.AddSingleton<IGameSettingRepository>(sp => sp.GetRequiredService<SQLiteGameSettingRepository>());
 
             //builder.Services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 
@@ -48,7 +51,7 @@ namespace PaperScoreTracker
             Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(Entry), (handler, view) =>
             {
 #if ANDROID
-                handler.PlatformView.BackgroundTintList = ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
+                handler.PlatformView.BackgroundTintList = Android.Content.Res.ColorStateList.ValueOf(Android.Graphics.Color.Transparent);
 #endif
             });
 

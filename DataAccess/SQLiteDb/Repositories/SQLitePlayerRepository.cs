@@ -1,14 +1,17 @@
-﻿using DataAccess.SQLiteDb.DbModels;
+using Core.Interfaces;
+using Core.Models;
+using DataAccess.SQLiteDb.DbModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.SQLiteDb.Repositories;
 
-public class SQLitePlayerRepository : SQLiteBaseRepository
+public class SQLitePlayerRepository : SQLiteBaseRepository, IPlayerRepository
 {
     public SQLitePlayerRepository(string dbFolder) : base(dbFolder)
     {
     }
 
+    // DB model methods
     public async Task<DbPlayer?> FindPlayer(int playerId)
     {
         using var ctx = new DataContext(_dbFolder);
@@ -139,4 +142,56 @@ public class SQLitePlayerRepository : SQLiteBaseRepository
         await Save(player1);
         await Save(player2);
     }
+
+    // Interface wrappers (work with Core.Models)
+    public async Task<Player?> GetPlayerById(int playerId)
+    {
+        var db = await FindPlayer(playerId);
+        return db?.ToModel();
+    }
+
+    public async Task<Player?> GetPlayerByName(string playerName)
+    {
+        var db = await FindPlayer(playerName);
+        return db?.ToModel();
+    }
+
+    public async Task<Player?> GetPlayerByScoreEntryId(int scoreEntryId)
+    {
+        var db = await FindPlayerByScoreEntryId(scoreEntryId);
+        return db?.ToModel();
+    }
+
+    public async Task SavePlayer(Player newPlayer)
+    {
+        await Save(new DbPlayer(newPlayer));
+    }
+
+    public async Task<IEnumerable<Player>> GetAllPlayerModels(bool ordered, bool reverseScoring)
+    {
+        var dbPlayers = await GetAllPlayers(ordered, reverseScoring);
+        return dbPlayers.Select(dp => dp.ToModel());
+    }
+
+    public async Task RemovePlayer(int playerId)
+    {
+        await Remove(playerId);
+    }
+
+    public async Task UpdatePlayer(Player player)
+    {
+        await Update(new DbPlayer(player, true));
+    }
+
+    public async Task UpdateScoreEntry(ScoreEntry scoreEntry)
+    {
+        await UpdateScoreEntry(new DbScoreEntry(scoreEntry));
+    }
+
+    public async Task AddScoreEntry(int playerId, ScoreEntry scoreEntry)
+    {
+        await AddScoreEntry(playerId, new DbScoreEntry(scoreEntry));
+    }
+
+    // DeleteScoreEntry, CountPlayers and SeedPlayers already match interface names
 }

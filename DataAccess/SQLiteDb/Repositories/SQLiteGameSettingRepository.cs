@@ -1,11 +1,12 @@
-﻿using Core;
+using Core;
+using Core.Interfaces;
 using Core.Models;
 using DataAccess.SQLiteDb.DbModels;
 using Microsoft.EntityFrameworkCore;
 
 namespace DataAccess.SQLiteDb.Repositories;
 
-public class SQLiteGameSettingRepository : SQLiteBaseRepository
+public class SQLiteGameSettingRepository : SQLiteBaseRepository, IGameSettingRepository
 {
     public SQLiteGameSettingRepository(string dbFolder) : base(dbFolder)
     {

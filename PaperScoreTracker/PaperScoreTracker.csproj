@@ -59,6 +59,15 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <AndroidResource Remove="DataAccess\**" />
+	  <Compile Remove="DataAccess\**" />
+	  <EmbeddedResource Remove="DataAccess\**" />
+	  <MauiCss Remove="DataAccess\**" />
+	  <MauiXaml Remove="DataAccess\**" />
+	  <None Remove="DataAccess\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="CommunityToolkit.Maui" Version="9.1.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.5" />
