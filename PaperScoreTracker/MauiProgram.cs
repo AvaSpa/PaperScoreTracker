@@ -2,6 +2,7 @@
 using CommunityToolkit.Maui;
 using CommunityToolkit.Maui.Core;
 using Core.Interfaces;
+using DataAccess.Files.Repositories;
 using DataAccess.SQLiteDb.Repositories;
 using Microsoft.Extensions.Logging;
 using PaperScoreTracker.ViewModels;
@@ -34,13 +35,21 @@ namespace PaperScoreTracker
 
             builder.Services.AddSingleton<GameControler>();
 
-            var sqlitePlayerRepo = new SQLitePlayerRepository(FileSystem.CacheDirectory);
-            builder.Services.AddSingleton(sqlitePlayerRepo);
-            builder.Services.AddSingleton<IPlayerRepository>(sp => sp.GetRequiredService<SQLitePlayerRepository>());
+            //var sqlitePlayerRepo = new SQLitePlayerRepository(FileSystem.CacheDirectory);
+            //builder.Services.AddSingleton(sqlitePlayerRepo);
+            //builder.Services.AddSingleton<IPlayerRepository>(sp => sp.GetRequiredService<SQLitePlayerRepository>());
 
-            var sqliteGameSettingRepo = new SQLiteGameSettingRepository(FileSystem.CacheDirectory);
-            builder.Services.AddSingleton(sqliteGameSettingRepo);
-            builder.Services.AddSingleton<IGameSettingRepository>(sp => sp.GetRequiredService<SQLiteGameSettingRepository>());
+            //var sqliteGameSettingRepo = new SQLiteGameSettingRepository(FileSystem.CacheDirectory);
+            //builder.Services.AddSingleton(sqliteGameSettingRepo);
+            //builder.Services.AddSingleton<IGameSettingRepository>(sp => sp.GetRequiredService<SQLiteGameSettingRepository>());
+
+            var filePlayerRepo = new FilePlayerRepository(FileSystem.CacheDirectory);
+            builder.Services.AddSingleton(filePlayerRepo);
+            builder.Services.AddSingleton<IPlayerRepository>(sp => sp.GetRequiredService<FilePlayerRepository>());
+
+            var fileGameSettingRepo = new FileGameSettingRepository(FileSystem.CacheDirectory);
+            builder.Services.AddSingleton(fileGameSettingRepo);
+            builder.Services.AddSingleton<IGameSettingRepository>(sp => sp.GetRequiredService<FileGameSettingRepository>());
 
             //builder.Services.AddSingleton<IMessenger>(WeakReferenceMessenger.Default);
 

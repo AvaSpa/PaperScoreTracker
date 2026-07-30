@@ -1,13 +1,11 @@
+using Core.Interfaces;
+using Core.Models;
 using DataAccess.Files.FileModels;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace DataAccess.Files.Repositories;
 
-public class FilePlayerRepository : FileBaseRepository
+public class FilePlayerRepository : FileBaseRepository, IPlayerRepository
 {
     private const string FileName = "players.json";
 
@@ -187,5 +185,54 @@ public class FilePlayerRepository : FileBaseRepository
 
         await Save(p1);
         await Save(p2);
+    }
+
+    public async Task<Player?> GetPlayerById(int playerId)
+    {
+        var fp = await FindPlayer(playerId);
+        return fp?.ToModel();
+    }
+
+    public async Task<Player?> GetPlayerByName(string playerName)
+    {
+        var fp = await FindPlayer(playerName);
+        return fp?.ToModel();
+    }
+
+    public async Task<Player?> GetPlayerByScoreEntryId(int scoreEntryId)
+    {
+        var fp = await FindPlayerByScoreEntryId(scoreEntryId);
+        return fp?.ToModel();
+    }
+
+    public async Task SavePlayer(Player newPlayer)
+    {
+        await Save(new FilePlayer(newPlayer, true));
+    }
+
+    public async Task<IEnumerable<Player>> GetAllPlayerModels(bool ordered, bool reverseScoring)
+    {
+        var filePlayers = await GetAllPlayers(ordered, reverseScoring);
+        return filePlayers.Select(fp => fp.ToModel());
+    }
+
+    public async Task RemovePlayer(int playerId)
+    {
+        await Remove(playerId);
+    }
+
+    public async Task UpdatePlayer(Player player)
+    {
+        await Update(new FilePlayer(player, true));
+    }
+
+    public async Task UpdateScoreEntry(ScoreEntry scoreEntry)
+    {
+        await UpdateScoreEntry(new FileScoreEntry(scoreEntry));
+    }
+
+    public async Task AddScoreEntry(int playerId, ScoreEntry scoreEntry)
+    {
+        await AddScoreEntry(playerId, new FileScoreEntry(scoreEntry));
     }
 }

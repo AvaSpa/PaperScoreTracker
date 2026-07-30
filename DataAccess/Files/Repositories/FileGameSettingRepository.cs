@@ -1,11 +1,12 @@
 using Core;
+using Core.Interfaces;
 using Core.Models;
 using DataAccess.Files.FileModels;
 using System.Text.Json;
 
 namespace DataAccess.Files.Repositories;
 
-public class FileGameSettingRepository : FileBaseRepository
+public class FileGameSettingRepository : FileBaseRepository, IGameSettingRepository
 {
     private const string FileName = "gamesettings.json";
 
