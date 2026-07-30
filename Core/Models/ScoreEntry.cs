@@ -2,7 +2,7 @@
 
 public class ScoreEntry
 {
-    public int DbId { get; set; }
+    public int StorageId { get; set; }
 
     public int Value { get; set; }
 

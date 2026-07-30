@@ -102,10 +102,10 @@ public partial class PlayerDecoratorViewModel : ObservableObject
     internal void UpdateScoreInfo(ScoreEntry updatedScoreEntry, bool isDeleted = false)
     {
         if (isDeleted)
-            Model.ScoreEntries.RemoveAll(se => se.DbId == updatedScoreEntry.DbId);
+            Model.ScoreEntries.RemoveAll(se => se.StorageId == updatedScoreEntry.StorageId);
         else
         {
-            var currentScoreEntry = Model.ScoreEntries.FirstOrDefault(se => se.DbId == updatedScoreEntry.DbId);
+            var currentScoreEntry = Model.ScoreEntries.FirstOrDefault(se => se.StorageId == updatedScoreEntry.StorageId);
             if (currentScoreEntry != null)
                 currentScoreEntry.Value = updatedScoreEntry.Value;
         }

@@ -19,7 +19,7 @@ public class DbPlayer
 
     public DbPlayer(Player player, bool includeScoreEntries = true) : this()
     {
-        Id = player.DbId;
+        Id = player.StorageId;
         Alias = player.Alias;
         TotalScore = player.TotalScore;
 
@@ -29,14 +29,14 @@ public class DbPlayer
 
     public Player ToModel() => new(Alias)
     {
-        DbId = Id,
+        StorageId = Id,
         TotalScore = TotalScore,
         ScoreEntries = [.. DbScoreEntries.Select(e => e.ToModel())]
     };
 
     public Player ToShallowModel() => new(Alias)
     {
-        DbId = Id,
+        StorageId = Id,
         TotalScore = TotalScore,
         ScoreEntries = []
     };

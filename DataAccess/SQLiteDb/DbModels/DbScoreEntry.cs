@@ -18,7 +18,7 @@ public class DbScoreEntry
 
     public DbScoreEntry(ScoreEntry scoreEntry)
     {
-        Id = scoreEntry.DbId;
+        Id = scoreEntry.StorageId;
         ScoreValue = scoreEntry.Value;
         DbPlayer = new DbPlayer(scoreEntry.Player, false);
         DbPlayerId = DbPlayer.Id;
@@ -26,6 +26,6 @@ public class DbScoreEntry
 
     public ScoreEntry ToModel() => new ScoreEntry(DbPlayer.ToShallowModel(), ScoreValue)
     {
-        DbId = Id
+        StorageId = Id
     };
 }

@@ -13,7 +13,7 @@ public partial class ScoreEntryDecoratorViewModel : ObservableObject
     private readonly PlayerDecoratorViewModel _playerVM;
     private readonly ScoreEntry _model;
 
-    public int ScoreEntryId => _model.DbId;
+    public int ScoreEntryId => _model.StorageId;
 
     public int ScoreValue
     {
