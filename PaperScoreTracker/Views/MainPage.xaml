@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:PaperScoreTracker.ViewModels"
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:controls="clr-namespace:PaperScoreTracker.Controls"
+             xmlns:shapes="clr-namespace:PaperScoreTracker.Controls.Shapes"
              xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
              x:Class="PaperScoreTracker.Views.MainPage"
              x:DataType="vm:MainViewModel"
@@ -41,7 +42,14 @@
                            ClickCommand="{Binding ResetScoresCommand}"/>
 
         <Border Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"
-                Margin="0, 10, 0, 16"/>
+                Margin="0, 10, 0, 16"
+                Stroke="#663B3B3B"
+                StrokeThickness="2"
+                StrokeLineCap="Round">
+            <Border.StrokeShape>
+                <shapes:PencilLineShape Orientation="Horizontal" Jitter="2" PassCount="2" Overshoot="5"/>
+            </Border.StrokeShape>
+        </Border>
 
         <Entry Grid.Row="3" Grid.Column="0"
                Placeholder="Enter player alias"
@@ -90,7 +98,14 @@
 
                         <Grid Padding="4">
                             <Border Padding="8, 0, 0, 0"
-                                    StrokeShape="RoundRectangle 8">
+                                    Stroke="#663B3B3B"
+                                    StrokeThickness="2"
+                                    StrokeLineCap="Round"
+                                    StrokeLineJoin="Round">
+                                <Border.StrokeShape>
+                                    <shapes:PencilBorderShape CornerRadius="10" Jitter="4" PassCount="2"/>
+                                </Border.StrokeShape>
+
                                 <Entry 
                                     MaxLength="13"
                                     Text="{Binding PlayerAlias}"

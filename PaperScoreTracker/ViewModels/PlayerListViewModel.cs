@@ -41,6 +41,8 @@ public partial class PlayerListViewModel : ObservableObject
         var foundPlayer = Players.FirstOrDefault(p => p.PlayerAlias == playerAlias);
         if (foundPlayer != null)
             Players.Remove(foundPlayer);
+
+        UpdateIsLastPlayer();
     }
 
     protected async Task ReloadPlayers()
@@ -63,6 +65,17 @@ public partial class PlayerListViewModel : ObservableObject
         foreach (var player in players)
         {
             Players.Add(new PlayerDecoratorViewModel(_gameControler, _popupService, player, this));
+        }
+
+        UpdateIsLastPlayer();
+    }
+
+    private void UpdateIsLastPlayer()
+    {
+        if (Players.Any())
+        {
+            for (int i = 0; i < Players.Count; i++)
+                Players[i].IsLastPlayer = i == Players.Count - 1;
         }
     }
 }

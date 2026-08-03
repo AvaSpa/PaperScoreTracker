@@ -16,6 +16,9 @@ public partial class PlayerDecoratorViewModel : ObservableObject
     [ObservableProperty]
     private Player _model;
 
+    [ObservableProperty]
+    private bool _isLastPlayer;
+
     public string PlayerAlias
     {
         get => Model.Alias;

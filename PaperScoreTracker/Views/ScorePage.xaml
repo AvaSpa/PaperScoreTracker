@@ -5,6 +5,7 @@
              xmlns:mct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:controls="clr-namespace:PaperScoreTracker.Controls"
+             xmlns:shapes="clr-namespace:PaperScoreTracker.Controls.Shapes"
              xmlns:admob="clr-namespace:Plugin.AdMob;assembly=Plugin.AdMob"
              x:Class="PaperScoreTracker.Views.ScorePage"
              x:DataType="vm:ScoreViewModel"
@@ -18,87 +19,116 @@
           Padding="4">
 
         <CollectionView Grid.Row="0" Grid.Column="0"
-                        ItemsSource="{Binding Players}"
-                        ItemsLayout="HorizontalList">
+                        ItemsSource="{Binding Players}">
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="0" />
+            </CollectionView.ItemsLayout>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="vm:PlayerDecoratorViewModel">
-                    <Border Padding="14"
-                            StrokeShape="RoundRectangle 8">
-                        <Grid RowDefinitions="Auto, Auto, *, Auto, Auto, Auto">
+                    <Grid ColumnDefinitions="*, Auto">
+                        <Border Grid.Column="0"
+                                Stroke="Transparent"
+                                StrokeThickness="0">
 
-                            <Entry Grid.Row="0" 
-                                   MaxLength="13"
-                                   Text="{Binding PlayerAlias}"
-                                   ReturnCommand="{Binding UpdatePlayerAliasCommand}">
-                                <Entry.Behaviors>
-                                    <mct:EventToCommandBehavior 
-                                        EventName="Unfocused"
-                                        Command="{Binding UpdatePlayerAliasCommand}"/>
-                                </Entry.Behaviors>
-                            </Entry>
+                            <Grid RowDefinitions="Auto, Auto, *, Auto, Auto, Auto">
+                                <Entry Grid.Row="0" 
+                                       MaxLength="13"
+                                       Text="{Binding PlayerAlias}"
+                                       ReturnCommand="{Binding UpdatePlayerAliasCommand}">
+                                    <Entry.Behaviors>
+                                        <mct:EventToCommandBehavior 
+                                            EventName="Unfocused"
+                                            Command="{Binding UpdatePlayerAliasCommand}"/>
+                                    </Entry.Behaviors>
+                                </Entry>
 
-                            <Border Grid.Row="1"
-                                    Margin="0, 3, 0, 10"/>
+                                <Border Grid.Row="1"
+                                        HeightRequest="6"
+                                        Margin="0, 3, 0, 10"
+                                        Stroke="#663B3B3B"
+                                        StrokeThickness="2"
+                                        StrokeLineCap="Round">
+                                    <Border.StrokeShape>
+                                        <shapes:PencilLineShape Orientation="Horizontal" Jitter="2" PassCount="3" Overshoot="3"/>
+                                    </Border.StrokeShape>
+                                </Border>
 
-                            <CollectionView Grid.Row="2"
-                                            ItemsSource="{Binding ScoreEntries}"
-                                            HorizontalOptions="Center"
-                                            WidthRequest="60">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate x:DataType="vm:ScoreEntryDecoratorViewModel">
-                                        <SwipeView>
-                                            <SwipeView.RightItems>
-                                                <SwipeItems>
-                                                    <SwipeItemView 
-                                                        Command="{Binding DeleteScoreEntryCommand}"
-                                                        CommandParameter="{Binding ScoreEntryId}">
-                                                        <Border BackgroundColor="#D11A2A"
-                                                                WidthRequest="30"
-                                                                HeightRequest="30"
-                                                                VerticalOptions="Center"
-                                                                StrokeShape="RoundRectangle 8"
-                                                                Stroke="Transparent">
-                                                            <Image Source="delete.svg"
-                                                                   VerticalOptions="Center"
-                                                                   HorizontalOptions="Center"
-                                                                   WidthRequest="18"
-                                                                   HeightRequest="18"/>
-                                                        </Border>
-                                                    </SwipeItemView>
-                                                </SwipeItems>
-                                            </SwipeView.RightItems>
+                                <CollectionView Grid.Row="2"
+                                                ItemsSource="{Binding ScoreEntries}"
+                                                HorizontalOptions="Center"
+                                                WidthRequest="60">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate x:DataType="vm:ScoreEntryDecoratorViewModel">
+                                            <SwipeView>
+                                                <SwipeView.RightItems>
+                                                    <SwipeItems>
+                                                        <SwipeItemView Command="{Binding DeleteScoreEntryCommand}"
+                                                                       CommandParameter="{Binding ScoreEntryId}">
+                                                            <Border BackgroundColor="#D11A2A"
+                                                                    WidthRequest="30"
+                                                                    HeightRequest="30"
+                                                                    VerticalOptions="Center"
+                                                                    StrokeShape="RoundRectangle 8"
+                                                                    Stroke="Transparent">
+                                                                <Image Source="delete.svg"
+                                                                       VerticalOptions="Center"
+                                                                       HorizontalOptions="Center"
+                                                                       WidthRequest="18"
+                                                                       HeightRequest="18"/>
+                                                            </Border>
+                                                        </SwipeItemView>
+                                                    </SwipeItems>
+                                                </SwipeView.RightItems>
 
-                                            <Entry MaxLength="4" 
-                                                   Text="{Binding ScoreValue}" 
-                                                   Keyboard="Numeric"
-                                                   ReturnCommand="{Binding UpdateScoreEntryCommand}">
-                                                <Entry.Behaviors>
-                                                    <mct:EventToCommandBehavior 
-                                                        EventName="Unfocused"
-                                                        Command="{Binding UpdateScoreEntryCommand}"/>
-                                                </Entry.Behaviors>
-                                            </Entry>
-                                        </SwipeView>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
+                                                <Entry MaxLength="4" 
+                                                       Text="{Binding ScoreValue}" 
+                                                       Keyboard="Numeric"
+                                                       ReturnCommand="{Binding UpdateScoreEntryCommand}">
+                                                    <Entry.Behaviors>
+                                                        <mct:EventToCommandBehavior 
+                                                            EventName="Unfocused"
+                                                            Command="{Binding UpdateScoreEntryCommand}"/>
+                                                    </Entry.Behaviors>
+                                                </Entry>
+                                            </SwipeView>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
 
-                            <controls:EncircledButton Grid.Row="3"
-                                                      MaximumHeightRequest="50"
-                                                      ButtonText="+"
-                                                      ButtonTextFontSize="30"
-                                                      ClickCommand="{Binding AddScoreEntryCommand}" />
+                                <controls:EncircledButton Grid.Row="3"
+                                                          MaximumHeightRequest="50"
+                                                          ButtonText="+"
+                                                          ButtonTextFontSize="30"
+                                                          ClickCommand="{Binding AddScoreEntryCommand}" />
 
-                            <Border Grid.Row="4"
-                                    Margin="0, 10, 0, 5"
-                                    Stroke="Black"/>
+                                <Border Grid.Row="4"
+                                        HeightRequest="6"
+                                        Margin="0, 10, 0, 5"
+                                        Stroke="#B43B3B3B"
+                                        StrokeThickness="2"
+                                        StrokeLineCap="Round">
+                                    <Border.StrokeShape>
+                                        <shapes:PencilLineShape Orientation="Horizontal" Jitter="2" PassCount="3" Overshoot="3"/>
+                                    </Border.StrokeShape>
+                                </Border>
 
-                            <Label Grid.Row="5" 
-                                   HorizontalOptions="Center"
-                                   Text="{Binding PlayerScore}"/>
+                                <Label Grid.Row="5" 
+                                       HorizontalOptions="Center"
+                                       Text="{Binding PlayerScore}"/>
+                            </Grid>
+                        </Border>
 
-                        </Grid>
-                    </Border>
+                        <Border Grid.Column="1"
+                                WidthRequest="6"
+                                Stroke="#663B3B3B"
+                                StrokeThickness="2"
+                                StrokeLineCap="Round"
+                                IsVisible="{Binding IsLastPlayer, Converter={StaticResource InvertedBoolConverter}}">
+                            <Border.StrokeShape>
+                                <shapes:PencilLineShape Orientation="Vertical" Jitter="3" PassCount="2"/>
+                            </Border.StrokeShape>
+                        </Border>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
