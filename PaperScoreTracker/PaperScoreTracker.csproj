@@ -25,8 +25,8 @@
 		<ApplicationId>com.avaspa.paperscoretracker</ApplicationId>
 
 		<!-- Versions -->
-		<ApplicationDisplayVersion>1.5</ApplicationDisplayVersion>
-		<ApplicationVersion>6</ApplicationVersion>
+		<ApplicationDisplayVersion>1.7</ApplicationDisplayVersion>
+		<ApplicationVersion>7</ApplicationVersion>
 
 		<TargetFrameworks>net9.0-android36.0</TargetFrameworks>
 		
